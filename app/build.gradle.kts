@@ -32,13 +32,13 @@ android {
         jvmTarget = "1.8"
         useIR = true
     }
-//    buildFeatures {
-//        compose = true
-//    }
-//    composeOptions {
-//        kotlinCompilerExtensionVersion = Versions.compose
-//        kotlinCompilerVersion = "1.4.20"
-//    }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.compose
+        kotlinCompilerVersion = "1.4.20"
+    }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -57,14 +57,14 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
 
-//    implementation(Compose.ui)
-//    implementation(Compose.uiGraphics)
-//    implementation(Compose.uiTooling)
-//    implementation(Compose.foundationLayout)
-//    implementation(Compose.material)
-//    implementation(Compose.runtimeLiveData)
-//    implementation(Compose.navigation)
-//    implementation(Compose.accompanist)
+    implementation(Compose.ui)
+    implementation(Compose.uiGraphics)
+    implementation(Compose.uiTooling)
+    implementation(Compose.foundationLayout)
+    implementation(Compose.material)
+    implementation(Compose.runtimeLiveData)
+    implementation(Compose.navigation)
+    implementation(Compose.accompanist)
 
 //    implementation(Koin.core)
     implementation(Koin.android)

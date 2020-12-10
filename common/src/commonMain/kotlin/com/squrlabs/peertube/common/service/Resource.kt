@@ -16,7 +16,7 @@ data class Resource<T> (val state: String, val data: T? = null, val message: Str
         }
 
         fun <T> custom(state: String, data: T? = null): Resource<T> {
-            return Resource(state)
+            return Resource(state, data)
         }
 
         fun <T> unauthorised(data: T? = null): Resource<T> {
