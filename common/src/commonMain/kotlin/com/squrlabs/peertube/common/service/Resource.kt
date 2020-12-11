@@ -1,6 +1,5 @@
 package com.squrlabs.peertube.common.service
 
-
 data class Resource<T> (val state: String, val data: T? = null, val message: String? = null, var code: Int? = null) {
 
     companion object {
