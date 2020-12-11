@@ -3,6 +3,8 @@ package com.squrlabs.peertube.ui.splash
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import com.squrlabs.peertube.ui.splash.SplashViewModel.Companion.LaunchState.Companion.STATE_LAUNCH_INSTANCES
+import com.squrlabs.peertube.ui.splash.SplashViewModel.Companion.LaunchState.Companion.STATE_LAUNCH_MAIN
 import com.squrlabs.peertube.util.AppNavigation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -14,7 +16,7 @@ class MobileSplashActivity : AppCompatActivity() {
 
     private val mRunnable: Runnable = Runnable {
         if (!isFinishing) {
-            startActivity(AppNavigation.mobileInstanceActivity(this))
+            viewModel.loadLaunchState()
         }
     }
 
@@ -28,6 +30,15 @@ class MobileSplashActivity : AppCompatActivity() {
             mRunnable,
             SPLASH_DELAY
         )
+
+        with(viewModel){
+            launchState.observe(this@MobileSplashActivity, {
+                when(it.code){
+                    STATE_LAUNCH_MAIN -> startActivity(AppNavigation.mobileMainActivity(this@MobileSplashActivity))
+                    STATE_LAUNCH_INSTANCES -> startActivity(AppNavigation.mobileInstanceActivity(this@MobileSplashActivity))
+                }
+            })
+        }
     }
 
     companion object {

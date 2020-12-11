@@ -16,5 +16,5 @@ val instanceModule = module {
     single { InstanceDao(get()) }
     single<InstanceRemoteAdapter> { InstanceRemoteAdapterImpl(get()) }
     single<InstanceLocalAdapter> { InstanceLocalAdapterImpl(get()) }
-    single<InstanceRepository> { InstanceRepositoryImpl(get(),get(), get(named(DefaultDispatcher))) }
+    single<InstanceRepository> { InstanceRepositoryImpl(get(),get(), get(), get(named(DefaultDispatcher))) }
 }

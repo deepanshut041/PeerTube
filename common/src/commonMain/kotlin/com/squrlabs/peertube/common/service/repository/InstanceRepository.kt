@@ -1,5 +1,8 @@
 package com.squrlabs.peertube.common.service.repository
 
+import com.russhwolf.settings.Settings
+import com.russhwolf.settings.get
+import com.squrlabs.peertube.common.createSettings
 import com.squrlabs.peertube.common.local.adapter.InstanceLocalAdapter
 import com.squrlabs.peertube.common.remote.adapter.InstanceRemoteAdapter
 import com.squrlabs.peertube.common.service.Resource
@@ -12,6 +15,7 @@ import kotlinx.coroutines.flow.flowOn
 class InstanceRepositoryImpl(
     private val remote: InstanceRemoteAdapter,
     private val local: InstanceLocalAdapter,
+    private val settings: Settings,
     private val coroutineDispatcher: CoroutineDispatcher
 ) : InstanceRepository {
     override fun getInstances(): Flow<Resource<List<InstanceModel>>> {
@@ -26,8 +30,13 @@ class InstanceRepositoryImpl(
             }
         }.flowOn(coroutineDispatcher)
     }
+
+    override fun getCurrentHost(): String? {
+        return settings.getStringOrNull("current_host")
+    }
 }
 
 interface InstanceRepository {
     fun getInstances(): Flow<Resource<List<InstanceModel>>>
+    fun getCurrentHost(): String?
 }

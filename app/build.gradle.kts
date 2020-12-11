@@ -65,6 +65,7 @@ dependencies {
     api(JetpackLibs.ktxReactiveStreams)
     api("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
     api("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    api("androidx.preference:preference-ktx:1.1.1")
 
     // Compose
     api(Compose.ui)

@@ -1,5 +1,6 @@
 package com.squrlabs.peertube.common.di
 
+import com.squrlabs.peertube.common.createSettings
 import com.squrlabs.peertube.common.getApplicationFilesDirectoryPath
 import com.squrlabs.peertube.common.local.entity.InstanceEntity
 import org.kodein.db.DB
@@ -16,5 +17,9 @@ val databaseModule = module {
             .open("peertube_db", TypeTable {
                 root<InstanceEntity>()
             }, KotlinxSerializer())
+    }
+
+    single {
+        createSettings()
     }
 }
