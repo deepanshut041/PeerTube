@@ -9,11 +9,20 @@ object Versions {
     const val compose = "1.0.0-alpha08"
     const val nav_compose_version = "1.0.0-alpha02"
     const val coilVersion = "0.3.3.1"
-
     const val kermit = "0.1.8"
     const val kodein_db = "0.3.0-beta"
-
     const val junit = "4.12"
+
+    // Jetpack Libraries
+    const val appCompatVersion = "1.2.0"
+    const val materialVersion = "1.2.1"
+    const val lifecycleVersion = "2.2.0"
+
+    const val firebaseCrashlyticsVersion = "17.2.1"
+    const val firebaseAnalyticsVersion = "17.5.0"
+    const val glideVersion = "4.11.0"
+    const val exoPlayerVersion = "2.12.0"
+    const val kohiiVersion = "1.1.0.2011003"
 }
 
 object Deps {
@@ -28,7 +37,7 @@ object Compose {
     const val material = "androidx.compose.material:material:${Versions.compose}"
     const val runtimeLiveData = "androidx.compose.runtime:runtime-livedata:${Versions.compose}"
     const val navigation = "androidx.navigation:navigation-compose:${Versions.nav_compose_version}"
-    const val accompanist= "dev.chrisbanes.accompanist:accompanist-coil:${Versions.coilVersion}"
+    const val accompanist = "dev.chrisbanes.accompanist:accompanist-coil:${Versions.coilVersion}"
 }
 
 object Koin {
@@ -42,6 +51,12 @@ object Serialization {
     val core = "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.kotlinxSerialization}"
 }
 
+object JetpackLibs {
+    val appCompat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
+    val material = "com.google.android.material:material:${Versions.materialVersion}"
+    val ktxViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycleVersion}"
+    val ktxReactiveStreams = "androidx.lifecycle:lifecycle-reactivestreams-ktx:${Versions.lifecycleVersion}"
+}
 
 object Ktor {
     val clientCore = "io.ktor:ktor-client-core:${Versions.ktor}"
@@ -52,4 +67,14 @@ object Ktor {
     val clientAndroid = "io.ktor:ktor-client-android:${Versions.ktor}"
     val clientIos = "io.ktor:ktor-client-ios:${Versions.ktor}"
     val clientCio = "io.ktor:ktor-client-cio:${Versions.ktor}"
+}
+
+object ExternalLibs {
+    val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx:${Versions.firebaseAnalyticsVersion}"
+    val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics-ktx:${Versions.firebaseCrashlyticsVersion}"
+    val glide = "com.github.bumptech.glide:glide:${Versions.glideVersion}"
+    val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glideVersion}"
+    val exoPlayer = "com.google.android.exoplayer:exoplayer:${Versions.exoPlayerVersion}"
+    val kohiiCore = "im.ene.kohii:kohii-core:${Versions.kohiiVersion}"
+    val kohiiExoPlayer = "im.ene.kohii:kohii-exoplayer:${Versions.kohiiVersion}"
 }

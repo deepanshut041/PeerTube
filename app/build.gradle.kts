@@ -1,6 +1,10 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("kotlin-android-extensions")
+    id("kotlin-kapt")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -17,7 +21,11 @@ android {
     }
 
     buildTypes {
+        getByName("debug") {
+            this.manifestPlaceholders["crashlyticsCollectionEnabled"] = "false"
+        }
         getByName("release") {
+            this.manifestPlaceholders["crashlyticsCollectionEnabled"] = "true"
             minifyEnabled(false)
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -32,13 +40,8 @@ android {
         jvmTarget = "1.8"
         useIR = true
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose
-        kotlinCompilerVersion = "1.4.20"
-    }
+
+    dynamicFeatures = mutableSetOf(":app:mobile", ":app:tv")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -51,27 +54,51 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("com.google.android.material:material:1.2.1")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
 
-    implementation(Compose.ui)
-    implementation(Compose.uiGraphics)
-    implementation(Compose.uiTooling)
-    implementation(Compose.foundationLayout)
-    implementation(Compose.material)
-    implementation(Compose.runtimeLiveData)
-    implementation(Compose.navigation)
-    implementation(Compose.accompanist)
+    // Internal
+    api(project(":common"))
 
-//    implementation(Koin.core)
-    implementation(Koin.android)
-    implementation(Koin.androidViewModel)
-//    implementation(Koin.compose)
+    // JetPack
+    api(JetpackLibs.appCompat)
+    api(JetpackLibs.material)
+    api(JetpackLibs.ktxViewModel)
+    api(JetpackLibs.ktxReactiveStreams)
+    api("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+    api("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
+    // Compose
+    api(Compose.ui)
+    api(Compose.uiGraphics)
+    api(Compose.uiTooling)
+    api(Compose.foundationLayout)
+    api(Compose.material)
+    api(Compose.runtimeLiveData)
+    api(Compose.navigation)
+    api(Compose.accompanist)
+
+    // Koin
+    api(Koin.android)
+    api(Koin.androidViewModel)
+
+    // Glide
+    api(ExternalLibs.glide)
+    kapt(ExternalLibs.glideCompiler)
+
+    // Kohii
+    api(ExternalLibs.exoPlayer)
+    api(ExternalLibs.kohiiCore)
+    api(ExternalLibs.kohiiExoPlayer)
+
+    // Firebase
+    api(ExternalLibs.firebaseAnalytics)
+    api(ExternalLibs.firebaseCrashlytics)
+
+    // TODO add to dependence
+    api("com.mikepenz:iconics-core:5.0.3")
+    api("com.mikepenz:iconics-views:5.0.3")
+    api("com.mikepenz:community-material-typeface:5.3.45.1-kotlin@aar")
+
+    // Test
     testImplementation("junit:junit:4.13")
     androidTestImplementation("androidx.test:runner:1.2.0")
-    implementation(project(":common"))
 }
