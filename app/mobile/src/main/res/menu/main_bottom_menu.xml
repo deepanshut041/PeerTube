@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Copyright (c) 2020 Squrlabs @ http://squrlabs.com
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~              http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/mainMenuGlobal"
+        android:title="Global"
+        app:ico_color="@android:color/black"
+        app:ico_icon="cmd_web" />
+
+    <item
+        android:id="@+id/mainMenuTrending"
+        android:title="Trending"
+        app:ico_color="@android:color/black"
+        app:ico_icon="cmd_trending_up" />
+    <item
+        android:id="@+id/mainMenuHome"
+        android:checked="true"
+        android:title="Local"
+        app:ico_color="@android:color/black"
+        app:ico_icon="cmd_home" />
+    <item
+        android:id="@+id/mainMenuSubscription"
+        android:title="Subscription"
+        app:ico_color="@android:color/black"
+        app:ico_icon="cmd_youtube_subscription" />
+    <item
+        android:id="@+id/mainMenuLibrary"
+        android:title="Library"
+        app:ico_color="@android:color/black"
+        app:ico_icon="cmd_filmstrip_box_multiple" />
+</menu>
