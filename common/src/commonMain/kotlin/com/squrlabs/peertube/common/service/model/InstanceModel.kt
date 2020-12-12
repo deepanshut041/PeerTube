@@ -2,7 +2,7 @@ package com.squrlabs.peertube.common.service.model
 
 data class InstanceModel(
     val id: Long,
-    val name:  String?,
+    val name: String?,
     val host: String?,
     val shortDescription: String?,
     val version: String?,
@@ -10,6 +10,7 @@ data class InstanceModel(
     val userVideoQuota: Long?,
     val totalUsers: Long?,
     val totalVideos: Long?,
+    val country: String?,
     val totalLocalVideos: Long?,
     val totalInstanceFollowers: Long?,
     val totalInstanceFollowing: Long?,

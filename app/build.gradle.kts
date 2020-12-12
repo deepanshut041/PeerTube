@@ -41,6 +41,15 @@ android {
         useIR = true
     }
 
+    composeOptions {
+        kotlinCompilerVersion = Versions.kotlin
+        kotlinCompilerExtensionVersion = Versions.compose
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
     dynamicFeatures = mutableSetOf(":app:mobile", ":app:tv")
 }
 

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.dynamic-feature")
     id("kotlin-android")
+    id("kotlin-android-extensions")
 }
 
 android {
@@ -45,4 +46,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 dependencies {
     implementation(project(":app"))
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+
 }

@@ -9,20 +9,21 @@ import org.kodein.db.model.orm.Metadata
 @Serializable
 data class InstanceEntity(
     @SerialName("id") override val id: Long,
-    @SerialName("name") val name:  String?=null,
-    @SerialName("host") val host: String?=null,
-    @SerialName("shortDescription") val shortDescription: String?=null,
-    @SerialName("version") val version: String?=null,
-    @SerialName("signupAllowed") val signupAllowed: Boolean?=null,
-    @SerialName("userVideoQuota") val userVideoQuota: Long?=null,
-    @SerialName("totalUsers") val totalUsers: Long?=null,
-    @SerialName("totalVideos") val totalVideos: Long?=null,
-    @SerialName("totalLocalVideos") val totalLocalVideos: Long?=null,
-    @SerialName("totalInstanceFollowers") val totalInstanceFollowers: Long?=null,
-    @SerialName("totalInstanceFollowing") val totalInstanceFollowing: Long?=null,
-    @SerialName("supportsIPv6") val supportsIPv6: Boolean?=null,
-    @SerialName("health") val health: Long?=null
-): Entity<InstanceModel>, Metadata {
+    @SerialName("name") val name: String? = null,
+    @SerialName("host") val host: String? = null,
+    @SerialName("shortDescription") val shortDescription: String? = null,
+    @SerialName("version") val version: String? = null,
+    @SerialName("signupAllowed") val signupAllowed: Boolean? = null,
+    @SerialName("userVideoQuota") val userVideoQuota: Long? = null,
+    @SerialName("totalUsers") val totalUsers: Long? = null,
+    @SerialName("totalVideos") val totalVideos: Long? = null,
+    @SerialName("country") val country: String? = null,
+    @SerialName("totalLocalVideos") val totalLocalVideos: Long? = null,
+    @SerialName("totalInstanceFollowers") val totalInstanceFollowers: Long? = null,
+    @SerialName("totalInstanceFollowing") val totalInstanceFollowing: Long? = null,
+    @SerialName("supportsIPv6") val supportsIPv6: Boolean? = null,
+    @SerialName("health") val health: Long? = null
+) : Entity<InstanceModel>, Metadata {
     override fun mapToDomain() = InstanceModel(
         id = id,
         name = name,
@@ -34,6 +35,7 @@ data class InstanceEntity(
         totalUsers = totalUsers,
         totalVideos = totalVideos,
         totalLocalVideos = totalLocalVideos,
+        country = country,
         totalInstanceFollowers = totalInstanceFollowers,
         totalInstanceFollowing = totalInstanceFollowing,
         supportsIPv6 = supportsIPv6,
@@ -41,7 +43,7 @@ data class InstanceEntity(
     )
 
     companion object {
-        fun mapFromDomain(model:InstanceModel) = InstanceEntity(
+        fun mapFromDomain(model: InstanceModel) = InstanceEntity(
             id = model.id,
             name = model.name,
             host = model.host,
@@ -51,6 +53,7 @@ data class InstanceEntity(
             userVideoQuota = model.userVideoQuota,
             totalUsers = model.totalUsers,
             totalVideos = model.totalVideos,
+            country = model.country,
             totalLocalVideos = model.totalLocalVideos,
             totalInstanceFollowers = model.totalInstanceFollowers,
             totalInstanceFollowing = model.totalInstanceFollowing,

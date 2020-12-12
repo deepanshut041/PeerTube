@@ -24,7 +24,7 @@ val networkModule = module {
                 logger = Logger.DEFAULT
                 level = LogLevel.BODY
             }
-            install(DefaultRequest){
+            install(DefaultRequest) {
                 headers.append(CONTENT_TYPE, APPLICATION_JSON)
             }
         }
