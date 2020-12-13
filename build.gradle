@@ -5,6 +5,7 @@ buildscript {
         jcenter()
         google()
         gradlePluginPortal()
+        maven{ url "https://kotlin.bintray.com/kotlinx/"}
         maven{ url "https://maven.pkg.jetbrains.space/johnturkson/p/packages/maven"}
         maven{ url "https://maven.pkg.jetbrains.space/public/p/compose/dev"}
     }
@@ -12,8 +13,8 @@ buildscript {
         classpath("com.android.tools.build:gradle:7.0.0-alpha02")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
         classpath("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
-        classpath("com.google.gms:google-services:4.3.3")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.3.0")
+        classpath("com.google.gms:google-services:4.3.4")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:2.4.1")
     }
 }
 
@@ -22,8 +23,9 @@ allprojects {
         mavenCentral()
         jcenter()
         google()
-        maven { url "https://dl.bintray.com/ekito/koin" }
-        maven { url "https://dl.bintray.com/kodein-framework/Kodein-DB" }
+        maven{ url "https://kotlin.bintray.com/kotlinx/"}
+        maven{ url "https://dl.bintray.com/ekito/koin" }
+        maven{ url "https://dl.bintray.com/kodein-framework/Kodein-DB" }
         maven{ url "https://maven.pkg.jetbrains.space/johnturkson/p/packages/maven"}
         maven{ url "https://maven.pkg.jetbrains.space/public/p/compose/dev"}
     }

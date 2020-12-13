@@ -16,6 +16,9 @@
 
 package com.squrlabs.peertube.common.remote.dto.users
 
+import com.squrlabs.peertube.common.remote.DTO
+import com.squrlabs.peertube.common.service.model.AvatarModel
+import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -27,4 +30,10 @@ data class AvatarDto(
     val path: String?,
     @SerialName("updatedAt")
     val updatedAt: String?
-)
+) : DTO<AvatarModel> {
+    override fun mapToDomain() = AvatarModel(
+        path = path,
+        createdAt = createdAt?.let { LocalDateTime.parse(it) },
+        updatedAt = updatedAt?.let { LocalDateTime.parse(it) }
+    )
+}

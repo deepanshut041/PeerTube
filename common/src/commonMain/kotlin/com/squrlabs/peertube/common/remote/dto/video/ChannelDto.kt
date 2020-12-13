@@ -14,46 +14,51 @@
  * limitations under the License.
  */
 
-package com.squrlabs.peertube.common.remote.dto.users
+package com.squrlabs.peertube.common.remote.dto.video
 
 import com.squrlabs.peertube.common.remote.DTO
-import com.squrlabs.peertube.common.service.model.AccountModel
+import com.squrlabs.peertube.common.remote.dto.users.AvatarDto
+import com.squrlabs.peertube.common.remote.dto.users.UserDto
+import com.squrlabs.peertube.common.service.model.ChannelModel
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AccountDto(
+data class ChannelDto(
+    @SerialName("uuid") val uuid: String? = null,
     @SerialName("avatar") val avatar: AvatarDto? = null,
     @SerialName("displayName") val displayName: String? = null,
     @SerialName("host") val host: String? = null,
     @SerialName("id") val id: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("url") val url: String? = null,
-    @SerialName("uuid") val uuid: String? = null,
+    @SerialName("description") val description: String? = null,
+    @SerialName("isLocal") val isLocal: Boolean? = null,
+    @SerialName("ownerAccount") val ownerAccount: UserDto? = null,
     @SerialName("hostRedundancyAllowed") val hostRedundancyAllowed: Boolean? = null,
     @SerialName("followingCount") val followingCount: Long? = null,
     @SerialName("followersCount") val followersCount: Long? = null,
     @SerialName("createdAt") val createdAt: String? = null,
     @SerialName("updatedAt") val updatedAt: String? = null,
-    @SerialName("description") val description: String? = null,
-    @SerialName("userId") val userId: Long? = null
-) : DTO<AccountModel> {
-    override fun mapToDomain() = AccountModel(
+    @SerialName("support") val support: String? = null,
+) : DTO<ChannelModel> {
+    override fun mapToDomain() = ChannelModel(
         id = id,
         uuid = uuid,
         url = url,
         name = name,
         host = host,
         hostRedundancyAllowed = hostRedundancyAllowed,
-        followersCount = followersCount,
         followingCount = followingCount,
+        followersCount = followersCount,
         avatar = avatar?.let { it.mapToDomain() },
         createdAt = createdAt?.let { LocalDateTime.parse(it) },
         updatedAt = updatedAt?.let { LocalDateTime.parse(it) },
         displayName = displayName,
         description = description,
-        userId = userId
-
+        support = support,
+        isLocal = isLocal,
+        ownerAccount = ownerAccount?.let { it.mapToDomain() }
     )
 }

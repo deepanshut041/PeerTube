@@ -3,6 +3,7 @@ package com.squrlabs.peertube.common.di
 import com.squrlabs.peertube.common.createSettings
 import com.squrlabs.peertube.common.getApplicationFilesDirectoryPath
 import com.squrlabs.peertube.common.local.entity.InstanceEntity
+import com.squrlabs.peertube.common.prefs.InstanceSharedPrefs
 import org.kodein.db.DB
 import org.kodein.db.TypeTable
 import org.kodein.db.impl.factory
@@ -21,5 +22,9 @@ val databaseModule = module {
 
     single {
         createSettings()
+    }
+
+    single {
+        InstanceSharedPrefs(get())
     }
 }

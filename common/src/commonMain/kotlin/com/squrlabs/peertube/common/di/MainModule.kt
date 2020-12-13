@@ -9,7 +9,8 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
         networkModule,
         coroutinesModule,
         databaseModule,
-        instanceModule
+        instanceModule,
+        videoModule
     )
 }
 

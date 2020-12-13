@@ -1,0 +1,43 @@
+package com.squrlabs.peertube.common.service.model
+
+import kotlinx.datetime.LocalDateTime
+
+data class VideoModel(
+    val id: Long? = null,
+    val uuid: String? = null,
+    val createdAt: LocalDateTime? = null,
+    val publishedAt: LocalDateTime? = null,
+    val updatedAt: LocalDateTime? = null,
+    val originallyPublishedAt: LocalDateTime? = null,
+    val category: LabelModel? = null,
+    val licence: LabelModel? = null,
+    val language: LabelModel? = null,
+    val privacy: LabelModel? = null,
+    val description: String? = null,
+    val duration: Long? = null,
+    val isLocal: Boolean? = null,
+    val name: String? = null,
+    val thumbnailPath: String? = null,
+    val previewPath: String? = null,
+    val embedPath: String? = null,
+    val views: Long? = null,
+    val likes: Long? = null,
+    val dislikes: Long? = null,
+    val nsfw: Boolean? = null,
+    val waitTranscoding: Boolean? = null,
+    val state: LabelModel? = null,
+    val scheduledUpdate: ScheduledUpdateModel? = null,
+    val blacklisted: Boolean? = false,
+    val blacklistedReason: String? = null,
+    val account: AccountModel? = null,
+    val channel: ChannelModel? = null,
+    val userHistory: UserHistoryModel? = null,
+    val descriptionPath: String? = null,
+    val support: String? = null,
+    val tags: List<String>? = null,
+    val files: List<FileModel>? = null,
+    val commentsEnabled: Boolean? = null,
+    val downloadEnabled: Boolean? = null,
+    val trackerUrls: List<String>? = null,
+    val streamingPlaylists: List<StreamingPlaylistModel>? = null
+)

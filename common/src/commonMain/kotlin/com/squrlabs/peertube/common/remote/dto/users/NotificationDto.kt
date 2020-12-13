@@ -30,7 +30,7 @@ data class NotificationDto(
     @SerialName("videoAbuse") val videoAbuse: VideoAbuseDto?,
     @SerialName("videoBlacklist") val videoBlacklist: VideoBlacklistDto?,
     @SerialName("account") val account: AccountDto?,
-    @SerialName("actorFollow") val actorFollow: VideoChannelDto?,
+    @SerialName("actorFollow") val actorFollow: ChannelDto?,
     @SerialName("createdAt") val createdAt: String?,
     @SerialName("updatedAt") val updatedAt: String?
 )

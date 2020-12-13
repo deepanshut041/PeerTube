@@ -16,13 +16,20 @@
 
 package com.squrlabs.peertube.common.remote.dto
 
+import com.squrlabs.peertube.common.remote.DTO
+import com.squrlabs.peertube.common.service.model.LabelModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class LabelDto(
     @SerialName("id")
-    val id: String?,
+    val id: Long?,
     @SerialName("label")
     val label: String?
-)
+) : DTO<LabelModel> {
+    override fun mapToDomain() = LabelModel(
+        id = id,
+        label = label
+    )
+}
