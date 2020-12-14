@@ -42,8 +42,7 @@ class InstanceViewModel(private val instanceRepository: InstanceRepository) : Vi
 
     fun setCurrentHost(instanceModel: InstanceModel, launchSignup: Boolean = false) {
         instanceRepository.setCurrentHost(instanceModel.host!!)
-        _launchState.value =
-            LaunchState(if (launchSignup) LaunchState.STATE_LAUNCH_SIGNUP else LaunchState.STATE_LAUNCH_MAIN)
+        _launchState.value = LaunchState(if (launchSignup) LaunchState.STATE_LAUNCH_SIGNUP else LaunchState.STATE_LAUNCH_MAIN)
     }
 
     companion object {

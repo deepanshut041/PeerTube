@@ -1,6 +1,6 @@
 package com.squrlabs.peertube.common.service.model
 
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 
 data class ChannelModel(
     val id: Long? = null,
@@ -12,11 +12,10 @@ data class ChannelModel(
     val followingCount: Long? = null,
     val followersCount: Long? = null,
     val avatar: AvatarModel? = null,
-    val createdAt: LocalDateTime? = null,
-    val updatedAt: LocalDateTime? = null,
+    val createdAt: Instant? = null,
+    val updatedAt: Instant? = null,
     val displayName: String? = null,
     val description: String? = null,
     val support: String? = null,
     val isLocal: Boolean? = null,
-    val ownerAccount: UserModel? = null
 )

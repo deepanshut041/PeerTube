@@ -1,5 +1,6 @@
 package com.squrlabs.peertube.ui.splash
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.squrlabs.peertube.common.service.repository.InstanceRepository
@@ -14,6 +15,7 @@ class SplashViewModel(private val instanceRepository: InstanceRepository): ViewM
 
     fun loadLaunchState() {
         instanceRepository.getCurrentHost()?.let {
+            Log.i("SplashActivity", it)
             _launchState.value = LaunchState(LaunchState.STATE_LAUNCH_MAIN)
         }?: run{
             _launchState.value = LaunchState(LaunchState.STATE_LAUNCH_INSTANCES)

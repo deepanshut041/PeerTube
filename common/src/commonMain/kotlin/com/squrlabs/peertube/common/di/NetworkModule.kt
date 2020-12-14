@@ -62,7 +62,7 @@ val instanceModule = module {
 }
 
 val videoModule = module {
-    single { VideoEndpoints(get(), get()) }
-    single<VideoRemoteAdapter> { VideoRemoteAdapterImpl(get()) }
-    single<VideoRepository> { VideoRepositoryImpl(get(), get()) }
+    single { VideoEndpoints(get()) }
+    single<VideoRemoteAdapter> { VideoRemoteAdapterImpl(get(), get()) }
+    single<VideoRepository> { VideoRepositoryImpl(get(), get(named(DefaultDispatcher))) }
 }

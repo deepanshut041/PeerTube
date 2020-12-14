@@ -16,7 +16,7 @@
 
 package com.squrlabs.peertube.common.remote.dto.video
 
-import com.squrlabs.peertube.common.remote.dto.LabelDto
+import com.squrlabs.peertube.common.remote.dto.LabelStringDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -31,7 +31,7 @@ data class VideoDetailDto(
     @SerialName("magnetUri")
     val magnetUri: String?,
     @SerialName("state")
-    val state: LabelDto?,
+    val state: LabelStringDto?,
     @SerialName("targetUrl")
     val targetUrl: String?,
     @SerialName("torrentName")

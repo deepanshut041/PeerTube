@@ -16,7 +16,7 @@
 
 package com.squrlabs.peertube.common.remote.dto.video
 
-import com.squrlabs.peertube.common.remote.dto.LabelDto
+import com.squrlabs.peertube.common.remote.dto.LabelStringDto
 import com.squrlabs.peertube.common.remote.dto.users.AccountDto
 
 import kotlinx.serialization.SerialName
@@ -37,7 +37,7 @@ data class VideoAbuseDto(
     @SerialName("reporterAccount")
     val reporterAccount: AccountDto?,
     @SerialName("state")
-    val state: LabelDto?,
+    val state: LabelStringDto?,
     @SerialName("video")
     val video: VideoDto?
 )

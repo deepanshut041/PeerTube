@@ -17,14 +17,17 @@
 package com.squrlabs.peertube.mobile.ui.main.global
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.squrlabs.peertube.mobile.R
+import com.squrlabs.peertube.mobile.ui.base.feed.BaseFeedFragment
+import kotlinx.android.synthetic.main.fragment_main_global.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-open class MainGlobalFragment: Fragment() {
+class MainGlobalFragment : BaseFeedFragment() {
 
     private val viewModel by viewModel<MainGlobalViewModel>()
 
@@ -35,4 +38,11 @@ open class MainGlobalFragment: Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_main_global, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        model = viewModel
+        setupRecyclerView(rvFeedView)
+    }
+
 }

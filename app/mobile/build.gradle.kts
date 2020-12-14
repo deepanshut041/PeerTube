@@ -48,5 +48,6 @@ dependencies {
     implementation(project(":app"))
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
-
+    implementation("androidx.paging:paging-runtime-ktx:3.0.0-alpha10")
+    implementation("androidx.paging:paging-common-ktx:3.0.0-alpha10")
 }

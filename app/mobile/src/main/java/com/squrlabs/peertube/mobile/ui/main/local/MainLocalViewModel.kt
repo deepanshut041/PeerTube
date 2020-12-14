@@ -16,9 +16,18 @@
 
 package com.squrlabs.peertube.mobile.ui.main.local
 
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.cachedIn
+import com.squrlabs.peertube.common.service.repository.VideoRepository
+import com.squrlabs.peertube.mobile.ui.base.feed.BaseFeedViewModel
+import com.squrlabs.peertube.mobile.ui.base.feed.FeedRemotePagingSource
 
 
-class MainLocalViewModel: ViewModel(){
+class MainLocalViewModel(private val videoRepository: VideoRepository): BaseFeedViewModel() {
+
+    init {
+        timeline = Pager(config){ FeedRemotePagingSource(videoRepository, 20, filter = "local") }.flow.cachedIn(viewModelScope)
+    }
 
 }

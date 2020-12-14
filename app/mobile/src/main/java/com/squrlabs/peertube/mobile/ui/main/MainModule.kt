@@ -31,11 +31,11 @@ val mainModule = module(override = true) {
     }
 
     viewModel {
-        MainGlobalViewModel()
+        MainGlobalViewModel(get())
     }
 
     viewModel {
-        MainTrendingViewModel()
+        MainTrendingViewModel(get())
     }
 
     viewModel {
@@ -43,7 +43,7 @@ val mainModule = module(override = true) {
     }
 
     viewModel {
-        MainLocalViewModel()
+        MainLocalViewModel(get())
     }
 
     viewModel {

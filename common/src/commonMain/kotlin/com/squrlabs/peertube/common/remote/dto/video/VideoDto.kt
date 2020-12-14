@@ -17,10 +17,11 @@
 package com.squrlabs.peertube.common.remote.dto.video
 
 import com.squrlabs.peertube.common.remote.DTO
-import com.squrlabs.peertube.common.remote.dto.LabelDto
+import com.squrlabs.peertube.common.remote.dto.LabelLongDto
+import com.squrlabs.peertube.common.remote.dto.LabelStringDto
 import com.squrlabs.peertube.common.remote.dto.users.AccountDto
 import com.squrlabs.peertube.common.service.model.VideoModel
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -30,7 +31,7 @@ data class VideoDto(
     @SerialName("account") val account: AccountDto? = null,
     @SerialName("blacklisted") val blacklisted: Boolean? = null,
     @SerialName("blacklistedReason") val blacklistedReason: String? = null,
-    @SerialName("category") val category: LabelDto? = null,
+    @SerialName("category") val category: LabelLongDto? = null,
     @SerialName("channel") val channel: ChannelDto? = null,
     @SerialName("createdAt") val createdAt: String? = null,
     @SerialName("description") val description: String? = null,
@@ -39,17 +40,17 @@ data class VideoDto(
     @SerialName("embedPath") val embedPath: String? = null,
     @SerialName("id") val id: Long? = null,
     @SerialName("isLocal") val isLocal: Boolean? = null,
-    @SerialName("language") val language: LabelDto? = null,
-    @SerialName("licence") val licence: LabelDto? = null,
+    @SerialName("language") val language: LabelStringDto? = null,
+    @SerialName("licence") val licence: LabelLongDto? = null,
     @SerialName("likes") val likes: Long? = null,
     @SerialName("name") val name: String? = null,
     @SerialName("nsfw") val nsfw: Boolean? = null,
     @SerialName("originallyPublishedAt") val originallyPublishedAt: String? = null,
     @SerialName("previewPath") val previewPath: String? = null,
-    @SerialName("privacy") val privacy: LabelDto? = null,
+    @SerialName("privacy") val privacy: LabelLongDto? = null,
     @SerialName("publishedAt") val publishedAt: String? = null,
     @SerialName("scheduledUpdate") val scheduledUpdate: ScheduledUpdateDto? = null,
-    @SerialName("state") val state: LabelDto? = null,
+    @SerialName("state") val state: LabelStringDto? = null,
     @SerialName("thumbnailPath") val thumbnailPath: String? = null,
     @SerialName("updatedAt") val updatedAt: String? = null,
     @SerialName("userHistory") val userHistory: UserHistoryDto? = null,
@@ -65,44 +66,44 @@ data class VideoDto(
     @SerialName("trackerUrls") val trackerUrls: List<String>? = null,
     @SerialName("streamingPlaylists") val streamingPlaylists: List<StreamingPlaylistDto>? = null
 ) : DTO<VideoModel> {
-    override fun mapToDomain() = VideoModel(
+    override fun mapToDomain(host:String?) = VideoModel(
         id = id,
         uuid = uuid,
-        createdAt = createdAt?.let { LocalDateTime.parse(it) },
-        publishedAt = publishedAt?.let { LocalDateTime.parse(it) },
-        updatedAt = updatedAt?.let { LocalDateTime.parse(it) },
-        originallyPublishedAt = originallyPublishedAt?.let { LocalDateTime.parse(it) },
-        category = category?.mapToDomain(),
-        licence = licence?.mapToDomain(),
-        language = language?.mapToDomain(),
-        privacy = privacy?.mapToDomain(),
+        createdAt = createdAt?.let { Instant.parse(it) },
+        publishedAt = publishedAt?.let { Instant.parse(it) },
+        updatedAt = updatedAt?.let { Instant.parse(it) },
+        originallyPublishedAt = originallyPublishedAt?.let { Instant.parse(it) },
+        category = category?.mapToDomain(host),
+        licence = licence?.mapToDomain(host),
+        language = language?.mapToDomain(host),
+        privacy = privacy?.mapToDomain(host),
         description = description,
         duration = duration,
         isLocal = isLocal,
         name = name,
-        thumbnailPath = thumbnailPath,
-        previewPath = previewPath,
+        thumbnailPath = "https://$host$thumbnailPath",
+        previewPath = "https://$host$previewPath",
         embedPath = embedPath,
         views = views,
         likes = likes,
         dislikes = dislikes,
         nsfw = nsfw,
         waitTranscoding = waitTranscoding,
-        state = state?.mapToDomain(),
-        scheduledUpdate = scheduledUpdate?.mapToDomain(),
+        state = state?.mapToDomain(host),
+        scheduledUpdate = scheduledUpdate?.mapToDomain(host),
         blacklisted = blacklisted,
         blacklistedReason = blacklistedReason,
-        account = account?.mapToDomain(),
-        channel = channel?.mapToDomain(),
-        userHistory = userHistory?.mapToDomain(),
+        account = account?.mapToDomain(host),
+        channel = channel?.mapToDomain(host),
+        userHistory = userHistory?.mapToDomain(host),
         descriptionPath = descriptionPath,
         support = support,
         tags = tags,
-        files = files?.let { models -> models.map { it.mapToDomain() } },
+        files = files?.let { models -> models.map { it.mapToDomain(host) } },
         commentsEnabled = commentsEnabled,
         downloadEnabled = downloadEnabled,
         trackerUrls = trackerUrls,
-        streamingPlaylists = streamingPlaylists?.let { models -> models.map { it.mapToDomain() } }
+        streamingPlaylists = streamingPlaylists?.let { models -> models.map { it.mapToDomain(host) } }
     )
 }
 

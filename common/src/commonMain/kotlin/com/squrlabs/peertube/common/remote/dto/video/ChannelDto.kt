@@ -20,7 +20,7 @@ import com.squrlabs.peertube.common.remote.DTO
 import com.squrlabs.peertube.common.remote.dto.users.AvatarDto
 import com.squrlabs.peertube.common.remote.dto.users.UserDto
 import com.squrlabs.peertube.common.service.model.ChannelModel
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -35,7 +35,6 @@ data class ChannelDto(
     @SerialName("url") val url: String? = null,
     @SerialName("description") val description: String? = null,
     @SerialName("isLocal") val isLocal: Boolean? = null,
-    @SerialName("ownerAccount") val ownerAccount: UserDto? = null,
     @SerialName("hostRedundancyAllowed") val hostRedundancyAllowed: Boolean? = null,
     @SerialName("followingCount") val followingCount: Long? = null,
     @SerialName("followersCount") val followersCount: Long? = null,
@@ -43,7 +42,7 @@ data class ChannelDto(
     @SerialName("updatedAt") val updatedAt: String? = null,
     @SerialName("support") val support: String? = null,
 ) : DTO<ChannelModel> {
-    override fun mapToDomain() = ChannelModel(
+    override fun mapToDomain(host:String?) = ChannelModel(
         id = id,
         uuid = uuid,
         url = url,
@@ -52,13 +51,12 @@ data class ChannelDto(
         hostRedundancyAllowed = hostRedundancyAllowed,
         followingCount = followingCount,
         followersCount = followersCount,
-        avatar = avatar?.let { it.mapToDomain() },
-        createdAt = createdAt?.let { LocalDateTime.parse(it) },
-        updatedAt = updatedAt?.let { LocalDateTime.parse(it) },
+        avatar = avatar?.mapToDomain(host),
+        createdAt = createdAt?.let { Instant.parse(it) },
+        updatedAt = updatedAt?.let { Instant.parse(it) },
         displayName = displayName,
         description = description,
         support = support,
-        isLocal = isLocal,
-        ownerAccount = ownerAccount?.let { it.mapToDomain() }
+        isLocal = isLocal
     )
 }

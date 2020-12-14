@@ -1,14 +1,14 @@
 package com.squrlabs.peertube.common.service.model
 
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 
 data class VideoModel(
     val id: Long? = null,
     val uuid: String? = null,
-    val createdAt: LocalDateTime? = null,
-    val publishedAt: LocalDateTime? = null,
-    val updatedAt: LocalDateTime? = null,
-    val originallyPublishedAt: LocalDateTime? = null,
+    val createdAt: Instant? = null,
+    val publishedAt: Instant? = null,
+    val updatedAt: Instant? = null,
+    val originallyPublishedAt: Instant? = null,
     val category: LabelModel? = null,
     val licence: LabelModel? = null,
     val language: LabelModel? = null,

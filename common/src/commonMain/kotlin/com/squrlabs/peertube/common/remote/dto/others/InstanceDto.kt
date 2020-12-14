@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 data class InstanceDto(
     @SerialName("id") val id: Long,
     @SerialName("name") val name: String? = null,
-    @SerialName("host") val host: String? = null,
+    @SerialName("host") val lhost: String? = null,
     @SerialName("shortDescription") val shortDescription: String? = null,
     @SerialName("version") val version: String? = null,
     @SerialName("signupAllowed") val signupAllowed: Boolean? = null,
@@ -23,10 +23,10 @@ data class InstanceDto(
     @SerialName("supportsIPv6") val supportsIPv6: Boolean? = null,
     @SerialName("health") val health: Long? = null
 ) : DTO<InstanceModel> {
-    override fun mapToDomain() = InstanceModel(
+    override fun mapToDomain(host:String?) = InstanceModel(
         id = id,
         name = name,
-        host = host,
+        host = lhost,
         shortDescription = shortDescription,
         version = version,
         signupAllowed = signupAllowed,

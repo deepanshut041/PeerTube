@@ -15,7 +15,7 @@ data class StreamingPlaylistDto(
     @SerialName("files") val files: List<FileDto>? = null,
     @SerialName("redundancies") val redundancies: List<RedundancyDto>? = null
 ) : DTO<StreamingPlaylistModel> {
-    override fun mapToDomain() = StreamingPlaylistModel(
+    override fun mapToDomain(host:String?) = StreamingPlaylistModel(
         id = id,
         type = type,
         playlistUrl = playlistUrl,

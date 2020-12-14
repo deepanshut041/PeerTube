@@ -8,9 +8,10 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 
-class VideoEndpoints(private val client: HttpClient, private val prefs: InstanceSharedPrefs) {
+class VideoEndpoints(private val client: HttpClient) {
 
     suspend fun getVideos(
+        host: String,
         categoryOneOf: List<Int>? = null,
         count: Int? = null,
         filter: String? = null,
@@ -22,7 +23,7 @@ class VideoEndpoints(private val client: HttpClient, private val prefs: Instance
         start: Int? = null,
         tagsAllOf: List<String>? = null,
         tagsOneOf: List<String>? = null
-    ) = client.request<ListResponseDto<VideoDto>>("${prefs.getCurrentHost()}/videos") {
+    ) = client.request<ListResponseDto<VideoDto>>("https://$host/api/v1/videos") {
         method = HttpMethod.Get
 
         //category id of the video
@@ -50,6 +51,7 @@ class VideoEndpoints(private val client: HttpClient, private val prefs: Instance
     }
 
     suspend fun searchVideos(
+        host: String,
         search: String,
         categoryOneOf: List<Int>? = null,
         count: Int? = null,
@@ -69,7 +71,7 @@ class VideoEndpoints(private val client: HttpClient, private val prefs: Instance
         endDate: String? = null,
         tagsAllOf: List<String>? = null,
         tagsOneOf: List<String>? = null
-    ) = client.request<ListResponseDto<VideoDto>>("${prefs.getCurrentHost()}/search/videos") {
+    ) = client.request<ListResponseDto<VideoDto>>("https://$host/api/v1/search/videos") {
         method = HttpMethod.Get
 
         parameter("search", search)
@@ -112,14 +114,16 @@ class VideoEndpoints(private val client: HttpClient, private val prefs: Instance
     }
 
     suspend fun getVideo(
+        host: String,
         id: String
-    ) = client.request<VideoDto>("${prefs.getCurrentHost()}/videos/${id}") {
+    ) = client.request<VideoDto>("https://$host/api/v1/videos/${id}") {
         method = HttpMethod.Get
     }
 
     suspend fun getVideoDescription(
+        host: String,
         id: String
-    ) = client.request<VideoDescriptionDto>("${prefs.getCurrentHost()}/videos/${id}/description") {
+    ) = client.request<VideoDescriptionDto>("https://$host/api/v1/videos/${id}/description") {
         method = HttpMethod.Get
     }
 

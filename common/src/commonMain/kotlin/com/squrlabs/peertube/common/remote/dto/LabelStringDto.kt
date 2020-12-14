@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package com.squrlabs.peertube.mobile.ui.main.trending
+package com.squrlabs.peertube.common.remote.dto
 
-import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.cachedIn
-import com.squrlabs.peertube.common.service.repository.VideoRepository
-import com.squrlabs.peertube.mobile.ui.base.feed.BaseFeedViewModel
-import com.squrlabs.peertube.mobile.ui.base.feed.FeedRemotePagingSource
+import com.squrlabs.peertube.common.remote.DTO
+import com.squrlabs.peertube.common.service.model.LabelModel
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-
-class MainTrendingViewModel(private val videoRepository: VideoRepository): BaseFeedViewModel() {
-
-    init {
-        timeline = Pager(config){ FeedRemotePagingSource(videoRepository, 20, "-trending") }.flow.cachedIn(viewModelScope)
-    }
-
+@Serializable
+data class LabelStringDto(
+    @SerialName("id")
+    val id: String?,
+    @SerialName("label")
+    val label: String?
+) : DTO<LabelModel> {
+    override fun mapToDomain(host:String?) = LabelModel(
+        id = id,
+        label = label
+    )
 }

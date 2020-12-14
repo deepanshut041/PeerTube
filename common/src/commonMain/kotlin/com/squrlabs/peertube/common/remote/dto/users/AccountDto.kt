@@ -18,7 +18,7 @@ package com.squrlabs.peertube.common.remote.dto.users
 
 import com.squrlabs.peertube.common.remote.DTO
 import com.squrlabs.peertube.common.service.model.AccountModel
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -39,7 +39,7 @@ data class AccountDto(
     @SerialName("description") val description: String? = null,
     @SerialName("userId") val userId: Long? = null
 ) : DTO<AccountModel> {
-    override fun mapToDomain() = AccountModel(
+    override fun mapToDomain(host:String?) = AccountModel(
         id = id,
         uuid = uuid,
         url = url,
@@ -49,8 +49,8 @@ data class AccountDto(
         followersCount = followersCount,
         followingCount = followingCount,
         avatar = avatar?.let { it.mapToDomain() },
-        createdAt = createdAt?.let { LocalDateTime.parse(it) },
-        updatedAt = updatedAt?.let { LocalDateTime.parse(it) },
+        createdAt = createdAt?.let { Instant.parse(it) },
+        updatedAt = updatedAt?.let { Instant.parse(it) },
         displayName = displayName,
         description = description,
         userId = userId

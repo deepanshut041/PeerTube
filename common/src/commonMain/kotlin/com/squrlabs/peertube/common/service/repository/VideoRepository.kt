@@ -4,27 +4,24 @@ import com.squrlabs.peertube.common.remote.adapter.VideoRemoteAdapter
 import com.squrlabs.peertube.common.service.Resource
 import com.squrlabs.peertube.common.service.model.VideoModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 
 class VideoRepositoryImpl(
     private val remote: VideoRemoteAdapter,
     private val coroutineDispatcher: CoroutineDispatcher
 ) : VideoRepository {
 
-    override fun getVideos(): Flow<Resource<List<VideoModel>>> {
-        return flow<Resource<List<VideoModel>>> {
-            emit(Resource.loading(emptyList()))
+    override suspend fun getVideos(count: Int, start: Int?, sort: String?, filter: String?): Resource<List<VideoModel>> {
+        return withContext(coroutineDispatcher) {
             try {
-                emit(Resource.success(remote.getVideos()))
+                Resource.success(remote.getVideos(count = count, start = start, filter = filter, sort = sort))
             } catch (e: Exception) {
-                emit(Resource.error(e.toString(), emptyList()))
+                Resource.error(e.toString(), emptyList())
             }
-        }.flowOn(coroutineDispatcher)
+        }
     }
 }
 
 interface VideoRepository {
-    fun getVideos(): Resource<Resource<List<VideoModel>>>
+    suspend fun getVideos(count: Int, start: Int?, sort: String?, filter: String?): Resource<List<VideoModel>>
 }

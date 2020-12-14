@@ -70,6 +70,7 @@ kotlin {
                 implementation(Ktor.clientJson)
                 implementation(Ktor.clientLogging)
                 implementation(Ktor.clientSerialization)
+                implementation(Ktor.slf4j)
 
                 // Serialize
                 implementation(Serialization.core)

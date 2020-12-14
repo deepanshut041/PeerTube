@@ -34,8 +34,14 @@ class MobileSplashActivity : AppCompatActivity() {
         with(viewModel){
             launchState.observe(this@MobileSplashActivity, {
                 when(it.code){
-                    STATE_LAUNCH_MAIN -> startActivity(AppNavigation.mobileMainActivity(this@MobileSplashActivity))
-                    STATE_LAUNCH_INSTANCES -> startActivity(AppNavigation.mobileInstanceActivity(this@MobileSplashActivity))
+                    STATE_LAUNCH_MAIN -> {
+                        finish()
+                        startActivity(AppNavigation.mobileMainActivity(this@MobileSplashActivity))
+                    }
+                    STATE_LAUNCH_INSTANCES -> {
+                        finish()
+                        startActivity(AppNavigation.mobileInstanceActivity(this@MobileSplashActivity))
+                    }
                 }
             })
         }

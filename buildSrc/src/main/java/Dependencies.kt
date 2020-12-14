@@ -23,6 +23,8 @@ object Versions {
     const val glideVersion = "4.11.0"
     const val exoPlayerVersion = "2.12.0"
     const val kohiiVersion = "1.1.0.2011003"
+
+    const val slf4j = "1.7.30"
 }
 
 object Deps {
@@ -63,6 +65,8 @@ object Ktor {
     val clientJson = "io.ktor:ktor-client-json:${Versions.ktor}"
     val clientLogging = "io.ktor:ktor-client-logging:${Versions.ktor}"
     val clientSerialization = "io.ktor:ktor-client-serialization:${Versions.ktor}"
+
+    val slf4j = "org.slf4j:slf4j-simple:${Versions.slf4j}"
 
     val clientAndroid = "io.ktor:ktor-client-android:${Versions.ktor}"
     val clientIos = "io.ktor:ktor-client-ios:${Versions.ktor}"

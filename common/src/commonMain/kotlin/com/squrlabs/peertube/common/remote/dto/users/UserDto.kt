@@ -19,7 +19,7 @@ package com.squrlabs.peertube.common.remote.dto.users
 import com.squrlabs.peertube.common.remote.DTO
 import com.squrlabs.peertube.common.remote.dto.video.ChannelDto
 import com.squrlabs.peertube.common.service.model.UserModel
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -38,7 +38,7 @@ data class UserDto(
     val createdAt: String? = null,
     var videoChannels: List<ChannelDto>? = null
 ) : DTO<UserModel> {
-    override fun mapToDomain() = UserModel(
+    override fun mapToDomain(host:String?) = UserModel(
         id = id,
         username = username,
         email = email,
@@ -48,7 +48,7 @@ data class UserDto(
         roleLabel = roleLabel,
         videoQuota = videoQuota,
         videoQuotaDaily = videoQuotaDaily,
-        createdAt = createdAt?.let { LocalDateTime.parse(it) },
+        createdAt = createdAt?.let { Instant.parse(it) },
         videoChannels = videoChannels?.let { models -> models.map { it.mapToDomain() } },
     )
 }

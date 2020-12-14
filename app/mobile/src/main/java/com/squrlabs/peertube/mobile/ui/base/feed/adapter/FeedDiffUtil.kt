@@ -15,16 +15,16 @@
  */
 
 package com.squrlabs.peertube.mobile.ui.base.feed.adapter
-//
-//import androidx.recyclerview.widget.DiffUtil
-//import com.squrlabs.peertube.domain.model.video.VideoModel
-//
-//class FeedDiffUtil : DiffUtil.ItemCallback<VideoModel>() {
-//    override fun areItemsTheSame(oldItem: VideoModel, newItem: VideoModel): Boolean {
-//        return oldItem.id == newItem.id
-//    }
-//
-//    override fun areContentsTheSame(oldItem: VideoModel, newItem: VideoModel): Boolean {
-//        return ((oldItem.updatedAt == newItem.updatedAt))
-//    }
-//}
+
+import androidx.recyclerview.widget.DiffUtil
+import com.squrlabs.peertube.common.service.model.VideoModel
+
+class FeedDiffUtil : DiffUtil.ItemCallback<VideoModel>() {
+    override fun areItemsTheSame(oldItem: VideoModel, newItem: VideoModel): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: VideoModel, newItem: VideoModel): Boolean {
+        return ((oldItem.id == newItem.id))
+    }
+}

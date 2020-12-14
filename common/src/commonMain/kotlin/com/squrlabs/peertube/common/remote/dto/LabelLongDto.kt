@@ -22,14 +22,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class LabelDto(
+data class LabelLongDto(
     @SerialName("id")
     val id: Long?,
     @SerialName("label")
     val label: String?
 ) : DTO<LabelModel> {
-    override fun mapToDomain() = LabelModel(
-        id = id,
+    override fun mapToDomain(host:String?) = LabelModel(
+        id = id.toString(),
         label = label
     )
 }

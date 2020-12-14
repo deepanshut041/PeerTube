@@ -1,10 +1,14 @@
 package com.squrlabs.peertube.common.remote.adapter
 
+import com.squrlabs.peertube.common.prefs.InstanceSharedPrefs
 import com.squrlabs.peertube.common.remote.endpoints.VideoEndpoints
 import com.squrlabs.peertube.common.service.model.VideoDescriptionModel
 import com.squrlabs.peertube.common.service.model.VideoModel
 
-class VideoRemoteAdapterImpl(private val videoEndpoints: VideoEndpoints) : VideoRemoteAdapter {
+class VideoRemoteAdapterImpl(
+    private val videoEndpoints: VideoEndpoints,
+    private val prefs: InstanceSharedPrefs
+) : VideoRemoteAdapter {
 
     override suspend fun getVideos(
         categoryOneOf: List<Int>?,
@@ -19,6 +23,7 @@ class VideoRemoteAdapterImpl(private val videoEndpoints: VideoEndpoints) : Video
         tagsAllOf: List<String>?,
         tagsOneOf: List<String>?
     ): List<VideoModel> = videoEndpoints.getVideos(
+        prefs.getCurrentHost(),
         categoryOneOf,
         count,
         filter,
@@ -30,7 +35,7 @@ class VideoRemoteAdapterImpl(private val videoEndpoints: VideoEndpoints) : Video
         start,
         tagsAllOf,
         tagsOneOf
-    ).data.map { it.mapToDomain() }
+    ).data.map { it.mapToDomain(prefs.getCurrentHost()) }
 
     override suspend fun searchVideos(
         search: String,
@@ -53,6 +58,7 @@ class VideoRemoteAdapterImpl(private val videoEndpoints: VideoEndpoints) : Video
         tagsAllOf: List<String>?,
         tagsOneOf: List<String>?
     ): List<VideoModel> = videoEndpoints.searchVideos(
+        prefs.getCurrentHost(),
         search,
         categoryOneOf,
         count,
@@ -72,12 +78,12 @@ class VideoRemoteAdapterImpl(private val videoEndpoints: VideoEndpoints) : Video
         endDate,
         tagsAllOf,
         tagsOneOf
-    ).data.map { it.mapToDomain() }
+    ).data.map { it.mapToDomain(prefs.getCurrentHost()) }
 
-    override suspend fun getVideo(id: String) = videoEndpoints.getVideo(id).mapToDomain()
+    override suspend fun getVideo(id: String) = videoEndpoints.getVideo(prefs.getCurrentHost(), id).mapToDomain(prefs.getCurrentHost())
 
     override suspend fun getVideoDescription(id: String) =
-        videoEndpoints.getVideoDescription(id).mapToDomain()
+        videoEndpoints.getVideoDescription(prefs.getCurrentHost(), id).mapToDomain(prefs.getCurrentHost())
 }
 
 interface VideoRemoteAdapter {

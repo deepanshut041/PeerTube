@@ -16,87 +16,57 @@
 
 package com.squrlabs.peertube.mobile.ui.base.feed.adapter
 
-//import android.content.Context
-//import android.view.LayoutInflater
-//import android.view.ViewGroup
-//import androidx.lifecycle.LiveData
-//import androidx.paging.PagingDataAdapter
-//import kohii.v1.exoplayer.Kohii
-//
-//class FeedAdapterImpl(
-//    diffUtil: FeedDiffUtil,
-//    private val context: Context,
-//    private val kohii: Kohii
-//) : PagingDataAdapter<VideoModel, FeedViewHolder>(diffUtil), FeedAdapter {
-//
-//    val actions: LiveData<Pair<String, VideoModel>>
-//        get() = _actions
-//
-//    private val _actions = SingleLiveEvent<Pair<String, VideoModel>>()
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
-//        return FeedViewHolder(
-//            LayoutInflater.from(context).inflate(
-//                R.layout.item_feed_status,
-//                parent,
-//                false
-//            )
-//        )
-//    }
-//
-//    override fun onBindViewHolder(holder: FeedViewHolder, position: Int) {
-//        getItem(position)?.let { model ->
-//            val isReblog = model.reblog != null
-//
-//            holder.bind(context, kohii, model, position)
-//
-//            holder.likeButton.setOnClickListener {
-//                _actions.value = Pair(FEED_STATUS_ACTION_LIKE, model)
-//                getItem(position)?.let {
-//                    it.favourited = !(it.favourited ?: false)
-//                    holder.bottomBar(it, context)
-//                }
-//            }
-//
-//            holder.commentButton.setOnClickListener {
-//                _actions.value = Pair(FEED_STATUS_ACTION_COMMENT, model)
-//            }
-//            holder.shareButton.setOnClickListener {
-//                _actions.value = Pair(FEED_STATUS_ACTION_REBLOG, model)
-//                getItem(position)?.let {
-//                    it.reblogged = !(it.reblogged ?: false)
-//                    holder.bottomBar(it, context)
-//                }
-//            }
-//
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingDataAdapter
+import com.squrlabs.peertube.common.service.model.VideoModel
+import com.squrlabs.peertube.mobile.R
+import com.squrlabs.peertube.util.SingleLiveEvent
+import kohii.v1.exoplayer.Kohii
+
+class FeedAdapterImpl(
+    diffUtil: FeedDiffUtil,
+    private val context: Context,
+    private val kohii: Kohii
+) : PagingDataAdapter<VideoModel, FeedViewHolder>(diffUtil), FeedAdapter {
+
+    val actions: LiveData<Pair<String, VideoModel>>
+        get() = _actions
+
+    private val _actions = SingleLiveEvent<Pair<String, VideoModel>>()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
+        return FeedViewHolder(
+            LayoutInflater.from(context).inflate(
+                R.layout.feed_list_item,
+                parent,
+                false
+            )
+        )
+    }
+
+    override fun onBindViewHolder(holder: FeedViewHolder, position: Int) {
+        getItem(position)?.let { model ->
+
+            holder.bind(context, kohii, model, position)
+
 //            holder.likesButton.setOnClickListener {
 //                _actions.value = Pair(FEED_STATUS_ACTION_OPEN_LIKE, model)
 //            }
-//
-//            holder.commentsButton.setOnClickListener {
-//                _actions.value = Pair(FEED_STATUS_ACTION_OPEN_COMMENT, model)
-//            }
-//            holder.sharesButton.setOnClickListener {
-//                _actions.value = Pair(FEED_STATUS_ACTION_OPEN_REBLOG, model)
-//            }
-//        }
-//    }
-//
-//    override fun itemListener(position: Int) {
-//        _actions.value = Pair(FEED_STATUS_ACTION_ZOOM, getItem(position)!!)
-//    }
-//
-//    companion object {
-//        const val FEED_STATUS_ACTION_COMMENT = "comment"
-//        const val FEED_STATUS_ACTION_LIKE = "like"
-//        const val FEED_STATUS_ACTION_REBLOG = "reblog"
-//        const val FEED_STATUS_ACTION_OPEN_COMMENT = "open_comment"
-//        const val FEED_STATUS_ACTION_OPEN_LIKE = "open_like"
-//        const val FEED_STATUS_ACTION_OPEN_REBLOG = "open_reblog"
-//        const val FEED_STATUS_ACTION_ZOOM = "zoom"
-//    }
-//}
-//
-//interface FeedAdapter {
-//    fun itemListener(position: Int)
-//}
+        }
+    }
+
+    override fun itemListener(position: Int) {
+        _actions.value = Pair(FEED_STATUS_ACTION_ZOOM, getItem(position)!!)
+    }
+
+    companion object {
+        const val FEED_STATUS_ACTION_ZOOM = "zoom"
+    }
+}
+
+interface FeedAdapter {
+    fun itemListener(position: Int)
+}

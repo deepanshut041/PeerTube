@@ -1,13 +1,13 @@
 package com.squrlabs.peertube.common.remote.dto.video
 
 import com.squrlabs.peertube.common.remote.DTO
-import com.squrlabs.peertube.common.remote.dto.LabelDto
+import com.squrlabs.peertube.common.remote.dto.LabelStringDto
 import com.squrlabs.peertube.common.service.model.FileModel
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class FileDto(
-    val resolution: LabelDto? = null,
+    val resolution: LabelStringDto? = null,
     val magnetUri: String? = null,
     val size: Int? = null,
     val fps: Int? = null,
@@ -16,7 +16,7 @@ data class FileDto(
     val fileUrl: String? = null,
     val fileDownloadUrl: String? = null
 ) : DTO<FileModel> {
-    override fun mapToDomain() = FileModel(
+    override fun mapToDomain(host:String?) = FileModel(
         resolution = resolution?.let { it.mapToDomain() },
         magnetUri = magnetUri,
         size = size,

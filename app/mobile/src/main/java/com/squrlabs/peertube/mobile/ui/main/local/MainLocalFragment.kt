@@ -22,9 +22,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.squrlabs.peertube.mobile.R
+import com.squrlabs.peertube.mobile.ui.base.feed.BaseFeedFragment
+import kotlinx.android.synthetic.main.fragment_main_local.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainLocalFragment: Fragment() {
+class MainLocalFragment: BaseFeedFragment() {
 
     private val viewModel by viewModel<MainLocalViewModel>()
 
@@ -34,5 +36,11 @@ class MainLocalFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_main_local, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        model = viewModel
+        setupRecyclerView(rvFeedView)
     }
 }

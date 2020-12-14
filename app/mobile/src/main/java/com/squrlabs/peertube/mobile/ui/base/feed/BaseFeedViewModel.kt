@@ -15,38 +15,17 @@
  */
 
 package com.squrlabs.peertube.mobile.ui.base.feed
-//
-//import android.util.Log
-//import androidx.lifecycle.LiveData
-//import androidx.lifecycle.ViewModel
-//import androidx.paging.PagingConfig
-//import androidx.paging.PagingData
-//import com.squrlabs.peertube.domain.model.video.VideoModel
-//import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-//import io.reactivex.rxjava3.disposables.CompositeDisposable
-//import io.reactivex.rxjava3.schedulers.Schedulers
-//
-//abstract class BaseFeedViewModel() : ViewModel() {
-//    protected val disposable = CompositeDisposable()
-//    protected val config = PagingConfig(pageSize = 20)
-//
-//    val timeline: LiveData<PagingData<VideoModel>>
-//        get() = _timeline
-//
-//    protected lateinit var _timeline: LiveData<PagingData<VideoModel>>
-//
-//    abstract fun setTimeline(model: Any, reInitialize: Boolean = false)
-//
-//    fun favouriteStatus(model: VideoModel) {
-//
-//    }
-//
-//    fun reblogStatus(model: VideoModel) {
-//
-//    }
-//
-//    override fun onCleared() {
-//        super.onCleared()
-//        disposable.clear()
-//    }
-//}
+
+import androidx.lifecycle.ViewModel
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.squrlabs.peertube.common.service.model.VideoModel
+import kotlinx.coroutines.flow.Flow
+
+abstract class BaseFeedViewModel() : ViewModel() {
+
+    protected val config = PagingConfig(pageSize = 20)
+
+    lateinit var timeline: Flow<PagingData<VideoModel>>
+
+}

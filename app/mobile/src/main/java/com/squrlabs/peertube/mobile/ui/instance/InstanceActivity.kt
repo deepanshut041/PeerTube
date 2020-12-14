@@ -1,5 +1,6 @@
 package com.squrlabs.peertube.mobile.ui.instance
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,6 +11,7 @@ import com.mikepenz.iconics.utils.IconicsMenuInflaterUtil
 import com.squrlabs.peertube.common.service.Resource
 import com.squrlabs.peertube.common.service.params.GetInstancesParams
 import com.squrlabs.peertube.mobile.R
+import com.squrlabs.peertube.mobile.ui.main.MainActivity
 import kotlinx.android.synthetic.main.instance_activity.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
@@ -41,6 +43,8 @@ class InstanceActivity : AppCompatActivity() {
 
         instanceListAdapter.selectedInstance.observe(this, {
             viewModel.setCurrentHost(it)
+            finish()
+            startActivity(Intent(this, MainActivity::class.java))
         })
         srlLayout.setOnRefreshListener {
             viewModel.startLoading()
