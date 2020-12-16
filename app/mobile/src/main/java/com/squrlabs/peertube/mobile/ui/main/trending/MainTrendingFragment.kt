@@ -23,7 +23,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.squrlabs.peertube.mobile.R
 import com.squrlabs.peertube.mobile.ui.base.feed.BaseFeedFragment
-import kotlinx.android.synthetic.main.fragment_main_trending.*
+import kotlinx.android.synthetic.main.main_fragment_trending.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainTrendingFragment: BaseFeedFragment() {
@@ -35,7 +35,7 @@ class MainTrendingFragment: BaseFeedFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_main_trending, container, false)
+        return inflater.inflate(R.layout.main_fragment_trending, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

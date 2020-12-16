@@ -74,7 +74,7 @@ kotlin {
 
                 // Serialize
                 implementation(Serialization.core)
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.1.1")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:0.1.1")
 
                 // koin
                 api(Koin.core)

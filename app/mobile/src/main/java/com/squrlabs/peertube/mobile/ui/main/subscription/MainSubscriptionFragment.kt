@@ -33,6 +33,6 @@ class MainSubscriptionFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_main_subscription, container, false)
+        return inflater.inflate(R.layout.main_fragment_subscription, container, false)
     }
 }

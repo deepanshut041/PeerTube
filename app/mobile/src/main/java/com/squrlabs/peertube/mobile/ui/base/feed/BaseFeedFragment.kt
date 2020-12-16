@@ -17,14 +17,11 @@
 package com.squrlabs.peertube.mobile.ui.base.feed
 
 import android.util.Log
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.squrlabs.peertube.mobile.ui.base.feed.adapter.FeedAdapterImpl
+import com.squrlabs.peertube.mobile.ui.base.feed.adapter.FeedAdapter
 import com.squrlabs.peertube.mobile.ui.base.feed.adapter.FeedDiffUtil
 import kohii.v1.core.MemoryMode
 import kohii.v1.exoplayer.Kohii
@@ -35,18 +32,18 @@ open class BaseFeedFragment : Fragment() {
 
     protected lateinit var model: BaseFeedViewModel
     private lateinit var kohii:Kohii
-    protected lateinit var feedAdapter: FeedAdapterImpl
-    protected lateinit var statusRecyclerView: RecyclerView
+    protected lateinit var feedAdapter: FeedAdapter
+    protected lateinit var feedRecyclerView: RecyclerView
 
     fun setupRecyclerView(statusRecyclerView: RecyclerView) {
-        this.statusRecyclerView = statusRecyclerView
+        this.feedRecyclerView = statusRecyclerView
 
         kohii = KohiiProvider.get(requireContext())
-        kohii.register(this, memoryMode = MemoryMode.AUTO).addBucket(this.statusRecyclerView)
+        kohii.register(this, memoryMode = MemoryMode.AUTO).addBucket(this.feedRecyclerView)
 
-        this.statusRecyclerView.layoutManager = LinearLayoutManager(context)
-        feedAdapter = FeedAdapterImpl(FeedDiffUtil(), requireContext(), kohii)
-        this.statusRecyclerView.adapter = feedAdapter
+        this.feedRecyclerView.layoutManager = LinearLayoutManager(context)
+        feedAdapter = FeedAdapter(FeedDiffUtil(), requireContext(), kohii)
+        this.feedRecyclerView.adapter = feedAdapter
 
         bindAdapterListener()
 
@@ -61,15 +58,13 @@ open class BaseFeedFragment : Fragment() {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (hidden) {
-            kohii.lockBucket(this.statusRecyclerView);
+            kohii.lockBucket(this.feedRecyclerView);
         } else {
-            kohii.unlockBucket(this.statusRecyclerView);
+            kohii.unlockBucket(this.feedRecyclerView);
         }
     }
 
     private fun bindAdapterListener() {
 
     }
-
-
 }

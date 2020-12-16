@@ -5,7 +5,7 @@ import android.content.Intent
 
 object AppNavigation {
     fun mobileMainActivity(context: Context): Intent? {
-        return Intent().setClassName(context, "com.squrlabs.peertube.mobile.ui.main.MainActivity")
+        return Intent().setClassName(context, "com.squrlabs.peertube.mobile.ui.video.VideoActivity")
     }
 
     fun mobileInstanceActivity(context: Context): Intent? {

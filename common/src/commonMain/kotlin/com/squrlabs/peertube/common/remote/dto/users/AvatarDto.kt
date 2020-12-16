@@ -31,7 +31,7 @@ data class AvatarDto(
     @SerialName("updatedAt")
     val updatedAt: String?
 ) : DTO<AvatarModel> {
-    override fun mapToDomain() = AvatarModel(
+    override fun mapToDomain(currentHost: String): AvatarModel = AvatarModel(
         path = path,
         createdAt = createdAt?.let { Instant.parse(it) },
         updatedAt = updatedAt?.let { Instant.parse(it) }

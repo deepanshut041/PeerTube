@@ -21,7 +21,7 @@ object Versions {
     const val firebaseCrashlyticsVersion = "17.2.1"
     const val firebaseAnalyticsVersion = "17.5.0"
     const val glideVersion = "4.11.0"
-    const val exoPlayerVersion = "2.12.0"
+    const val exoPlayerVersion = "2.11.3"
     const val kohiiVersion = "1.1.0.2011003"
 
     const val slf4j = "1.7.30"

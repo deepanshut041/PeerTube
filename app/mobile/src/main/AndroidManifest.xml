@@ -14,5 +14,6 @@
     <application>
         <activity android:name=".ui.instance.InstanceActivity" />
         <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.video.VideoActivity" />
     </application>
 </manifest>

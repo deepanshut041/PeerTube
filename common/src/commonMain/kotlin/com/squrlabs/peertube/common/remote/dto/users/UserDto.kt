@@ -38,7 +38,8 @@ data class UserDto(
     val createdAt: String? = null,
     var videoChannels: List<ChannelDto>? = null
 ) : DTO<UserModel> {
-    override fun mapToDomain() = UserModel(
+    override fun mapToDomain(currentHost: String): UserModel = UserModel(
+        currentHost = currentHost,
         id = id,
         username = username,
         email = email,
@@ -49,6 +50,6 @@ data class UserDto(
         videoQuota = videoQuota,
         videoQuotaDaily = videoQuotaDaily,
         createdAt = createdAt?.let { Instant.parse(it) },
-        videoChannels = videoChannels?.let { models -> models.map { it.mapToDomain() } },
+        videoChannels = videoChannels?.let { models -> models.map { it.mapToDomain(currentHost) } },
     )
 }

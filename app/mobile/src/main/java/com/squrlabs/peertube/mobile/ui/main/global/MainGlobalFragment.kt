@@ -17,14 +17,12 @@
 package com.squrlabs.peertube.mobile.ui.main.global
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.squrlabs.peertube.mobile.R
 import com.squrlabs.peertube.mobile.ui.base.feed.BaseFeedFragment
-import kotlinx.android.synthetic.main.fragment_main_global.*
+import kotlinx.android.synthetic.main.main_fragment_global.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainGlobalFragment : BaseFeedFragment() {
@@ -36,7 +34,7 @@ class MainGlobalFragment : BaseFeedFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_main_global, container, false)
+        return inflater.inflate(R.layout.main_fragment_global, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

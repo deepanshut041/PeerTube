@@ -15,12 +15,12 @@ data class StreamingPlaylistDto(
     @SerialName("files") val files: List<FileDto>? = null,
     @SerialName("redundancies") val redundancies: List<RedundancyDto>? = null
 ) : DTO<StreamingPlaylistModel> {
-    override fun mapToDomain() = StreamingPlaylistModel(
+    override fun mapToDomain(currentHost: String): StreamingPlaylistModel = StreamingPlaylistModel(
         id = id,
         type = type,
         playlistUrl = playlistUrl,
         segmentsSha256Url = segmentsSha256Url,
-        files = files?.let { models -> models.map { it.mapToDomain() } },
-        redundancies = redundancies?.let { models -> models.map { it.mapToDomain() } }
+        files = files?.let { models -> models.map { it.mapToDomain(currentHost) } },
+        redundancies = redundancies?.let { models -> models.map { it.mapToDomain(currentHost) } }
     )
 }

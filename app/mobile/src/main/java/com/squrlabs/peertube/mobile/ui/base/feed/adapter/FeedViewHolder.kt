@@ -19,32 +19,42 @@ package com.squrlabs.peertube.mobile.ui.base.feed.adapter
 import android.content.Context
 import android.view.View
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.exoplayer2.ui.PlayerView
 import com.squrlabs.peertube.common.service.model.VideoModel
+import com.squrlabs.peertube.mobile.utils.duration
+import com.squrlabs.peertube.mobile.utils.getTimeAgo
+import com.squrlabs.peertube.mobile.utils.humanReadableBigNumber
+import kohii.v1.core.Common
+import kohii.v1.core.Playback
 import kohii.v1.exoplayer.Kohii
-import kotlinx.android.synthetic.main.feed_list_item.view.*
+import kotlinx.android.synthetic.main.base_feed_item.view.*
 
 class FeedViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
+    val layout = view.clLayout!!
     private val thumbnail = view.ivThumbnail!!
-    private val avatar = view.ivAccountAvatar!!
+    val avatar = view.ivAccountAvatar!!
     private val name = view.txtName!!
     private val author = view.txtAuthor!!
     private val views = view.txtViews!!
     private val duration = view.txtDuration!!
     private val date = view.txtDate!!
+    private val videoView = view.exoVideoPlayer!!
 
     fun bind(context: Context, kohii: Kohii, item: VideoModel, position: Int) {
-        item.previewPath?.let{ loadAvatarImage(context, it, thumbnail) }
-        item.channel?.let { channelModel ->
-            channelModel.avatar?.let { loadAvatarImage(context, it.path!!, avatar) }
-            author.text = channelModel.displayName ?: ""
+        item.previewPath?.let{ loadAvatarImage(context, item.currentHost + it, thumbnail) }
+        item.channel?.let { model ->
+            model.avatar?.let { loadAvatarImage(context, item.currentHost + it.path!!, avatar) }
+            author.text = model.displayName ?: ""
         }
+        setVideo(item, kohii, position)
         name.text = item.name?: ""
-        views.text = "${item.views?: 0} views"
-        duration.text = (item.duration?: 0).toString()
+        date.text = item.publishedAt?.getTimeAgo()
+        views.text = "${(item.views?: 0).humanReadableBigNumber()} views"
+        duration.text = (item.duration?: 0).duration()
     }
 
     private fun loadAvatarImage(context: Context, imgUrl: String?, view: ImageView) {
@@ -53,6 +63,19 @@ class FeedViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             .transform(RoundedCorners(10))
             .fitCenter()
             .into(view)
+    }
+
+    fun setVideo(model: VideoModel, kohii: Kohii, position: Int) {
+        kohii.setUp("https://${model.account!!.host}/static/webseed/${model.uuid}-360.mp4") {
+            tag = "${model.uuid!!}+${position}"
+            preload = true
+            repeatMode = Common.REPEAT_MODE_ONE
+            artworkHintListener = object: Playback.ArtworkHintListener {
+                override fun onArtworkHint(playback: Playback, shouldShow: Boolean, position: Long, state: Int) {
+                    thumbnail.isVisible = shouldShow && position <= 0
+                }
+            }
+        }.bind(videoView)
     }
 
 }

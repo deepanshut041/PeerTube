@@ -23,7 +23,7 @@ class VideoEndpoints(private val client: HttpClient) {
         start: Int? = null,
         tagsAllOf: List<String>? = null,
         tagsOneOf: List<String>? = null
-    ) = client.request<ListResponseDto<VideoDto>>("https://$host/api/v1/videos") {
+    ) = client.request<ListResponseDto<VideoDto>>("$host/api/v1/videos") {
         method = HttpMethod.Get
 
         //category id of the video
@@ -71,7 +71,7 @@ class VideoEndpoints(private val client: HttpClient) {
         endDate: String? = null,
         tagsAllOf: List<String>? = null,
         tagsOneOf: List<String>? = null
-    ) = client.request<ListResponseDto<VideoDto>>("https://$host/api/v1/search/videos") {
+    ) = client.request<ListResponseDto<VideoDto>>("$host/api/v1/search/videos") {
         method = HttpMethod.Get
 
         parameter("search", search)
@@ -116,14 +116,14 @@ class VideoEndpoints(private val client: HttpClient) {
     suspend fun getVideo(
         host: String,
         id: String
-    ) = client.request<VideoDto>("https://$host/api/v1/videos/${id}") {
+    ) = client.request<VideoDto>("$host/api/v1/videos/${id}") {
         method = HttpMethod.Get
     }
 
     suspend fun getVideoDescription(
         host: String,
         id: String
-    ) = client.request<VideoDescriptionDto>("https://$host/api/v1/videos/${id}/description") {
+    ) = client.request<VideoDescriptionDto>("$host/api/v1/videos/${id}/description") {
         method = HttpMethod.Get
     }
 

@@ -39,7 +39,7 @@ class InstanceRepositoryImpl(
     }
 
     override fun setCurrentHost(host: String) {
-        sharedPrefs.setCurrentHost(host)
+        sharedPrefs.setCurrentHost("https://$host")
     }
 
     override fun getCurrentInstance(): InstanceModel? {

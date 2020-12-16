@@ -42,7 +42,8 @@ data class ChannelDto(
     @SerialName("updatedAt") val updatedAt: String? = null,
     @SerialName("support") val support: String? = null,
 ) : DTO<ChannelModel> {
-    override fun mapToDomain() = ChannelModel(
+    override fun mapToDomain(currentHost: String): ChannelModel = ChannelModel(
+        currentHost= currentHost,
         id = id,
         uuid = uuid,
         url = url,
@@ -51,7 +52,7 @@ data class ChannelDto(
         hostRedundancyAllowed = hostRedundancyAllowed,
         followingCount = followingCount,
         followersCount = followersCount,
-        avatar = avatar?.mapToDomain(),
+        avatar = avatar?.mapToDomain(currentHost),
         createdAt = createdAt?.let { Instant.parse(it) },
         updatedAt = updatedAt?.let { Instant.parse(it) },
         displayName = displayName,

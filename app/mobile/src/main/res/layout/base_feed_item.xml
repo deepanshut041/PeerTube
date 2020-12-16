@@ -3,19 +3,24 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/ivThumbnail"
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/exoVideoPlayer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:contentDescription="video"
+        app:show_buffering="when_playing"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="160:91"
-        />
+        app:layout_constraintDimensionRatio="160:91">
+        <ImageView
+            android:id="@+id/ivThumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.exoplayer2.ui.PlayerView>
 
     <TextView
         android:id="@+id/txtDuration"
@@ -26,19 +31,19 @@
         android:paddingEnd="2dp"
         android:textSize="14sp"
         android:textColor="#fff"
+        android:background="#3c3c3c"
         tools:text="1:23:45"
-        app:layout_constraintBottom_toBottomOf="@+id/ivThumbnail"
-        app:layout_constraintEnd_toEndOf="@id/ivThumbnail"
+        app:layout_constraintBottom_toBottomOf="@+id/exoVideoPlayer"
+        app:layout_constraintEnd_toEndOf="@id/exoVideoPlayer"
         />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivAccountAvatar"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivThumbnail"
+        app:layout_constraintTop_toTopOf="@+id/txtName"
         app:layout_constraintVertical_bias="0.0"
         tools:src="@tools:sample/avatars"
         />
@@ -47,14 +52,16 @@
         android:id="@+id/txtName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginEnd="16dp"
         tools:text="Name"
-        android:textSize="16sp"
+        android:textSize="14sp"
+        android:textStyle="bold"
         android:maxLines="2"
         android:ellipsize="end"
-        app:layout_constraintTop_toBottomOf="@+id/ivThumbnail"
+        android:textColor="#000"
+        app:layout_constraintTop_toBottomOf="@id/exoVideoPlayer"
         app:layout_constraintBottom_toTopOf="@+id/txtAuthor"
         app:layout_constraintStart_toEndOf="@+id/ivAccountAvatar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,9 +72,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="10dp"
         android:textSize="12sp"
-        android:lines="1"
+        android:maxWidth="160dp"
         android:maxLines="1"
         android:ellipsize="end"
         android:text="@{video.account.name}"
@@ -80,8 +87,7 @@
         android:id="@+id/txtSeparator1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:text="|"
+        android:text=" • "
         app:layout_constraintTop_toBottomOf="@+id/txtName"
         app:layout_constraintStart_toEndOf="@+id/txtAuthor"
         />
@@ -103,8 +109,7 @@
         android:id="@+id/txtSeparator2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:text="|"
+        android:text=" • "
         app:layout_constraintTop_toBottomOf="@+id/txtName"
         app:layout_constraintStart_toEndOf="@+id/txtViews"
         />
@@ -120,4 +125,11 @@
         app:layout_constraintTop_toBottomOf="@+id/txtName"
         app:layout_constraintStart_toEndOf="@+id/txtSeparator2"
         tools:text="3 weeks ago" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exoVideoPlayer" />
 </androidx.constraintlayout.widget.ConstraintLayout>

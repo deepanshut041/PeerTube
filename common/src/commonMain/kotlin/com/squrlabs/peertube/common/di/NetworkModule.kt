@@ -49,7 +49,7 @@ val networkModule = module {
 val instanceModule = module {
     single { InstanceEndpoints(get()) }
     single { InstanceDao(get()) }
-    single<InstanceRemoteAdapter> { InstanceRemoteAdapterImpl(get()) }
+    single<InstanceRemoteAdapter> { InstanceRemoteAdapterImpl(get(), get()) }
     single<InstanceLocalAdapter> { InstanceLocalAdapterImpl(get()) }
     single<InstanceRepository> {
         InstanceRepositoryImpl(

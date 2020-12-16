@@ -23,7 +23,7 @@ data class InstanceDto(
     @SerialName("supportsIPv6") val supportsIPv6: Boolean? = null,
     @SerialName("health") val health: Long? = null
 ) : DTO<InstanceModel> {
-    override fun mapToDomain() = InstanceModel(
+    override fun mapToDomain(currentHost: String): InstanceModel = InstanceModel(
         id = id,
         name = name,
         host = lhost,

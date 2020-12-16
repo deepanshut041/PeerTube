@@ -20,10 +20,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.squrlabs.peertube.mobile.R
 import com.squrlabs.peertube.mobile.ui.base.feed.BaseFeedFragment
-import kotlinx.android.synthetic.main.fragment_main_local.*
+import kotlinx.android.synthetic.main.main_fragment_local.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainLocalFragment: BaseFeedFragment() {
@@ -35,7 +34,7 @@ class MainLocalFragment: BaseFeedFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_main_local, container, false)
+        return inflater.inflate(R.layout.main_fragment_local, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

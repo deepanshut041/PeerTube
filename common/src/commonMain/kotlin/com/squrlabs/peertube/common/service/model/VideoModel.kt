@@ -3,6 +3,7 @@ package com.squrlabs.peertube.common.service.model
 import kotlinx.datetime.Instant
 
 data class VideoModel(
+    val currentHost: String,
     val id: Long? = null,
     val uuid: String? = null,
     val createdAt: Instant? = null,

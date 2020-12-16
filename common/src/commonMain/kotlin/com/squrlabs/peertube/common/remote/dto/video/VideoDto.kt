@@ -66,17 +66,18 @@ data class VideoDto(
     @SerialName("trackerUrls") val trackerUrls: List<String>? = null,
     @SerialName("streamingPlaylists") val streamingPlaylists: List<StreamingPlaylistDto>? = null
 ) : DTO<VideoModel> {
-    override fun mapToDomain() = VideoModel(
+    override fun mapToDomain(currentHost: String): VideoModel = VideoModel(
+        currentHost = currentHost,
         id = id,
         uuid = uuid,
         createdAt = createdAt?.let { Instant.parse(it) },
         publishedAt = publishedAt?.let { Instant.parse(it) },
         updatedAt = updatedAt?.let { Instant.parse(it) },
         originallyPublishedAt = originallyPublishedAt?.let { Instant.parse(it) },
-        category = category?.mapToDomain(),
-        licence = licence?.mapToDomain(),
-        language = language?.mapToDomain(),
-        privacy = privacy?.mapToDomain(),
+        category = category?.mapToDomain(currentHost),
+        licence = licence?.mapToDomain(currentHost),
+        language = language?.mapToDomain(currentHost),
+        privacy = privacy?.mapToDomain(currentHost),
         description = description,
         duration = duration,
         isLocal = isLocal,
@@ -89,21 +90,21 @@ data class VideoDto(
         dislikes = dislikes,
         nsfw = nsfw,
         waitTranscoding = waitTranscoding,
-        state = state?.mapToDomain(),
-        scheduledUpdate = scheduledUpdate?.mapToDomain(),
+        state = state?.mapToDomain(currentHost),
+        scheduledUpdate = scheduledUpdate?.mapToDomain(currentHost),
         blacklisted = blacklisted,
         blacklistedReason = blacklistedReason,
-        account = account?.mapToDomain(),
-        channel = channel?.mapToDomain(),
-        userHistory = userHistory?.mapToDomain(),
+        account = account?.mapToDomain(currentHost),
+        channel = channel?.mapToDomain(currentHost),
+        userHistory = userHistory?.mapToDomain(currentHost),
         descriptionPath = descriptionPath,
         support = support,
         tags = tags,
-        files = files?.let { models -> models.map { it.mapToDomain() } },
+        files = files?.let { models -> models.map { it.mapToDomain(currentHost) } },
         commentsEnabled = commentsEnabled,
         downloadEnabled = downloadEnabled,
         trackerUrls = trackerUrls,
-        streamingPlaylists = streamingPlaylists?.let { models -> models.map { it.mapToDomain() } }
+        streamingPlaylists = streamingPlaylists?.let { models -> models.map { it.mapToDomain(currentHost) } }
     )
 }
 

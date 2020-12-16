@@ -16,8 +16,8 @@ data class FileDto(
     val fileUrl: String? = null,
     val fileDownloadUrl: String? = null
 ) : DTO<FileModel> {
-    override fun mapToDomain() = FileModel(
-        resolution = resolution?.mapToDomain(),
+    override fun mapToDomain(currentHost: String): FileModel = FileModel(
+        resolution = resolution?.mapToDomain(currentHost),
         magnetUri = magnetUri,
         size = size,
         fps = fps,

@@ -27,12 +27,7 @@ object KohiiProvider {
 
     private val capsule = Capsule<Kohii, Context>(creator = { context ->
         createKohii(
-            context.applicationContext, ExoPlayerConfig(
-                minBufferMs = DefaultLoadControl.DEFAULT_MIN_BUFFER_MS,
-                maxBufferMs = DefaultLoadControl.DEFAULT_MAX_BUFFER_MS,
-                bufferForPlaybackMs = DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS,
-                bufferForPlaybackAfterRebufferMs = DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS
-            )
+            context.applicationContext, ExoPlayerConfig.FAST_START
         )
     })
 

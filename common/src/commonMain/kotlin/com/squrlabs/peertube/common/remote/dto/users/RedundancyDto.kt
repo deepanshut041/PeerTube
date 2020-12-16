@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 data class RedundancyDto(
     val baseUrl: String? = null
 ) : DTO<RedundancyModel> {
-    override fun mapToDomain() = RedundancyModel(
+    override fun mapToDomain(currentHost: String): RedundancyModel = RedundancyModel(
         baseUrl = baseUrl
     )
 }

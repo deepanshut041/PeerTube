@@ -9,5 +9,5 @@ import kotlinx.serialization.Serializable
 data class UserHistoryDto(
     @SerialName("currentTime") val currentTime: Int?
 ) : DTO<UserHistoryModel> {
-    override fun mapToDomain() = UserHistoryModel(currentTime = currentTime)
+    override fun mapToDomain(currentHost: String): UserHistoryModel = UserHistoryModel(currentTime = currentTime)
 }

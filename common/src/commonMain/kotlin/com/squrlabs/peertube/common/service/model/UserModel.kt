@@ -3,6 +3,7 @@ package com.squrlabs.peertube.common.service.model
 import kotlinx.datetime.Instant
 
 data class UserModel(
+    val currentHost: String,
     val id: Int? = null,
     val username: String? = null,
     val email: String? = null,
