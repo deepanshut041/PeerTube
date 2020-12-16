@@ -38,7 +38,7 @@ data class UserDto(
     val createdAt: String? = null,
     var videoChannels: List<ChannelDto>? = null
 ) : DTO<UserModel> {
-    override fun mapToDomain(host:String?) = UserModel(
+    override fun mapToDomain() = UserModel(
         id = id,
         username = username,
         email = email,

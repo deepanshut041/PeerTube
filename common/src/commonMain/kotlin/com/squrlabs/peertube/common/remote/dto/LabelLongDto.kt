@@ -28,7 +28,7 @@ data class LabelLongDto(
     @SerialName("label")
     val label: String?
 ) : DTO<LabelModel> {
-    override fun mapToDomain(host:String?) = LabelModel(
+    override fun mapToDomain() = LabelModel(
         id = id.toString(),
         label = label
     )

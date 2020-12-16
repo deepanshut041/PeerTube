@@ -13,7 +13,7 @@ data class ScheduledUpdateDto(
     @SerialName("updateAt")
     val updateAt: String?
 ) : DTO<ScheduledUpdateModel> {
-    override fun mapToDomain(host:String?) = ScheduledUpdateModel(
+    override fun mapToDomain() = ScheduledUpdateModel(
         privacy = privacy,
         updateAt = updateAt?.let { Instant.parse(it) }
     )

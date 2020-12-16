@@ -39,7 +39,7 @@ data class AccountDto(
     @SerialName("description") val description: String? = null,
     @SerialName("userId") val userId: Long? = null
 ) : DTO<AccountModel> {
-    override fun mapToDomain(host:String?) = AccountModel(
+    override fun mapToDomain() = AccountModel(
         id = id,
         uuid = uuid,
         url = url,
@@ -48,7 +48,7 @@ data class AccountDto(
         hostRedundancyAllowed = hostRedundancyAllowed,
         followersCount = followersCount,
         followingCount = followingCount,
-        avatar = avatar?.let { it.mapToDomain() },
+        avatar = avatar?.mapToDomain(),
         createdAt = createdAt?.let { Instant.parse(it) },
         updatedAt = updatedAt?.let { Instant.parse(it) },
         displayName = displayName,
