@@ -1,0 +1,103 @@
+apply plugin: 'kotlin-multiplatform'
+apply plugin: 'kotlinx-serialization'
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.native.cocoapods'
+
+// CocoaPods requires the podspec to have a version.
+version = "1.0"
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+        debug {
+            matchingFallbacks = ['release']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+kotlin {
+    targets {
+        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") ? presets.iosArm64 : presets.iosX64
+
+        fromPreset(iOSTarget, 'iOS') {
+            binaries {
+                framework('common')
+            }
+        }
+
+        android()
+    }
+
+    cocoapods {
+        // Configure fields required by CocoaPods.
+        summary = "Peertube common module"
+        homepage = "homepage placeholder"
+    }
+
+    sourceSets {
+        commonMain.dependencies {
+            // Coroutines
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")
+
+            implementation(Ktor.clientCore)
+            implementation(Ktor.clientJson)
+            implementation(Ktor.clientLogging)
+            implementation(Ktor.clientSerialization)
+            implementation(Ktor.slf4j)
+
+            // Serialize
+            implementation(Serialization.core)
+            api("org.jetbrains.kotlinx:kotlinx-datetime:0.1.1")
+
+            // koin
+            api(Koin.core)
+
+            // Multiplatform Settings
+            implementation("com.russhwolf:multiplatform-settings:0.6.3")
+
+            // Kodein-DB
+            api("org.kodein.db:kodein-db:${Versions.kodein_db}")
+            api("org.kodein.db:kodein-db-serializer-kotlinx:${Versions.kodein_db}")
+
+            // kermit
+            api(Deps.kermit)
+        }
+
+        androidMain.dependencies {
+            implementation(Ktor.clientAndroid)
+        }
+
+        iOSMain.dependencies {
+            implementation(Ktor.clientIos)
+        }
+    }
+}
+
+// workaround for https://youtrack.jetbrains.com/issue/KT-27170
+configurations {
+    compileClasspath
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}

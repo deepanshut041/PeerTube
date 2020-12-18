@@ -1,0 +1,71 @@
+apply plugin: "com.android.dynamic-feature"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        applicationId "com.squrlabs.peertube.mobile"
+        minSdkVersion 23
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+        freeCompilerArgs += ["-Xallow-jvm-ir-dependencies", "-Xskip-prerelease-check",
+            "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerVersion Versions.kotlin
+        kotlinCompilerExtensionVersion Versions.compose
+    }
+}
+
+dependencies {
+    implementation(project(":app"))
+
+    // Compose
+    implementation(Compose.ui)
+    implementation(Compose.uiGraphics)
+    implementation(Compose.uiTooling)
+    implementation(Compose.foundationLayout)
+    implementation(Compose.material)
+    implementation(Compose.runtimeLiveData)
+    implementation(Compose.navigation)
+    implementation(Compose.accompanist)
+
+    // Kohii
+    implementation(ExternalLibs.exoPlayer)
+    implementation(ExternalLibs.kohiiCore)
+    implementation(ExternalLibs.kohiiExoPlayer)
+
+    // TODO add to dependence
+    implementation("androidx.fragment:fragment-ktx:1.3.0-rc01")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("androidx.paging:paging-runtime-ktx:3.0.0-alpha10")
+    implementation("androidx.paging:paging-common-ktx:3.0.0-alpha10")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.github.tuanhav95:DragView:1.1.0")
+}
