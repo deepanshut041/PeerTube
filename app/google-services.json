@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "488381404108",
+    "firebase_url": "https://peer-tube.firebaseio.com",
+    "project_id": "peer-tube",
+    "storage_bucket": "peer-tube.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488381404108:android:ff5144cc5aa87cbc37c369",
+        "android_client_info": {
+          "package_name": "com.squrlabs.peertube"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488381404108-op3pv224uuekse7vf4m9g90rc9k4ft79.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp3rI-X8VyaO-xOhWFkmZHJ7d3sekHJqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488381404108-op3pv224uuekse7vf4m9g90rc9k4ft79.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -26,7 +26,7 @@
             android:value="${crashlyticsCollectionEnabled}" />
 
         <activity
-            android:name=".ui.splash.MobileSplashActivity"
+            android:name=".ui.mobile.MobileActivity"
             android:theme="@style/MobileSplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,7 +35,7 @@
         </activity>
 
         <activity
-            android:name=".ui.splash.TvSplashActivity"
+            android:name=".ui.tv.TvActivity"
             android:theme="@style/TvSplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
