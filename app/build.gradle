@@ -40,39 +40,56 @@ android {
                              "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
     }
 
-    dynamicFeatures = [":app:mobile", ":app:tv"]
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerVersion Versions.kotlin
+        kotlinCompilerExtensionVersion Versions.compose
+    }
 }
 
 dependencies {
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Internal
-    api(project(":common"))
+    implementation(project(":common"))
 
     // JetPack
-    api(JetpackLibs.appCompat)
-    api(JetpackLibs.material)
-    api(JetpackLibs.ktxViewModel)
-    api(JetpackLibs.ktxReactiveStreams)
-    api("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
-    api("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    api("androidx.preference:preference-ktx:1.1.1")
+    implementation(JetpackLibs.appCompat)
+    implementation(JetpackLibs.material)
+    implementation(JetpackLibs.ktxViewModel)
+    implementation(JetpackLibs.ktxReactiveStreams)
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("androidx.preference:preference-ktx:1.1.1")
+
+    // Compose
+    implementation(Compose.ui)
+    implementation(Compose.uiGraphics)
+    implementation(Compose.uiTooling)
+    implementation(Compose.foundationLayout)
+    implementation(Compose.material)
+    implementation(Compose.runtimeLiveData)
+    implementation(Compose.navigation)
+    implementation(Compose.accompanist)
 
     // Koin
-    api(Koin.android)
-    api(Koin.androidViewModel)
+    implementation(Koin.android)
+    implementation(Koin.androidViewModel)
 
     // Glide
-    api(ExternalLibs.glide)
+    implementation(ExternalLibs.glide)
     kapt(ExternalLibs.glideCompiler)
 
     // Firebase
-    api(ExternalLibs.firebaseAnalytics)
-    api(ExternalLibs.firebaseCrashlytics)
+    implementation(ExternalLibs.firebaseAnalytics)
+    implementation(ExternalLibs.firebaseCrashlytics)
 
-    api("com.mikepenz:iconics-core:5.0.3")
-    api("com.mikepenz:iconics-views:5.0.3")
-    api("com.mikepenz:community-material-typeface:5.3.45.1-kotlin@aar")
+    implementation("com.mikepenz:iconics-core:5.0.3")
+    implementation("com.mikepenz:iconics-views:5.0.3")
+    implementation("com.mikepenz:community-material-typeface:5.3.45.1-kotlin@aar")
 
     // Test
     testImplementation("junit:junit:4.13")
