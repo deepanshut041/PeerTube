@@ -5,16 +5,18 @@ import com.squrlabs.peertube.ui.mobile.instance.InstanceViewModel
 import com.squrlabs.peertube.ui.mobile.main.MainViewModel
 import com.squrlabs.peertube.ui.mobile.splash.SplashViewModel
 import com.squrlabs.peertube.ui.tv.TvViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
+@ExperimentalCoroutinesApi
 val viewModelModule = module {
     viewModel { MobileViewModel() }
     viewModel { TvViewModel(get(), get()) }
 
-    viewModel { InstanceViewModel(get()) }
+    viewModel { InstanceViewModel() }
 
     viewModel { SplashViewModel(get()) }
 
-    viewModel { MainViewModel(get()) }
+    viewModel { MainViewModel() }
 }

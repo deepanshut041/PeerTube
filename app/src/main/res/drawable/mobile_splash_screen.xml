@@ -20,6 +20,6 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/mobile_splash_screen_image" />
+            android:src="@drawable/logo" />
     </item>
 </layer-list>
