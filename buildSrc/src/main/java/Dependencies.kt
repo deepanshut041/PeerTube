@@ -46,7 +46,7 @@ object Koin {
     val core = "org.koin:koin-core:${Versions.koin}"
     val android = "org.koin:koin-android:${Versions.koin}"
     val androidViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
-    val compose = "org.koin:koin-androidx-compose:${Versions.koin}"
+    val compose = "org.koin:koin-androidx-compose:2.2.1"
 }
 
 object Serialization {

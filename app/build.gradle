@@ -76,6 +76,7 @@ dependencies {
     implementation(Compose.accompanist)
 
     // Koin
+    implementation(Koin.compose)
     implementation(Koin.android)
     implementation(Koin.androidViewModel)
 
