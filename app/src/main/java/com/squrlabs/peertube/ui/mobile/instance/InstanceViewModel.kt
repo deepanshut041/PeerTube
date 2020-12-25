@@ -2,26 +2,30 @@ package com.squrlabs.peertube.ui.mobile.instance
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.squrlabs.peertube.common.service.model.InstanceModel
 import com.squrlabs.peertube.common.service.params.GetInstancesParams
 import com.squrlabs.peertube.common.service.repository.InstanceRepository
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 @FlowPreview
-class InstanceViewModel(private val instanceRepository: InstanceRepository): ViewModel() {
+class InstanceViewModel(private val instanceRepository: InstanceRepository) : ViewModel() {
 
-    private val  _instanceScreenState = MutableStateFlow(InstanceViewState())
+    private val _instances = MutableStateFlow(emptyList<InstanceModel>())
 
     private val _inSearchMode = MutableStateFlow(false)
 
     private val _instanceParams = MutableStateFlow(GetInstancesParams())
 
-    val instanceScreenState: StateFlow<InstanceViewState>
-        get() = _instanceScreenState
+    val instances: StateFlow<List<InstanceModel>>
+        get() = _instances
 
     val inSearchMode: StateFlow<Boolean>
         get() = _inSearchMode
+
+    val instanceParams: StateFlow<GetInstancesParams>
+        get() = _instanceParams
 
     fun switchToSearchMode(inSearchMode: Boolean) {
         _inSearchMode.value = inSearchMode
@@ -45,17 +49,21 @@ class InstanceViewModel(private val instanceRepository: InstanceRepository): Vie
     init {
         viewModelScope.launch {
             instanceRepository.fetchInstances()
+            fetchInstances(_instanceParams.value)
         }
 
         viewModelScope.launch {
             _instanceParams
-                .debounce(500)
+                .debounce(100)
                 .distinctUntilChanged()
-                .collect{
-                    val instances = instanceRepository.getInstances(it)
-                    _instanceScreenState.value = _instanceScreenState.value.copy(instances = instances, instanceParams = it)
+                .collect {
+                    fetchInstances(it)
                 }
         }
+    }
+
+    private suspend fun fetchInstances(instanceParams: GetInstancesParams) {
+        _instances.value = instanceRepository.getInstances(instanceParams).data ?: emptyList()
     }
 
 }

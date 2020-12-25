@@ -2,19 +2,13 @@ package com.squrlabs.peertube.ui.mobile
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.setContent
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigate
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.*
 import com.mikepenz.iconics.Iconics
 import com.squrlabs.peertube.ui.mobile.instance.InstanceScreen
 import com.squrlabs.peertube.ui.mobile.main.MainScreen
-import com.squrlabs.peertube.ui.mobile.splash.SplashScreen
 import com.squrlabs.peertube.util.PeerTubeTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -28,7 +22,7 @@ class MobileActivity : AppCompatActivity() {
         Iconics.init(this)
         setContent {
             PeerTubeTheme {
-                MobileScreen()
+                MobileScreen(viewModel.getStartDestination())
             }
         }
         observeViewModel()
@@ -37,18 +31,30 @@ class MobileActivity : AppCompatActivity() {
     private fun observeViewModel() {
         with(viewModel){
             navigate.observe(this@MobileActivity, {
-                navController.navigate(it)
+                navController.navigate(it.path){
+                    if (it.clearBackStack) {
+                        popUpTo(navController.graph.startDestination){inclusive=true}
+                    }
+                    launchSingleTop=it.launchSingleTop
+                }
             })
         }
     }
 
     @Composable
-    fun MobileScreen() {
+    fun MobileScreen(startDestination: String) {
         navController = rememberNavController()
-        NavHost(navController = navController, startDestination = "splash"){
-            composable("splash"){ SplashScreen(viewModel) }
+        NavHost(navController = navController, startDestination = startDestination){
             composable("instances"){ InstanceScreen(viewModel) }
             composable("main") { MainScreen() }
+        }
+    }
+
+    override fun onBackPressed() {
+        navController.currentBackStackEntry?.let {
+            super.onBackPressed()
+        }?: run {
+            finish()
         }
     }
 }
