@@ -55,6 +55,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Internal
     implementation(project(":common"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
 
     // JetPack
     implementation(JetpackLibs.appCompat)
@@ -63,6 +65,7 @@ dependencies {
     implementation(JetpackLibs.ktxReactiveStreams)
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation('androidx.lifecycle:lifecycle-runtime-ktx:2.2.0')
     implementation("androidx.preference:preference-ktx:1.1.1")
 
     // Compose
@@ -71,6 +74,8 @@ dependencies {
     implementation(Compose.uiTooling)
     implementation(Compose.foundationLayout)
     implementation(Compose.material)
+    implementation(Compose.runtime)
+    implementation(Compose.runtimeRxJava)
     implementation(Compose.runtimeLiveData)
     implementation(Compose.navigation)
     implementation(Compose.accompanist)
@@ -87,9 +92,9 @@ dependencies {
     implementation(ExternalLibs.firebaseAnalytics)
     implementation(ExternalLibs.firebaseCrashlytics)
 
-    implementation("com.mikepenz:iconics-core:5.0.3")
-    implementation("com.mikepenz:iconics-views:5.0.3")
-    implementation("com.mikepenz:community-material-typeface:5.3.45.1-kotlin@aar")
+    implementation("com.mikepenz:iconics-core:5.2.1")
+    implementation("com.mikepenz:iconics-compose:5.2.1")
+    implementation("com.mikepenz:community-material-typeface:5.8.55.0-kotlin@aar")
 
     // Test
     testImplementation("junit:junit:4.13")

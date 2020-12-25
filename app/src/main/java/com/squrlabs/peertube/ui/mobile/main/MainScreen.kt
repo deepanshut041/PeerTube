@@ -11,10 +11,10 @@ import androidx.compose.ui.tooling.preview.Preview
 fun MainScreen() {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(text = "Splash") })
+            TopAppBar(title = { Text(text = "Main") })
         },
         bodyContent = {
-            Text(text = "Splash Screen")
+            Text(text = "Main Screen")
         }
     )
 }

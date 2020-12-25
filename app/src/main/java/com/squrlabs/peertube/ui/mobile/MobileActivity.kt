@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
+import com.mikepenz.iconics.Iconics
 import com.squrlabs.peertube.ui.mobile.instance.InstanceScreen
 import com.squrlabs.peertube.ui.mobile.main.MainScreen
 import com.squrlabs.peertube.ui.mobile.splash.SplashScreen
@@ -20,10 +21,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MobileActivity : AppCompatActivity() {
 
     private val viewModel: MobileViewModel by viewModel()
-//    private lateinit var navController: NavHostController
+    private lateinit var navController: NavHostController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Iconics.init(this)
         setContent {
             PeerTubeTheme {
                 MobileScreen()
@@ -35,17 +37,17 @@ class MobileActivity : AppCompatActivity() {
     private fun observeViewModel() {
         with(viewModel){
             navigate.observe(this@MobileActivity, {
-//                navController.navigate(it)
+                navController.navigate(it)
             })
         }
     }
 
     @Composable
     fun MobileScreen() {
-        val navController = rememberNavController()
+        navController = rememberNavController()
         NavHost(navController = navController, startDestination = "splash"){
-            composable("splash"){ SplashScreen() }
-            composable("instances"){ InstanceScreen() }
+            composable("splash"){ SplashScreen(viewModel) }
+            composable("instances"){ InstanceScreen(viewModel) }
             composable("main") { MainScreen() }
         }
     }
