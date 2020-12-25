@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.AmbientViewModelStoreOwner
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
 import org.koin.androidx.viewmodel.koin.getViewModel
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier
@@ -30,4 +31,15 @@ inline fun <reified T : ViewModel> getViewModel(
     return remember {
         getKoin().getViewModel(qualifier = qualifier, parameters = parameters, owner = owner)
     }
+}
+
+fun NavController.popBackStackAllInstances(destination: Int, inclusive: Boolean): Boolean {
+    var popped: Boolean
+    while (true) {
+        popped = popBackStack(destination, inclusive)
+        if (!popped) {
+            break
+        }
+    }
+    return popped
 }

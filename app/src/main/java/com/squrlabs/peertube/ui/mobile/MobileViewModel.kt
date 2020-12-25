@@ -20,12 +20,12 @@ class MobileViewModel(private val instanceRepository: InstanceRepository): ViewM
     fun setCurrentHost(instance: InstanceModel) {
         instance.host?.let{
             instanceRepository.setCurrentHost(it)
-            navigateTo(MobileNavigation.navigateMain(), true)
+            navigateTo(MobileNavigation.navigateHome(), true)
         }
     }
 
     fun getStartDestination(): String {
-        return instanceRepository.getCurrentHost()?.let{ "main" }?: run{ "instances" }
+        return instanceRepository.getCurrentHost()?.let{ MobileNavigation.navigateHome() }?: run{ MobileNavigation.navigateInstances() }
     }
 
     companion object{
