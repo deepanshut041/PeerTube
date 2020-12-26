@@ -15,5 +15,5 @@ val viewModelModule = module {
     viewModel { MobileViewModel(get()) }
     viewModel { TvViewModel(get(), get()) }
     viewModel { InstanceViewModel(get()) }
-    viewModel { HomeViewModel() }
+    viewModel { HomeViewModel(get()) }
 }

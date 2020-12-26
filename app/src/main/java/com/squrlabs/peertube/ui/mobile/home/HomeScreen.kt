@@ -16,13 +16,10 @@ import com.mikepenz.iconics.typeface.IIcon
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.squrlabs.peertube.ui.mobile.MobileViewModel
 import com.squrlabs.peertube.util.getViewModel
-import com.squrlabs.peertube.util.popBackStackAllInstances
 
 data class HomeBottomMenu(val route: String, val title: String, val icon: IIcon)
 
-@SuppressLint("RestrictedApi")
 @Composable
-@Preview
 fun HomeScreen(
     mainViewModel: MobileViewModel = viewModel(),
     viewModel: HomeViewModel = getViewModel()
@@ -40,11 +37,11 @@ fun HomeScreen(
         topBar = { TopAppBar(title = { Text(text = "PeerTube") }) },
         bodyContent = {
             NavHost(navController = nestedNavController, startDestination = bottomItems[0].route) {
-                composable(bottomItems[0].route) { HomeGlobalScreen() }
-                composable(bottomItems[1].route) { HomeLocalScreen() }
-                composable(bottomItems[2].route) { HomeTrendingScreen() }
-                composable(bottomItems[3].route) { HomeSubscriptionScreen() }
-                composable(bottomItems[4].route) { HomeLibraryScreen() }
+                composable(bottomItems[0].route) { HomeGlobalScreen(mainViewModel, viewModel) }
+                composable(bottomItems[1].route) { HomeLocalScreen(mainViewModel, viewModel) }
+                composable(bottomItems[2].route) { HomeTrendingScreen(mainViewModel, viewModel) }
+                composable(bottomItems[3].route) { HomeSubscriptionScreen(mainViewModel, viewModel) }
+                composable(bottomItems[4].route) { HomeLibraryScreen(mainViewModel, viewModel) }
             }
         },
         bottomBar = {

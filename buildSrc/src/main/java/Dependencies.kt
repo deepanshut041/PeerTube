@@ -8,7 +8,7 @@ object Versions {
     const val lifecycle = "2.2.0-alpha01"
     const val compose = "1.0.0-alpha09"
     const val nav_compose_version = "1.0.0-alpha04"
-    const val coilVersion = "0.3.3.1"
+    const val coilVersion = "0.4.1"
     const val kermit = "0.1.8"
     const val kodein_db = "0.3.0-beta"
     const val junit = "4.12"
