@@ -22,7 +22,6 @@ object Versions {
     const val firebaseAnalyticsVersion = "17.5.0"
     const val glideVersion = "4.11.0"
     const val exoPlayerVersion = "2.11.3"
-    const val kohiiVersion = "1.1.0.2011003"
 
     const val slf4j = "1.7.30"
 }
@@ -80,6 +79,4 @@ object ExternalLibs {
     val glide = "com.github.bumptech.glide:glide:${Versions.glideVersion}"
     val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glideVersion}"
     val exoPlayer = "com.google.android.exoplayer:exoplayer:${Versions.exoPlayerVersion}"
-    val kohiiCore = "im.ene.kohii:kohii-core:${Versions.kohiiVersion}"
-    val kohiiExoPlayer = "im.ene.kohii:kohii-exoplayer:${Versions.kohiiVersion}"
 }

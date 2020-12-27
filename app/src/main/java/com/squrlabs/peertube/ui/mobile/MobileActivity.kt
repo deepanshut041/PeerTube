@@ -2,13 +2,17 @@ package com.squrlabs.peertube.ui.mobile
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.setContent
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.mikepenz.iconics.Iconics
 import com.squrlabs.peertube.ui.mobile.instance.InstanceScreen
 import com.squrlabs.peertube.ui.mobile.home.HomeScreen
+import com.squrlabs.peertube.ui.mobile.video.VideoOverlayPlayer
 import com.squrlabs.peertube.util.PeerTubeTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -44,9 +48,17 @@ class MobileActivity : AppCompatActivity() {
     @Composable
     fun MobileScreen(startDestination: String) {
         navController = rememberNavController()
-        NavHost(navController = navController, startDestination = startDestination) {
-            composable("instances") { InstanceScreen(viewModel) }
-            composable("home") { HomeScreen(viewModel) }
+        val videoOverlay by viewModel.videoOverlay.collectAsState()
+        Box {
+            NavHost(navController = navController, startDestination = startDestination) {
+                composable("instances") { InstanceScreen(viewModel) }
+                composable("home") { HomeScreen(viewModel) }
+            }
+            videoOverlay?.let {
+                VideoOverlayPlayer(requestClose = {
+                    viewModel.setVideoModel(null)
+                })
+            }
         }
     }
 

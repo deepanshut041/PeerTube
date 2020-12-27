@@ -1,6 +1,7 @@
 package com.squrlabs.peertube.ui.mobile.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -41,7 +42,7 @@ fun HomeGlobalScreen(
 
     LazyColumn {
         items(lazyTimelineItems) { item ->
-            FeedItem(videoModel = item!!)
+            FeedItem(videoModel = item!!, mainViewModel)
         }
         lazyTimelineItems.apply {
             when {
@@ -76,7 +77,7 @@ fun HomeGlobalScreen(
 }
 
 @Composable
-fun FeedItem(videoModel: VideoModel) {
+fun FeedItem(videoModel: VideoModel, mainViewModel: MobileViewModel) {
     val name = videoModel.name ?: ""
     val previewUrl = videoModel.currentHost + videoModel.previewPath
     val views = "${(videoModel.views ?: 0).humanReadableBigNumber()} views"
@@ -92,7 +93,11 @@ fun FeedItem(videoModel: VideoModel) {
         channelName = model.displayName ?: ""
     }
 
-    Column(modifier = Modifier.fillMaxWidth().padding(0.dp, 10.dp)) {
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(0.dp, 10.dp).clickable(onClick = {
+            mainViewModel.setVideoModel(videoModel.id)
+        })
+    ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             CoilImage(
                 data = previewUrl,
@@ -118,7 +123,11 @@ fun FeedItem(videoModel: VideoModel) {
             Spacer(Modifier.preferredWidth(10.dp))
             CoilImage(
                 data = avatarUrl,
-                loading = { Box(Modifier.size(34.dp).background(Color.LightGray).clip(CircleShape)) },
+                loading = {
+                    Box(
+                        Modifier.size(34.dp).background(Color.LightGray).clip(CircleShape)
+                    )
+                },
                 error = { Box(Modifier.size(34.dp).background(Color.LightGray).clip(CircleShape)) },
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.size(34.dp),
