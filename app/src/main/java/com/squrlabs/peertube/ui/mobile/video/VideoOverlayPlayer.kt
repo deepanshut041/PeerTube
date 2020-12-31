@@ -19,12 +19,13 @@ import androidx.compose.ui.unit.sp
 import com.mikepenz.iconics.compose.Image
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.squrlabs.peertube.ui.mobile.base.VideoPlayer
+import com.squrlabs.peertube.util.getViewModel
 
 val PLAYER_HEIGHT = 240.dp
 const val MAX_Y_SCALE = 0.3f
 
 @Composable
-fun VideoOverlayPlayer(requestClose: () -> Unit) {
+fun VideoOverlayPlayer(viewModel: VideoPlayerViewModel = getViewModel(), requestClose: () -> Unit) {
     var isPlaying by remember { mutableStateOf(true) }
     val height = screenDimensions().height - (PLAYER_HEIGHT * MAX_Y_SCALE)
     val stickyDraggingConfig = remember(height) { StickyDraggingConfig(false, 0.dp, height) }
