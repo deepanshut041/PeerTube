@@ -14,10 +14,12 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mikepenz.iconics.compose.Image
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
+import com.squrlabs.peertube.common.service.Resource
 import com.squrlabs.peertube.ui.mobile.base.VideoPlayer
 import com.squrlabs.peertube.util.getViewModel
 
@@ -25,16 +27,26 @@ val PLAYER_HEIGHT = 240.dp
 const val MAX_Y_SCALE = 0.3f
 
 @Composable
-fun VideoOverlayPlayer(viewModel: VideoPlayerViewModel = getViewModel(), requestClose: () -> Unit) {
+fun VideoOverlayPlayer(
+    videoId: Long,
+    viewModel: VideoPlayerViewModel = getViewModel(),
+    requestClose: () -> Unit = {}
+) {
     var isPlaying by remember { mutableStateOf(true) }
+    val videoResult by viewModel.video.collectAsState()
+
     val height = screenDimensions().height - (PLAYER_HEIGHT * MAX_Y_SCALE)
     val stickyDraggingConfig = remember(height) { StickyDraggingConfig(false, 0.dp, height) }
-
     val opacity = interpolate(stickyDraggingConfig.progress, 0f..1f, 1f..0f)
     val scaleY = interpolate(stickyDraggingConfig.progress, 0f..1f, 1f..0.3f)
     val scaleX = interpolate(stickyDraggingConfig.progress, 0.7f..1f, 1f..MAX_Y_SCALE)
     val iconButtonsOpacity = interpolate(stickyDraggingConfig.progress, 0.7f..1f, 0f..1f)
-    val iconButtonsModifier = Modifier.fillMaxHeight().width(40.dp).padding(4.dp, 20.dp ).alpha(iconButtonsOpacity)
+    val iconButtonsModifier = Modifier.fillMaxHeight().width(40.dp).padding(4.dp, 20.dp).alpha(iconButtonsOpacity)
+
+    onCommit(videoId) {
+        viewModel.fetchVideoDetails(videoId)
+        stickyDraggingConfig.expand()
+    }
 
     Column {
         Row(
@@ -45,18 +57,21 @@ fun VideoOverlayPlayer(viewModel: VideoPlayerViewModel = getViewModel(), request
                 .height(PLAYER_HEIGHT * scaleY)
                 .align(Alignment.CenterHorizontally)
         ) {
-            VideoPlayer(
-                url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                modifier = Modifier.fillMaxWidth(scaleX)
-                    .clickable(
-                        enabled = !stickyDraggingConfig.isExpanded,
-                        onClick = { isPlaying = !isPlaying }),
-                isPlaying = isPlaying,
-            )
+            if (videoResult.state == Resource.SUCCESS)
+                VideoPlayer(
+                    url = videoResult.data?.files?.get(0)?.fileUrl ?:"",
+                    modifier = Modifier.fillMaxWidth(scaleX)
+                        .clickable(
+                            enabled = !stickyDraggingConfig.isExpanded,
+                            onClick = { isPlaying = !isPlaying }),
+                    isPlaying = isPlaying,
+                )
+            else
+                Box(modifier = Modifier.fillMaxWidth(scaleX).background(Color.Black))
 
             Box(Modifier.padding(8.dp).fillMaxHeight().weight(1f)) {
                 Text(
-                    text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
+                    text =  videoResult.data?.name?:"",
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     fontWeight = FontWeight.W600,
@@ -84,8 +99,18 @@ fun VideoOverlayPlayer(viewModel: VideoPlayerViewModel = getViewModel(), request
             modifier = Modifier.alpha(opacity).offset(y = stickyDraggingConfig.offset)
                 .fillMaxWidth()
                 .weight(1f)
-                .background(Color.Black)
+                .background(Color.White)
 
         )
+    }
+}
+
+@Composable
+@Preview
+fun VideoPlayerBottom() {
+    Column {
+        Row {
+
+        }
     }
 }

@@ -55,7 +55,7 @@ class MobileActivity : AppCompatActivity() {
                 composable("home") { HomeScreen(viewModel) }
             }
             videoOverlay?.let {
-                VideoOverlayPlayer(requestClose = {
+                VideoOverlayPlayer(videoId = it, requestClose = {
                     viewModel.setVideoModel(null)
                 })
             }

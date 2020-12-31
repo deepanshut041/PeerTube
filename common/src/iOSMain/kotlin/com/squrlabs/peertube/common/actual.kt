@@ -7,7 +7,7 @@ import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSUserDomainMask
 import platform.Foundation.NSUserDefaults
 
-val delegate: NSUserDefaults
+lateinit var delegate: NSUserDefaults
 
 actual fun getApplicationFilesDirectoryPath(): String =
     NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0] as String

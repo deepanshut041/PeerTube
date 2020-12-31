@@ -20,8 +20,19 @@ class VideoRepositoryImpl(
             }
         }
     }
+
+    override suspend fun getVideo(id: Long): Resource<VideoModel> {
+        return withContext(coroutineDispatcher) {
+            try {
+                Resource.success(remote.getVideo(id.toString()))
+            } catch (e: Exception) {
+                Resource.error(e.toString(), null)
+            }
+        }
+    }
 }
 
 interface VideoRepository {
     suspend fun getVideos(count: Int, start: Int?, sort: String?, filter: String?): Resource<List<VideoModel>>
+    suspend fun getVideo(id: Long): Resource<VideoModel>
 }

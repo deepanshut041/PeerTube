@@ -122,8 +122,16 @@ class StickyDraggingConfig(
         originalOffset = null
     }
 
-    fun expand() {
+    fun toggle() {
         _offset = if (this.initiallyExpanded) minSize else maxSize
+    }
+
+    fun expand() {
+        _offset = minSize
+    }
+
+    fun minimize() {
+        _offset = maxSize
     }
 
     fun reset() {
