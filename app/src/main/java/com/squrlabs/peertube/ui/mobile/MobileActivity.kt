@@ -2,6 +2,7 @@ package com.squrlabs.peertube.ui.mobile
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -21,6 +22,7 @@ class MobileActivity : AppCompatActivity() {
     private val viewModel: MobileViewModel by viewModel()
     private lateinit var navController: NavHostController
 
+    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Iconics.init(this)
@@ -45,6 +47,7 @@ class MobileActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalAnimationApi
     @Composable
     fun MobileScreen(startDestination: String) {
         navController = rememberNavController()

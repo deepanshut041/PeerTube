@@ -1,4 +1,4 @@
-package com.squrlabs.peertube.ui.mobile.base
+package com.squrlabs.peertube.ui.mobile.video
 
 import android.net.Uri
 import androidx.compose.runtime.Composable
@@ -18,7 +18,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 
 @Composable
-fun VideoPlayer(modifier: Modifier, url: String, isPlaying: Boolean = true, seek: Float = 0f) {
+fun VideoPlayer(modifier: Modifier, url: String, isPlaying: Boolean = true, seek: Float = 0f, showControls: Boolean = false) {
     val context = AmbientContext.current
 
     val exoPlayer = remember {
@@ -57,7 +57,7 @@ fun VideoPlayer(modifier: Modifier, url: String, isPlaying: Boolean = true, seek
         PlayerView(it)
     }, modifier = modifier) { view ->
         view.player = exoPlayer
-        view.useController = false
+        view.useController = showControls
         view.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
     }
 }

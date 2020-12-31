@@ -1,9 +1,13 @@
 package com.squrlabs.peertube.ui.mobile.video
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyColumnForIndexed
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,18 +18,19 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mikepenz.iconics.compose.Image
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.squrlabs.peertube.common.service.Resource
-import com.squrlabs.peertube.ui.mobile.base.VideoPlayer
+import com.squrlabs.peertube.common.service.model.VideoCommentModel
+import com.squrlabs.peertube.util.LoadingView
 import com.squrlabs.peertube.util.getViewModel
 
 val PLAYER_HEIGHT = 240.dp
 const val MAX_Y_SCALE = 0.3f
 
+@ExperimentalAnimationApi
 @Composable
 fun VideoOverlayPlayer(
     videoId: Long,
@@ -34,6 +39,8 @@ fun VideoOverlayPlayer(
 ) {
     var isPlaying by remember { mutableStateOf(true) }
     val videoResult by viewModel.video.collectAsState()
+    val videoDescription by viewModel.videoDescription.collectAsState()
+    val comments by viewModel.comments.collectAsState()
 
     val height = screenDimensions().height - (PLAYER_HEIGHT * MAX_Y_SCALE)
     val stickyDraggingConfig = remember(height) { StickyDraggingConfig(false, 0.dp, height) }
@@ -101,16 +108,22 @@ fun VideoOverlayPlayer(
                 .weight(1f)
                 .background(Color.White)
 
-        )
-    }
-}
+        ){
+            if(videoResult.state == Resource.SUCCESS)
+                LazyColumn {
+                    itemsIndexed(comments) { index: Int, comment: VideoCommentModel ->
+                        if (index == 0)
+                            VideoHeader(videoResult.data!!, videoDescription)
 
-@Composable
-@Preview
-fun VideoPlayerBottom() {
-    Column {
-        Row {
-
+                        if (comment.isDeleted == false)
+                        {
+                            VideoComment(comment)
+                            Divider(modifier = Modifier.fillMaxWidth())
+                        }
+                    }
+                }
+            else
+                LoadingView(modifier = Modifier.fillMaxSize())
         }
     }
 }
