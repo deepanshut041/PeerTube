@@ -18,7 +18,9 @@ class HomeViewModel(private val videoRepository: VideoRepository) : ViewModel() 
     val inSearchMode: StateFlow<Boolean>
         get() = _inSearchMode
 
-    val timeline: Flow<PagingData<VideoModel>> = Pager(PagingConfig(pageSize = 20)) { FeedPagingSource(videoRepository) }.flow
+    val globalTimeline: Flow<PagingData<VideoModel>> = Pager(PagingConfig(pageSize = 20)) { FeedPagingSource(videoRepository) }.flow
+    val localTimeline: Flow<PagingData<VideoModel>> = Pager(PagingConfig(pageSize = 20)) { FeedPagingSource(videoRepository, sort = "-trending") }.flow
+    val trendingTimeline: Flow<PagingData<VideoModel>> = Pager(PagingConfig(pageSize = 20)) { FeedPagingSource(videoRepository, filter = "local") }.flow
 
     fun switchToSearchMode(inSearchMode: Boolean) {
         _inSearchMode.value = inSearchMode
