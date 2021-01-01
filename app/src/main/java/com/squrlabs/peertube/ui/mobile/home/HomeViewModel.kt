@@ -8,10 +8,22 @@ import com.squrlabs.peertube.common.service.model.VideoModel
 import com.squrlabs.peertube.common.service.repository.VideoRepository
 import com.squrlabs.peertube.ui.mobile.home.utils.FeedPagingSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class HomeViewModel(private val videoRepository: VideoRepository) : ViewModel() {
 
-    val timeline: Flow<PagingData<VideoModel>> = Pager(PagingConfig(pageSize = 20)) {
-        FeedPagingSource(videoRepository)
-    }.flow
+    private val _inSearchMode = MutableStateFlow(false)
+
+    val inSearchMode: StateFlow<Boolean>
+        get() = _inSearchMode
+
+    val timeline: Flow<PagingData<VideoModel>> = Pager(PagingConfig(pageSize = 20)) { FeedPagingSource(videoRepository) }.flow
+
+    fun switchToSearchMode(inSearchMode: Boolean) {
+        _inSearchMode.value = inSearchMode
+        if (!inSearchMode) {
+//            updateParams(query = "")
+        }
+    }
 }

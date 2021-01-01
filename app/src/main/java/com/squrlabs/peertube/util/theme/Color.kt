@@ -3,7 +3,10 @@ package com.squrlabs.peertube.util.theme
 import androidx.compose.ui.graphics.Color
 
 
-val maroon200 = Color(0xFFb73d2a)
-val maroon500 = Color(0xFF800000)
-val maroon700 = Color(0xFF4f0000)
-val teal200 = Color(0xFF03DAC5)
+val colorPrimary = Color(0xFFf1680d)
+val colorPrimaryDark = Color(0xFFb73800)
+val colorPrimaryLight = Color(0xFFff9944)
+val colorSecondaryDark = Color(0xFF484848)
+val colorSecondaryLight = Color(0xFF737373)
+val colorErrorLight = Color(0xFFEA6D7E)
+val colorErrorDark = Color(0xFFD00036)

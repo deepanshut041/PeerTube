@@ -43,10 +43,10 @@ fun FeedItem(videoModel: VideoModel, mainViewModel: MobileViewModel) {
 
     videoModel.channel?.let { model ->
         model.avatar?.let {
-            avatarUrl = videoModel.currentHost + it.path!!
+            avatarUrl = "https://${model.host}${it.path}"
         }
         model.displayName?.let {
-            channelName = if (it.length > 20) it.subSequence(0, 18).toString() + "..." else it
+            channelName = if (it.length > 30) it.subSequence(0, 28).toString() + "..." else it
         }
     }
 
@@ -55,16 +55,13 @@ fun FeedItem(videoModel: VideoModel, mainViewModel: MobileViewModel) {
             mainViewModel.setVideoModel(videoModel.id)
         })
     ) {
-        Spacer(Modifier.preferredHeight(5.dp))
         Box(modifier = Modifier.fillMaxWidth()) {
             CoilImage(
                 data = previewUrl,
                 loading = {
-                    Box(Modifier.fillMaxWidth().height(200.dp).background(Color.LightGray)) {
-                        CircularProgressIndicator(Modifier.align(Alignment.Center))
-                    }
+                    Box(Modifier.fillMaxWidth().height(200.dp).background(MaterialTheme.colors.secondary))
                 },
-                error = { Box(Modifier.fillMaxWidth().height(200.dp).background(Color.LightGray)) },
+                error = { Box(Modifier.fillMaxWidth().height(200.dp).background(MaterialTheme.colors.secondary)) },
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -76,48 +73,49 @@ fun FeedItem(videoModel: VideoModel, mainViewModel: MobileViewModel) {
                     .padding(2.dp)
             )
         }
-        Spacer(Modifier.preferredHeight(10.dp))
         Row {
-            Spacer(Modifier.preferredWidth(10.dp))
-            CoilImage(
-                data = avatarUrl,
-                loading = {
-                    Box(
-                        modifier = Modifier.size(34.dp).clip(CircleShape)
-                            .background(Color.LightGray)
-                    )
-                },
-                error = {
-                    Box(
-                        modifier = Modifier.size(34.dp).clip(CircleShape)
-                            .background(Color.LightGray)
-                    )
-                },
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.size(34.dp).clickable(onClick = {  }),
-                requestBuilder = { transformations(CircleCropTransformation()) },
-            )
-            Spacer(Modifier.preferredWidth(10.dp))
-            Column(modifier = Modifier.weight(1f)) {
+            Box(modifier = Modifier.padding(10.dp)){
+                CoilImage(
+                    data = avatarUrl,
+                    loading = {
+                        Box(
+                            modifier = Modifier.size(35.dp).clip(CircleShape).background(MaterialTheme.colors.secondary)
+                        )
+                    },
+                    error = {
+                        Box(
+                            modifier = Modifier.size(35.dp).clip(CircleShape).background(MaterialTheme.colors.secondary)
+                        )
+                    },
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(35.dp).clickable(onClick = { }),
+                    requestBuilder = { transformations(CircleCropTransformation()) },
+                )
+            }
+            Column(modifier = Modifier.weight(1f).padding(0.dp, 10.dp)) {
                 Text(
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.caption,
                     text = name,
                     maxLines = 2,
                     fontWeight = FontWeight.Bold,
                     overflow = TextOverflow.Ellipsis
                 )
-                Spacer(Modifier.preferredWidth(5.dp))
+                Spacer(modifier = Modifier.preferredHeight(3.dp))
                 Text(
                     text = "$channelName • $views • $date",
-                    style = MaterialTheme.typography.overline.copy(fontSize = 10.sp)
+                    style = MaterialTheme.typography.caption.copy(fontSize = 10.sp)
                 )
             }
-            Image(
-                CommunityMaterial.Icon.cmd_dots_vertical,
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
-                modifier = Modifier.size(24.dp).clickable(onClick = { })
-            )
+            IconButton(onClick = {
+
+            }, modifier = Modifier.width(20.dp)) {
+                Image(
+                    CommunityMaterial.Icon.cmd_dots_vertical,
+                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface),
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
-        Spacer(Modifier.preferredHeight(15.dp))
+        Spacer(Modifier.preferredHeight(20.dp))
     }
 }
