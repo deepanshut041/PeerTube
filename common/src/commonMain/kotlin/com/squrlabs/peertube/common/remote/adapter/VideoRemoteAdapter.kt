@@ -1,9 +1,13 @@
 package com.squrlabs.peertube.common.remote.adapter
 
 import com.squrlabs.peertube.common.prefs.InstanceSharedPrefs
+import com.squrlabs.peertube.common.remote.dto.ListResponseDto
+import com.squrlabs.peertube.common.remote.dto.video.VideoCommentDto
 import com.squrlabs.peertube.common.remote.endpoints.VideoEndpoints
+import com.squrlabs.peertube.common.service.model.VideoCommentModel
 import com.squrlabs.peertube.common.service.model.VideoDescriptionModel
 import com.squrlabs.peertube.common.service.model.VideoModel
+import io.ktor.client.request.*
 
 class VideoRemoteAdapterImpl(
     private val videoEndpoints: VideoEndpoints,
@@ -80,10 +84,20 @@ class VideoRemoteAdapterImpl(
         tagsOneOf
     ).data.map { it.mapToDomain(prefs.getCurrentHost()) }
 
-    override suspend fun getVideo(id: String) = videoEndpoints.getVideo(prefs.getCurrentHost(), id).mapToDomain(prefs.getCurrentHost())
+    override suspend fun getVideo(id: String) =
+        videoEndpoints.getVideo(prefs.getCurrentHost(), id).mapToDomain(prefs.getCurrentHost())
 
     override suspend fun getVideoDescription(id: String) =
-        videoEndpoints.getVideoDescription(prefs.getCurrentHost(), id).mapToDomain(prefs.getCurrentHost())
+        videoEndpoints.getVideoDescription(prefs.getCurrentHost(), id)
+            .mapToDomain(prefs.getCurrentHost())
+
+    override suspend fun getComments(
+        id: String,
+        sort: String?,
+        count: Int?,
+        start: Int?
+    ) = videoEndpoints.getComments(prefs.getCurrentHost(), id, sort, count, start)
+        .data.map { it.mapToDomain(prefs.getCurrentHost()) }
 }
 
 interface VideoRemoteAdapter {
@@ -126,5 +140,12 @@ interface VideoRemoteAdapter {
     suspend fun getVideo(id: String): VideoModel
 
     suspend fun getVideoDescription(id: String): VideoDescriptionModel
+
+    suspend fun getComments(
+        id: String,
+        sort: String? = null,
+        count: Int? = null,
+        start: Int? = null
+    ): List<VideoCommentModel>
 
 }

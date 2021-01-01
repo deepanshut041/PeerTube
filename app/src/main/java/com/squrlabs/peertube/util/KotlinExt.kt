@@ -54,13 +54,14 @@ fun Long.humanReadableBigNumber(): String
         return "$this"
     val exp = (ln(this.toDouble()) / ln(unit)).toInt()
     val pre = arrayListOf("k", "M", "Md")[exp - 1]
-    return String.format("%.1f %s", this / unit.pow(exp.toDouble()), pre)
+    return String.format("%.1f%s", this / unit.pow(exp.toDouble()), pre)
 }
 
-private const val SECOND_MILLIS = 1000
+private const val SECOND_MILLIS: Long = 1000
 private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
 private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
 private const val DAY_MILLIS = 24 * HOUR_MILLIS
+private const val MONTH_MILLIS = 30 * DAY_MILLIS
 
 private fun currentDate(): Date {
     val calendar = Calendar.getInstance()
@@ -86,6 +87,8 @@ fun Instant.getTimeAgo(): String {
         diff < 2 * HOUR_MILLIS -> "an hour ago"
         diff < 24 * HOUR_MILLIS -> "${diff / HOUR_MILLIS} hours ago"
         diff < 48 * HOUR_MILLIS -> "yesterday"
-        else -> "${diff / DAY_MILLIS} days ago"
+        diff < 30 * DAY_MILLIS -> "${diff / DAY_MILLIS} days ago"
+        diff < 12 * MONTH_MILLIS -> "${diff / MONTH_MILLIS} months ago"
+        else -> "${diff / (MONTH_MILLIS * 12)} years ago"
     }
 }

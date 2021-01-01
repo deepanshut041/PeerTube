@@ -1,6 +1,5 @@
-package com.squrlabs.peertube.util
+package com.squrlabs.peertube.ui.mobile.home.utils
 
-import android.util.Log
 import androidx.paging.PagingSource
 import com.squrlabs.peertube.common.service.model.VideoModel
 import com.squrlabs.peertube.common.service.repository.VideoRepository

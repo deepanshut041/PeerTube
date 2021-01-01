@@ -14,7 +14,7 @@ import com.mikepenz.iconics.Iconics
 import com.squrlabs.peertube.ui.mobile.instance.InstanceScreen
 import com.squrlabs.peertube.ui.mobile.home.HomeScreen
 import com.squrlabs.peertube.ui.mobile.video.VideoOverlayPlayer
-import com.squrlabs.peertube.util.PeerTubeTheme
+import com.squrlabs.peertube.util.theme.PeerTubeTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MobileActivity : AppCompatActivity() {

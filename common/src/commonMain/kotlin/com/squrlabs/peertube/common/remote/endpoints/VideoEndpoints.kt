@@ -1,7 +1,7 @@
 package com.squrlabs.peertube.common.remote.endpoints
 
-import com.squrlabs.peertube.common.prefs.InstanceSharedPrefs
 import com.squrlabs.peertube.common.remote.dto.ListResponseDto
+import com.squrlabs.peertube.common.remote.dto.video.VideoCommentDto
 import com.squrlabs.peertube.common.remote.dto.video.VideoDescriptionDto
 import com.squrlabs.peertube.common.remote.dto.video.VideoDto
 import io.ktor.client.*
@@ -136,17 +136,21 @@ class VideoEndpoints(private val client: HttpClient) {
 //
 //    }
 
-//    @GET("videos/{id}/comment-threads")
-//    fun getComments(
-//        @Path("id", id: String,
-//        //Sort videos by criteria ("-createdAt" "-updatedAt")
-//        parameter("sort", sort: String? = null,
-//        //Number of items
-//        parameter("count", count: Int? = null,
-//        //Offset
-//        parameter("start", start: Int? = null
-//    ) = client.request<ListResponseDto<Video>> {
-//        
-//    }
+    suspend fun getComments(
+        host: String,
+        id: String,
+        sort: String? = null,
+        count: Int? = null,
+        start: Int? = null
+    ) = client.request<ListResponseDto<VideoCommentDto>>("$host/api/v1/videos/${id}/comment-threads") {
+        method = HttpMethod.Get
+
+        //Sort videos by criteria ("-createdAt" "-updatedAt")
+        parameter("sort", sort)
+        //Number of items
+        parameter("count", count)
+        //Offset
+        parameter("start", start)
+    }
 
 }
