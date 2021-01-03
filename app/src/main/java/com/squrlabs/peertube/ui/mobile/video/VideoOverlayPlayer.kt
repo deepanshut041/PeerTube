@@ -6,9 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyColumnForIndexed
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +28,7 @@ import com.squrlabs.peertube.util.getViewModel
 val PLAYER_HEIGHT = 240.dp
 const val MAX_Y_SCALE = 0.3f
 
+@ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
 fun VideoOverlayPlayer(
@@ -41,6 +40,7 @@ fun VideoOverlayPlayer(
     val videoResult by viewModel.video.collectAsState()
     val videoDescription by viewModel.videoDescription.collectAsState()
     val comments by viewModel.comments.collectAsState()
+    val bottomSheet = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
     val height = screenDimensions().height - (PLAYER_HEIGHT * MAX_Y_SCALE)
     val stickyDraggingConfig = remember(height) { StickyDraggingConfig(false, 0.dp, height) }
@@ -109,19 +109,29 @@ fun VideoOverlayPlayer(
                 .background(Color.White)
 
         ){
-            if(videoResult.state == Resource.SUCCESS)
+            if(videoResult.state == Resource.SUCCESS) {
                 LazyColumn {
                     itemsIndexed(comments) { index: Int, comment: VideoCommentModel ->
                         if (index == 0)
-                            VideoHeader(videoResult.data!!, videoDescription)
+                            VideoHeader(
+                                videoResult.data!!,
+                                descriptionState = { bottomSheet.animateTo(ModalBottomSheetValue.Expanded) }
+                            )
 
-                        if (comment.isDeleted == false)
-                        {
+                        if (comment.isDeleted == false) {
                             VideoComment(comment)
                             Divider(modifier = Modifier.fillMaxWidth())
                         }
                     }
                 }
+                BottomSheet(sheetContent = {
+                    Box(modifier = Modifier.fillMaxSize()) {
+
+                    }
+                }, sheetState = bottomSheet, title = "Bottom Sheet", content = {
+                    emptyContent()
+                })
+            }
             else
                 LoadingView(modifier = Modifier.fillMaxSize())
         }

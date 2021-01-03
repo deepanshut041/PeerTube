@@ -18,9 +18,8 @@ import com.squrlabs.peertube.util.LoadingView
 @Composable
 fun HomeGlobalScreen(
     mainViewModel: MobileViewModel = viewModel(),
-    homeViewModel: HomeViewModel = viewModel()
+    globalTimeline: LazyPagingItems<VideoModel>
 ) {
-    val globalTimeline = homeViewModel.globalTimeline.collectAsLazyPagingItems()
 
     LazyColumn {
         items(globalTimeline) { item ->

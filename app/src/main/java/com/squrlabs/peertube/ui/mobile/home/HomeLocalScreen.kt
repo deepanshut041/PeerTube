@@ -6,8 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.viewModel
 import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.squrlabs.peertube.common.service.model.VideoModel
 import com.squrlabs.peertube.ui.mobile.MobileViewModel
 import com.squrlabs.peertube.ui.mobile.home.utils.FeedItem
 import com.squrlabs.peertube.util.ErrorItem
@@ -19,9 +21,9 @@ import com.squrlabs.peertube.util.getViewModel
 @Composable
 fun HomeLocalScreen(
     mainViewModel: MobileViewModel = viewModel(),
-    homeViewModel: HomeViewModel = viewModel()
+    localTimeline: LazyPagingItems<VideoModel>
 ){
-    val localTimeline = homeViewModel.localTimeline.collectAsLazyPagingItems()
+
 
     LazyColumn {
         items(localTimeline) { item ->

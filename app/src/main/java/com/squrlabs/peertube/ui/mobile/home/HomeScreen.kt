@@ -1,5 +1,7 @@
 package com.squrlabs.peertube.ui.mobile.home
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -9,45 +11,92 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.viewModel
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.mikepenz.iconics.compose.Image
 import com.mikepenz.iconics.typeface.IIcon
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.squrlabs.peertube.R
+import com.squrlabs.peertube.common.service.model.VideoModel
 import com.squrlabs.peertube.ui.mobile.MobileViewModel
+import com.squrlabs.peertube.ui.mobile.utils.MainInputText
+import com.squrlabs.peertube.ui.mobile.video.TextIcon
 import com.squrlabs.peertube.util.getViewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
 
-data class HomeBottomMenu(val route: String, val title: String, val icon: IIcon)
+data class HomeBottomMenu(
+    val route: String,
+    val title: String,
+    val icon: IIcon,
+    val iconSelected: IIcon
+)
+val bottomItems = listOf(
+    HomeBottomMenu(
+        "global",
+        "Global",
+        CommunityMaterial.Icon.cmd_city_variant_outline,
+        CommunityMaterial.Icon.cmd_city_variant
+    ),
+    HomeBottomMenu(
+        "local",
+        "Local",
+        CommunityMaterial.Icon2.cmd_home_outline,
+        CommunityMaterial.Icon2.cmd_home
+    ),
+    HomeBottomMenu(
+        "trending",
+        "Trending",
+        CommunityMaterial.Icon.cmd_compass_outline,
+        CommunityMaterial.Icon.cmd_compass
+    ),
+    HomeBottomMenu(
+        "subscription",
+        "Subscription",
+        CommunityMaterial.Icon.cmd_card_outline,
+        CommunityMaterial.Icon.cmd_card
+    ),
+    HomeBottomMenu(
+        "library", "Library",
+        CommunityMaterial.Icon3.cmd_play_box_multiple_outline,
+        CommunityMaterial.Icon3.cmd_play_box_multiple
+    )
+)
 
 @Composable
 fun HomeScreen(
     mainViewModel: MobileViewModel = viewModel(),
     viewModel: HomeViewModel = getViewModel()
 ) {
-    val bottomItems = listOf(
-        HomeBottomMenu("global", "Global", CommunityMaterial.Icon3.cmd_web),
-        HomeBottomMenu("local", "Local", CommunityMaterial.Icon2.cmd_home),
-        HomeBottomMenu("trending", "Trending", CommunityMaterial.Icon3.cmd_trending_up),
-        HomeBottomMenu("subscription", "Subscription", CommunityMaterial.Icon3.cmd_youtube_subscription),
-        HomeBottomMenu("library", "Library", CommunityMaterial.Icon2.cmd_filmstrip_box_multiple)
-    )
 
     val selectedTab = remember { mutableStateOf(bottomItems[0]) }
     val inSearchMode by viewModel.inSearchMode.collectAsState()
+    val videoParams by viewModel.videoSearchParams.collectAsState()
+
+    var globalTimeline: LazyPagingItems<VideoModel>? = null
+    var localTimeline: LazyPagingItems<VideoModel>? = null
+    var trendingTimeline: LazyPagingItems<VideoModel>? = null
 
     Scaffold(
         backgroundColor = MaterialTheme.colors.background,
         topBar = {
             TopAppBar(
                 title = {
-                    Row {
-                        CoilImage(
-                            data = R.drawable.logo,
-                            modifier = Modifier.size(32.dp).align(Alignment.CenterVertically)
+                    if (!inSearchMode) {
+                        Row {
+                            CoilImage(
+                                data = R.drawable.logo,
+                                modifier = Modifier.size(32.dp).align(Alignment.CenterVertically)
+                            )
+                            Spacer(modifier = Modifier.preferredWidth(10.dp))
+                            Text(text = "PeerTube")
+                        }
+                    } else {
+                        MainInputText(
+                            text = videoParams.query ?: "",
+                            onTextChanged = viewModel::performSearch,
+                            modifier = Modifier.fillMaxWidth(),
+                            placeholder = "Search..."
                         )
-                        Spacer(modifier = Modifier.preferredWidth(10.dp))
-                        Text(text = "PeerTube")
                     }
                 },
                 actions = {
@@ -80,34 +129,42 @@ fun HomeScreen(
             )
         },
         bodyContent = {
-            when(selectedTab.value.route) {
-                bottomItems[0].route -> HomeGlobalScreen(mainViewModel, viewModel)
-                bottomItems[1].route -> HomeLocalScreen(mainViewModel, viewModel)
-                bottomItems[2].route -> HomeTrendingScreen(mainViewModel, viewModel)
-                bottomItems[3].route -> HomeSubscriptionScreen(mainViewModel, viewModel)
-                bottomItems[3].route -> HomeLibraryScreen(mainViewModel, viewModel)
+            Crossfade(current = selectedTab.value.route) {
+                when (it) {
+                    bottomItems[0].route -> {
+                        if (globalTimeline == null){
+                            globalTimeline = viewModel.globalTimeline.collectAsLazyPagingItems()
+                        }
+                        HomeGlobalScreen(mainViewModel, globalTimeline!!)
+                    }
+                    bottomItems[1].route -> {
+                        if (localTimeline == null){
+                            localTimeline = viewModel.localTimeline.collectAsLazyPagingItems()
+                        }
+                        HomeLocalScreen(mainViewModel, localTimeline!!)
+                    }
+                    bottomItems[2].route -> {
+                        if (trendingTimeline == null){
+                            trendingTimeline = viewModel.globalTimeline.collectAsLazyPagingItems()
+                        }
+                        HomeTrendingScreen(mainViewModel, trendingTimeline!!)
+                    }
+                    bottomItems[3].route -> HomeSubscriptionScreen(mainViewModel, viewModel)
+                    bottomItems[3].route -> HomeLibraryScreen(mainViewModel, viewModel)
+                }
             }
         },
         bottomBar = {
-            BottomNavigation(backgroundColor=MaterialTheme.colors.background, contentColor = MaterialTheme.colors.onBackground) {
+            BottomNavigation(
+                backgroundColor = MaterialTheme.colors.background,
+                contentColor = MaterialTheme.colors.onBackground
+            ) {
                 bottomItems.forEach { item ->
-                    BottomNavigationItem(
-                        icon = {
-                            Image(
-                                item.icon,
-                                modifier = Modifier.size(24.dp),
-                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
-                            )
-                        },
-                        selected = selectedTab.value.route == item.route,
-                        label = {
-                            Text(
-                                item.title,
-                                style = MaterialTheme.typography.caption.copy(fontSize = 9.sp)
-                            )
-                        },
-                        onClick = { selectedTab.value = item },
-                        alwaysShowLabels = true
+                    TextIcon(
+                        text = item.title,
+                        asset = if (selectedTab.value == item) item.iconSelected else item.icon,
+                        modifier = Modifier.padding(vertical = 8.dp).weight(1f).fillMaxHeight(1f)
+                            .clickable(onClick = { selectedTab.value = item })
                     )
                 }
             }

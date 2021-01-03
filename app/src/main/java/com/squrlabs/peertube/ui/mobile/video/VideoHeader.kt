@@ -2,155 +2,81 @@ package com.squrlabs.peertube.ui.mobile.video
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.annotatedString
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
-import com.squrlabs.peertube.common.service.model.VideoDescriptionModel
+import com.mikepenz.iconics.compose.Image
+import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
+import com.mikepenz.iconics.typeface.IIcon
 import com.squrlabs.peertube.common.service.model.VideoModel
 import com.squrlabs.peertube.util.getTimeAgo
 import com.squrlabs.peertube.util.humanReadableBigNumber
 
+@ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
-fun VideoHeader(video: VideoModel,
-                videoDescription: VideoDescriptionModel,
-                modifier: Modifier = Modifier
-)
-{
-    ConstraintLayout(
-        modifier = modifier.fillMaxWidth().padding(16.dp).background(MaterialTheme.colors.background)
+fun VideoHeader(
+    video: VideoModel,
+    descriptionState: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxWidth().padding(16.dp)
+            .background(MaterialTheme.colors.background)
     ) {
-        val (
-            title,
-            dateViews,
-            expand,
-            description,
-            thumbUp,
-            thumbDown,
-            share,
-            download
-        ) = createRefs()
-
-        video.name?.also {
+        Row(modifier = Modifier.padding(bottom = 10.dp)) {
             Text(
-                modifier = modifier.constrainAs(title) {
-                    top.linkTo(parent.top)
-                },
-                text = it,
-                style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold)
+                text = video.name ?: "",
+                style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold),
+                modifier = Modifier.clickable(onClick = descriptionState)
             )
         }
-        video.createdAt?.also {
-            Text(
-                modifier = modifier.constrainAs(dateViews) {
-                    top.linkTo(title.bottom)
-                },
-                text = annotatedString {
-                    pushStyle(SpanStyle(fontSize = 12.sp))
-                    append(it.getTimeAgo())
-                    video.views?.also {
-                        append(" • ${it.humanReadableBigNumber()} views")
-                    }
+        Text(
+            text = buildAnnotatedString {
+                pushStyle(SpanStyle(fontSize = 12.sp))
+                append(video.createdAt?.getTimeAgo() ?: "")
+                video.views?.also {
+                    append(" • ${it.humanReadableBigNumber()} views")
                 }
-            )
-        }
-
-        video.likes?.also {
-            TextIcon(
-                modifier = Modifier
-                    .constrainAs(thumbUp) {
-                        top.linkTo(dateViews.bottom)
-                        start.linkTo(parent.start)
-                        end.linkTo(thumbDown.start)
-                        width = Dimension.fillToConstraints
-                    }
-                    .padding(top = 16.dp),
-                asset = Icons.Rounded.ThumbUp,
-                text = it.humanReadableBigNumber()
-            )
-        }
-        video.dislikes?.also {
-            TextIcon(
-                modifier = Modifier
-                    .constrainAs(thumbDown) {
-                        top.linkTo(dateViews.bottom)
-                        start.linkTo(thumbUp.end)
-                        end.linkTo(share.start)
-                        width = Dimension.fillToConstraints
-                    }
-                    .padding(top = 16.dp),
-                asset = Icons.Rounded.ThumbUp,
-                text = it.humanReadableBigNumber()
-            )
-        }
-        TextIcon(
-            modifier = Modifier
-                .constrainAs(share) {
-                    top.linkTo(dateViews.bottom)
-                    start.linkTo(thumbDown.end)
-                    end.linkTo(download.start)
-                    width = Dimension.fillToConstraints
-                }
-                .padding(top = 16.dp),
-            asset = Icons.Rounded.Share,
-            text = "Share"
-        )
-        TextIcon(
-            modifier = Modifier
-                .constrainAs(download) {
-                    top.linkTo(dateViews.bottom)
-                    start.linkTo(share.end)
-                    end.linkTo(parent.end)
-                    width = Dimension.fillToConstraints
-                }
-                .padding(top = 16.dp),
-            asset = Icons.Rounded.Add,
-            text = "Download"
+            }
         )
 
-        val expanded = remember { mutableStateOf(false) }
-        IconButton(
-            modifier = Modifier
-                .constrainAs(expand) {
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                },
-            onClick = {
-                expanded.value = expanded.value.not()
-            }
-        ) {
-            Icon(if (expanded.value) Icons.Rounded.KeyboardArrowUp else Icons.Rounded.KeyboardArrowDown)
-        }
-        AnimatedVisibility(
-            enter = fadeIn() + slideIn({ IntOffset(0, -it.height) }),
-            exit = fadeOut() + slideOut({ IntOffset(0, -it.height) }),
-            modifier = Modifier
-                .padding(top = 8.dp)
-                .constrainAs(description) {
-                    top.linkTo(thumbUp.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                },
-            visible = expanded.value
-        ) {
-            Divider(modifier = Modifier.fillMaxWidth())
-            videoDescription.description?.also { text ->
-                Text(text = text)
-            }
+        Row(modifier = Modifier.padding(vertical = 10.dp)) {
+            TextIcon(
+                asset = CommunityMaterial.Icon3.cmd_thumb_up,
+                text = video.likes?.humanReadableBigNumber() ?: "",
+                modifier = Modifier.padding(vertical = 8.dp).weight(1f).clickable(onClick = { })
+            )
+            TextIcon(
+                asset = CommunityMaterial.Icon3.cmd_thumb_up,
+                text = video.dislikes?.humanReadableBigNumber() ?: "",
+                modifier = Modifier.padding(vertical = 8.dp).weight(1f).clickable(onClick = { })
+            )
+            TextIcon(
+                asset = CommunityMaterial.Icon3.cmd_share,
+                text = "Share",
+                modifier = Modifier.padding(vertical = 8.dp).weight(1f).clickable(onClick = { })
+            )
+            TextIcon(
+                asset = CommunityMaterial.Icon.cmd_cloud_download,
+                text = "Download",
+                modifier = Modifier.padding(vertical = 8.dp).weight(1f).clickable(onClick = { })
+            )
+            TextIcon(
+                asset = CommunityMaterial.Icon.cmd_account_multiple_plus,
+                text = "Save",
+                modifier = Modifier.padding(vertical = 8.dp).weight(1f).clickable(onClick = { })
+            )
         }
     }
     Divider(modifier = Modifier.fillMaxWidth())
@@ -159,12 +85,15 @@ fun VideoHeader(video: VideoModel,
 @Composable
 fun TextIcon(
     text: String,
-    asset: ImageVector,
+    asset: IIcon,
     modifier: Modifier = Modifier
-)
-{
+) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Icon(asset)
+        Image(
+            asset,
+            colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+            modifier = Modifier.size(24.dp)
+        )
         Text(text = text, style = MaterialTheme.typography.caption)
     }
 }

@@ -23,6 +23,7 @@ import com.mikepenz.iconics.typeface.library.community.material.CommunityMateria
 import com.squrlabs.peertube.common.service.model.InstanceModel
 import com.squrlabs.peertube.common.service.model.VideoModel
 import com.squrlabs.peertube.ui.mobile.MobileViewModel
+import com.squrlabs.peertube.ui.mobile.utils.MainInputText
 import com.squrlabs.peertube.util.getViewModel
 import kotlinx.coroutines.FlowPreview
 
@@ -112,36 +113,4 @@ fun InstanceListItemPreview(){
        InstanceListItem(instance = InstanceModel(id=0, name="Peertube",
            host = "host", shortDescription = "Sample"))
    }
-}
-
-@Composable
-fun MainInputText(
-    text: String,
-    onTextChanged: (String) -> Unit,
-    placeholder: String,
-    modifier: Modifier = Modifier,
-    onImeAction: () -> Unit = {}
-) {
-    val focusRequester = remember { FocusRequester() }
-
-    TextField(
-        value = text,
-        onValueChange = onTextChanged,
-        backgroundColor = Color.Transparent,
-        placeholder = { Text(placeholder) },
-        maxLines = 1,
-
-        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Go),
-        onImeActionPerformed = { action, keyboardController ->
-            if (action == ImeAction.Go) {
-                onImeAction()
-                keyboardController?.hideSoftwareKeyboard()
-            }
-        },
-        textStyle = MaterialTheme.typography.subtitle2,
-        modifier = modifier.fillMaxHeight(.8f).focusRequester(focusRequester)
-    )
-    onActive {
-        focusRequester.requestFocus()
-    }
 }
