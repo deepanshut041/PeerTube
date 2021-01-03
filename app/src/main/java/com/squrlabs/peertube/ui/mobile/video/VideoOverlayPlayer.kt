@@ -1,7 +1,6 @@
 package com.squrlabs.peertube.ui.mobile.video
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -60,13 +59,13 @@ fun VideoOverlayPlayer(
             Modifier
                 .stickyDrag(config = stickyDraggingConfig)
                 .clickable { stickyDraggingConfig.expand() }
-                .background(Color(0xFF292929))
+                .background(MaterialTheme.colors.background)
                 .height(PLAYER_HEIGHT * scaleY)
                 .align(Alignment.CenterHorizontally)
         ) {
             if (videoResult.state == Resource.SUCCESS)
                 VideoPlayer(
-                    url = videoResult.data?.files?.get(0)?.fileUrl ?:"",
+                    url = videoResult.data?.files?.get(0)?.fileUrl ?: "",
                     modifier = Modifier.fillMaxWidth(scaleX)
                         .clickable(
                             enabled = !stickyDraggingConfig.isExpanded,
@@ -78,27 +77,27 @@ fun VideoOverlayPlayer(
 
             Box(Modifier.padding(8.dp).fillMaxHeight().weight(1f)) {
                 Text(
-                    text =  videoResult.data?.name?:"",
+                    text = videoResult.data?.name ?: "",
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                    fontWeight = FontWeight.W600,
-                    style = TextStyle(MaterialTheme.colors.secondary, fontSize = 14.sp)
+                    maxLines = 2,
+                    style = MaterialTheme.typography.body2.copy(fontWeight = FontWeight.Bold, fontSize = 12.sp)
                 )
             }
 
             Image(
-                CommunityMaterial.Icon3.cmd_play,
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
+                if(isPlaying) CommunityMaterial.Icon3.cmd_pause else CommunityMaterial.Icon3.cmd_play,
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
                 modifier = iconButtonsModifier.clickable(onClick = { isPlaying = !isPlaying })
+                    .size(24.dp)
             )
 
             Image(
                 CommunityMaterial.Icon.cmd_close,
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
                 modifier = iconButtonsModifier.clickable(onClick = {
                     isPlaying = false
                     requestClose()
-                })
+                }).size(24.dp)
             )
         }
 
@@ -106,34 +105,36 @@ fun VideoOverlayPlayer(
             modifier = Modifier.alpha(opacity).offset(y = stickyDraggingConfig.offset)
                 .fillMaxWidth()
                 .weight(1f)
-                .background(Color.White)
+                .background(MaterialTheme.colors.background)
 
-        ){
-            if(videoResult.state == Resource.SUCCESS) {
-                LazyColumn {
-                    itemsIndexed(comments) { index: Int, comment: VideoCommentModel ->
-                        if (index == 0)
-                            VideoHeader(
-                                videoResult.data!!,
-                                descriptionState = { bottomSheet.animateTo(ModalBottomSheetValue.Expanded) }
-                            )
-
-                        if (comment.isDeleted == false) {
-                            VideoComment(comment)
-                            Divider(modifier = Modifier.fillMaxWidth())
-                        }
+        ) {
+            BottomSheet(sheetContent = {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    videoDescription.description?.let {
+                        Text(text = it, style = MaterialTheme.typography.body2)
                     }
                 }
-                BottomSheet(sheetContent = {
-                    Box(modifier = Modifier.fillMaxSize()) {
+            }, sheetState = bottomSheet, title = "Bottom Sheet", content = {
+                if (videoResult.state == Resource.SUCCESS) {
+                    LazyColumn {
+                        itemsIndexed(comments) { index: Int, comment: VideoCommentModel ->
+                            if (index == 0)
+                                VideoHeader(
+                                    videoResult.data!!,
+                                    descriptionState = { bottomSheet.animateTo(ModalBottomSheetValue.Expanded) }
+                                )
 
+                            if (comment.isDeleted == false) {
+                                VideoComment(comment)
+                                Divider(modifier = Modifier.fillMaxWidth())
+                            }
+                        }
                     }
-                }, sheetState = bottomSheet, title = "Bottom Sheet", content = {
-                    emptyContent()
-                })
-            }
-            else
-                LoadingView(modifier = Modifier.fillMaxSize())
+
+                } else
+                    LoadingView(modifier = Modifier.fillMaxSize())
+            })
+
         }
     }
 }

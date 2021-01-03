@@ -45,6 +45,24 @@ private operator fun <T : Comparable<T>> ClosedFloatingPointRange<T>.component2(
     return this.endInclusive
 }
 
+fun getNavigationBarHeight(context: Context): Int {
+    val hasMenuKey = ViewConfiguration.get(context).hasPermanentMenuKey()
+    val resourceId: Int =
+        context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
+    return if (resourceId > 0 && !hasMenuKey) {
+        context.resources.getDimensionPixelSize(resourceId)
+    } else 0
+}
+
+fun getStatusBarHeight(context: Context): Int {
+    var result = 0
+    val resourceId: Int =
+        context.resources.getIdentifier("status_bar_height", "dimen", "android")
+    if (resourceId > 0) {
+        result = context.resources.getDimensionPixelSize(resourceId)
+    }
+    return result
+}
 
 data class ScreenDimensions(val height: Dp, val width: Dp)
 
@@ -56,10 +74,15 @@ fun screenDimensions(): ScreenDimensions {
     with(AmbientDensity.current) {
         var height = displayMetrics.heightPixels.toDp() - 56.dp
         var width = displayMetrics.widthPixels.toDp()
+        val statusBarHeight = getStatusBarHeight(context).toDp()
         val orientation: Int = context.resources.configuration.orientation
 
-        return ScreenDimensions(height = height, width = width)
-
+        return if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            ScreenDimensions(height = height, width = width)
+        } else {
+            height -= (statusBarHeight)
+            ScreenDimensions(height = height, width = width)
+        }
     }
 }
 

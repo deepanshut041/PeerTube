@@ -31,13 +31,12 @@ fun VideoHeader(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.fillMaxWidth().padding(16.dp)
-            .background(MaterialTheme.colors.background)
+        modifier = modifier.fillMaxWidth().background(MaterialTheme.colors.background)
     ) {
-        Row(modifier = Modifier.padding(bottom = 10.dp)) {
+        Row(modifier = Modifier.padding(10.dp)) {
             Text(
                 text = video.name ?: "",
-                style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Bold),
                 modifier = Modifier.clickable(onClick = descriptionState)
             )
         }
@@ -48,17 +47,18 @@ fun VideoHeader(
                 video.views?.also {
                     append(" • ${it.humanReadableBigNumber()} views")
                 }
-            }
+            },
+            modifier = Modifier.padding(horizontal = 10.dp)
         )
 
-        Row(modifier = Modifier.padding(vertical = 10.dp)) {
+        Row(modifier = Modifier.padding(vertical = 5.dp)) {
             TextIcon(
                 asset = CommunityMaterial.Icon3.cmd_thumb_up,
                 text = video.likes?.humanReadableBigNumber() ?: "",
                 modifier = Modifier.padding(vertical = 8.dp).weight(1f).clickable(onClick = { })
             )
             TextIcon(
-                asset = CommunityMaterial.Icon3.cmd_thumb_up,
+                asset = CommunityMaterial.Icon3.cmd_thumb_down,
                 text = video.dislikes?.humanReadableBigNumber() ?: "",
                 modifier = Modifier.padding(vertical = 8.dp).weight(1f).clickable(onClick = { })
             )
@@ -78,8 +78,8 @@ fun VideoHeader(
                 modifier = Modifier.padding(vertical = 8.dp).weight(1f).clickable(onClick = { })
             )
         }
+        Divider(modifier = Modifier.fillMaxWidth())
     }
-    Divider(modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
