@@ -20,11 +20,13 @@ import androidx.compose.ui.viewinterop.viewModel
 import com.mikepenz.iconics.compose.ExperimentalIconics
 import com.mikepenz.iconics.compose.Image
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
+import com.squrlabs.peertube.R
 import com.squrlabs.peertube.common.service.model.InstanceModel
 import com.squrlabs.peertube.common.service.model.VideoModel
 import com.squrlabs.peertube.ui.mobile.MobileViewModel
 import com.squrlabs.peertube.ui.mobile.utils.MainInputText
 import com.squrlabs.peertube.util.getViewModel
+import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlinx.coroutines.FlowPreview
 
 @ExperimentalIconics
@@ -41,11 +43,19 @@ fun InstanceScreen(
 
     Scaffold(
         scaffoldState = scaffoldState,
-        topBar = {
+        backgroundColor = MaterialTheme.colors.background,
+        topBar = { 
             TopAppBar(
                 title = {
                     if (!inSearchMode) {
-                        Text(text = "Instances")
+                        Row {
+                            CoilImage(
+                                data = R.drawable.logo,
+                                modifier = Modifier.size(32.dp).align(Alignment.CenterVertically)
+                            )
+                            Spacer(modifier = Modifier.preferredWidth(10.dp))
+                            Text(text = "Instances")
+                        }
                     } else {
                         MainInputText(
                             text = instanceParams.text ?: "",
@@ -60,7 +70,7 @@ fun InstanceScreen(
                         IconButton(onClick = { instanceViewModel.switchToSearchMode(!inSearchMode) }) {
                             Image(
                                 CommunityMaterial.Icon.cmd_close,
-                                colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
+                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
                                 modifier = Modifier.size(24.dp)
                             )
                         }
@@ -68,19 +78,20 @@ fun InstanceScreen(
                         IconButton(onClick = { instanceViewModel.switchToSearchMode(!inSearchMode) }) {
                             Image(
                                 CommunityMaterial.Icon3.cmd_magnify,
-                                colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
+                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
                                 modifier = Modifier.size(24.dp)
                             )
                         }
                         IconButton(onClick = { }) {
                             Image(
                                 CommunityMaterial.Icon3.cmd_tune,
-                                colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
+                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
                                 modifier = Modifier.size(24.dp)
                             )
                         }
                     }
-                }
+                },
+                backgroundColor = MaterialTheme.colors.background
             )
         },
         bodyContent = {

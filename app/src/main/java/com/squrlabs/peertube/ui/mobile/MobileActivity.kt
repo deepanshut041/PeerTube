@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,6 +26,7 @@ class MobileActivity : AppCompatActivity() {
     private val viewModel: MobileViewModel by viewModel()
     private lateinit var navController: NavHostController
 
+    @ExperimentalMaterialApi
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +55,7 @@ class MobileActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalMaterialApi
     @ExperimentalAnimationApi
     @Composable
     fun MobileScreen(startDestination: String) {

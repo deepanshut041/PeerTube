@@ -71,6 +71,7 @@ fun VideoOverlayPlayer(
                             enabled = !stickyDraggingConfig.isExpanded,
                             onClick = { isPlaying = !isPlaying }),
                     isPlaying = isPlaying,
+                    showControls = true
                 )
             else
                 Box(modifier = Modifier.fillMaxWidth(scaleX).background(Color.Black))
