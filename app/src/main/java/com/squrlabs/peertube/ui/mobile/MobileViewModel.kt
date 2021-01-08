@@ -31,7 +31,7 @@ class MobileViewModel(private val instanceRepository: InstanceRepository): ViewM
     }
 
     fun getStartDestination(): String {
-        return instanceRepository.getCurrentHost()?.let{ MainActions.navigateToHome() }?: run{ MainActions.navigateToInstances() }
+        return instanceRepository.getCurrentHost()?.let{ MainActions.navigateToInstances() }?: run{ MainActions.navigateToInstances() }
     }
 
     fun setVideoModel(id:Long?) {

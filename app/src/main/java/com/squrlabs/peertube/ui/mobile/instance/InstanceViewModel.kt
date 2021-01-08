@@ -3,7 +3,7 @@ package com.squrlabs.peertube.ui.mobile.instance
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.squrlabs.peertube.common.service.model.InstanceModel
-import com.squrlabs.peertube.common.service.params.GetInstancesParams
+import com.squrlabs.peertube.common.service.params.InstancesFilterParams
 import com.squrlabs.peertube.common.service.repository.InstanceRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -16,7 +16,7 @@ class InstanceViewModel(private val instanceRepository: InstanceRepository) : Vi
 
     private val _inSearchMode = MutableStateFlow(false)
 
-    private val _instanceParams = MutableStateFlow(GetInstancesParams())
+    private val _instanceParams = MutableStateFlow(InstancesFilterParams())
 
     val instances: StateFlow<List<InstanceModel>>
         get() = _instances
@@ -24,7 +24,7 @@ class InstanceViewModel(private val instanceRepository: InstanceRepository) : Vi
     val inSearchMode: StateFlow<Boolean>
         get() = _inSearchMode
 
-    val instanceParams: StateFlow<GetInstancesParams>
+    val instanceParams: StateFlow<InstancesFilterParams>
         get() = _instanceParams
 
     fun switchToSearchMode(inSearchMode: Boolean) {
@@ -34,10 +34,33 @@ class InstanceViewModel(private val instanceRepository: InstanceRepository) : Vi
         }
     }
 
-    fun updateParams(query: String?) {
+    fun updateParams(query: String?=null, sort: Int?=null, health: Int?=null, signupAllowed: Int?=null) {
         _instanceParams.value = _instanceParams.value.let { params ->
             var newParams = params
             query?.let { newParams = params.copy(text = it) }
+            sort?.let {
+                newParams = when (it) {
+                    1 -> newParams.copy(sort = "Videos")
+                    2 -> newParams.copy(sort = "Following")
+                    3 -> newParams.copy(sort = "Followers")
+                    4 -> newParams.copy(sort = "Users")
+                    else -> newParams.copy(sort = null)
+                }
+            }
+            health?.let {
+                newParams = when (it) {
+                    1 -> newParams.copy(healthy = true)
+                    2 -> newParams.copy(healthy = false)
+                    else -> newParams.copy(healthy = null)
+                }
+            }
+            signupAllowed?.let {
+                newParams = when (it) {
+                    1 -> newParams.copy(signupAllowed = true)
+                    2 -> newParams.copy(signupAllowed = false)
+                    else -> newParams.copy(signupAllowed = null)
+                }
+            }
             newParams
         }
     }
@@ -62,7 +85,7 @@ class InstanceViewModel(private val instanceRepository: InstanceRepository) : Vi
         }
     }
 
-    private suspend fun fetchInstances(instanceParams: GetInstancesParams) {
+    private suspend fun fetchInstances(instanceParams: InstancesFilterParams) {
         _instances.value = instanceRepository.getInstances(instanceParams).data ?: emptyList()
     }
 

@@ -5,7 +5,7 @@ import com.squrlabs.peertube.common.prefs.InstanceSharedPrefs
 import com.squrlabs.peertube.common.remote.adapter.InstanceRemoteAdapter
 import com.squrlabs.peertube.common.service.Resource
 import com.squrlabs.peertube.common.service.model.InstanceModel
-import com.squrlabs.peertube.common.service.params.GetInstancesParams
+import com.squrlabs.peertube.common.service.params.InstancesFilterParams
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -28,7 +28,7 @@ class InstanceRepositoryImpl(
         }
     }
 
-    override suspend fun getInstances(params: GetInstancesParams): Resource<List<InstanceModel>> {
+    override suspend fun getInstances(params: InstancesFilterParams): Resource<List<InstanceModel>> {
         return withContext(coroutineDispatcher) {
             Resource.success(data = local.getInstances(params))
         }
@@ -49,7 +49,7 @@ class InstanceRepositoryImpl(
 
 interface InstanceRepository {
     suspend fun fetchInstances(): Resource<Unit>
-    suspend fun getInstances(params: GetInstancesParams): Resource<List<InstanceModel>>
+    suspend fun getInstances(params: InstancesFilterParams): Resource<List<InstanceModel>>
     fun getCurrentHost(): String?
     fun getCurrentInstance(): InstanceModel?
     fun setCurrentHost(host: String)

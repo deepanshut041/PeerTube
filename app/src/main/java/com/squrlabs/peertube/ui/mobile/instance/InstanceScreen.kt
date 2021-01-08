@@ -7,20 +7,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.viewModel
@@ -29,10 +23,9 @@ import com.mikepenz.iconics.compose.Image
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.squrlabs.peertube.R
 import com.squrlabs.peertube.common.service.model.InstanceModel
-import com.squrlabs.peertube.common.service.model.VideoModel
+import com.squrlabs.peertube.common.service.params.InstancesFilterParams
 import com.squrlabs.peertube.ui.mobile.MobileViewModel
 import com.squrlabs.peertube.ui.mobile.utils.MainInputText
-import com.squrlabs.peertube.ui.mobile.video.TextIcon
 import com.squrlabs.peertube.util.getViewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlinx.coroutines.FlowPreview
@@ -48,6 +41,7 @@ fun InstanceScreen(
     val inSearchMode by instanceViewModel.inSearchMode.collectAsState()
     val instances by instanceViewModel.instances.collectAsState()
     val instanceParams by instanceViewModel.instanceParams.collectAsState()
+    var showFilter by remember { mutableStateOf(false) }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -90,7 +84,7 @@ fun InstanceScreen(
                                 modifier = Modifier.size(24.dp)
                             )
                         }
-                        IconButton(onClick = { }) {
+                        IconButton(onClick = { showFilter = true }) {
                             Image(
                                 CommunityMaterial.Icon3.cmd_tune,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
@@ -99,7 +93,7 @@ fun InstanceScreen(
                         }
                     }
                 },
-                backgroundColor = MaterialTheme.colors.background
+                backgroundColor = MaterialTheme.colors.background,
             )
         },
         bodyContent = {
@@ -108,6 +102,8 @@ fun InstanceScreen(
                     InstanceListItem(instance, mainViewModel::setCurrentHost)
                 })
             }
+            if (showFilter) FilterDialog(closeDialog = { showFilter = false }, instanceParams, instanceViewModel::updateParams)
+
         }
     )
 }
@@ -155,7 +151,10 @@ fun InstanceListItem(instance: InstanceModel, onSelected: (InstanceModel) -> Uni
                 style = MaterialTheme.typography.caption.copy(fontWeight = FontWeight.Light)
             )
 
-            Row(modifier = Modifier.padding(top = 8.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+            Row(
+                modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
                 Text(
                     text = "${instance.totalVideos} videos",
                     style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
@@ -197,3 +196,120 @@ fun InstanceListItem(instance: InstanceModel, onSelected: (InstanceModel) -> Uni
     }
     Divider()
 }
+
+@Composable
+fun FilterDialog(
+    closeDialog: () -> Unit = {},
+    params: InstancesFilterParams,
+    update: (String?, Int?, Int?, Int?) -> Unit
+) {
+    var showSortBy by remember { mutableStateOf(false) }
+    var showHealthy by remember { mutableStateOf(false) }
+    var showSignup by remember { mutableStateOf(false) }
+
+    AlertDialog(
+        onDismissRequest = closeDialog,
+        title = {
+            Text(
+                text = "Sort Filter",
+                style = MaterialTheme.typography.body1.copy(fontWeight = FontWeight.Bold)
+            )
+        },
+        text = {
+            Column(modifier = Modifier.background(color = MaterialTheme.colors.background)) {
+                FilterRow(
+                    title = "Sort By",
+                    value = params.sort ?: "Relevance",
+                    items = listOf("Relevance", "Videos", "Following", "Followers", "Users"),
+                    showMenu = showSortBy,
+                    toggleMenu = { showSortBy = it },
+                    indexSelected = { update(null, it, null, null) }
+                )
+                FilterRow(
+                    title = "Healthy",
+                    value = params.healthy?.let { if (it) "Healthy" else "Unhealthy" }
+                        ?: "All",
+                    items = listOf("All", "Healthy", "Unhealthy"),
+                    showMenu = showHealthy,
+                    toggleMenu = { showHealthy = it },
+                    indexSelected = { update(null, null, it, null) }
+                )
+                FilterRow(
+                    title = "Signup Allowed",
+                    value = params.signupAllowed?.let { if (it) "Yes" else "No" } ?: "All",
+                    items = listOf("All", "Yes", "No"),
+                    showMenu = showSignup,
+                    toggleMenu = { showSignup = it },
+                    indexSelected = { update(null, null, null, it) }
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = closeDialog) { Text("Done") }
+        },
+        dismissButton = {
+            TextButton(onClick = {
+                update(null, 0, 0, 0)
+                closeDialog()
+            }) { Text("Clear") }
+        }
+    )
+}
+
+@Composable
+fun FilterRow(
+    title: String,
+    value: String,
+    items: List<String>,
+    showMenu: Boolean,
+    toggleMenu: (Boolean) -> Unit,
+    indexSelected: (Int) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.body1.copy(
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Light
+            ),
+            color = MaterialTheme.colors.onBackground,
+            modifier = Modifier.width(100.dp)
+        )
+        DropdownMenu(
+            toggle = {
+                Text(
+                    text = value,
+                    style = MaterialTheme.typography.body1.copy(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal
+                    ),
+                    color = MaterialTheme.colors.onBackground,
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp).clickable(onClick = { toggleMenu(true) })
+                )
+            },
+            expanded = showMenu,
+            onDismissRequest = { toggleMenu(false) },
+            dropdownModifier = Modifier.weight(1f)
+        ) {
+            items.forEachIndexed { index, s ->
+                DropdownMenuItem(onClick = {
+                    toggleMenu(false)
+                    indexSelected(index)
+                }) {
+                    Text(text = s)
+                }
+            }
+        }
+
+        Image(
+            CommunityMaterial.Icon.cmd_chevron_down,
+            colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+            modifier = Modifier.size(20.dp).clickable(onClick = { toggleMenu(true) })
+        )
+    }
+}
+

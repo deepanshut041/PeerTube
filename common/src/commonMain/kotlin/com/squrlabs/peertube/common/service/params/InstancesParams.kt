@@ -1,3 +1,8 @@
 package com.squrlabs.peertube.common.service.params
 
-data class GetInstancesParams(val text: String? = null)
+data class InstancesFilterParams(
+    val text: String? = null,
+    val sort: String? = null,
+    val signupAllowed: Boolean? = null,
+    val healthy: Boolean? = null
+    )

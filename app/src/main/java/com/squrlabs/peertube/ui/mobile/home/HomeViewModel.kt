@@ -5,7 +5,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.squrlabs.peertube.common.service.model.VideoModel
-import com.squrlabs.peertube.common.service.params.GetInstancesParams
 import com.squrlabs.peertube.common.service.repository.VideoRepository
 import com.squrlabs.peertube.ui.mobile.home.utils.FeedPagingSource
 import kotlinx.coroutines.flow.*
