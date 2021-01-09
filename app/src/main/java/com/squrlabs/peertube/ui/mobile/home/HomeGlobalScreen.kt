@@ -17,13 +17,13 @@ import com.squrlabs.peertube.util.LoadingView
 
 @Composable
 fun HomeGlobalScreen(
-    mainViewModel: MobileViewModel = viewModel(),
-    globalTimeline: LazyPagingItems<VideoModel>
+    globalTimeline: LazyPagingItems<VideoModel>,
+    setVideoModel: (Long) -> Unit
 ) {
 
     LazyColumn {
         items(globalTimeline) { item ->
-            FeedItem(videoModel = item!!, mainViewModel)
+            FeedItem(videoModel = item!!, setVideoModel)
         }
         globalTimeline.apply {
             when {

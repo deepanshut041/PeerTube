@@ -20,14 +20,12 @@ import com.squrlabs.peertube.util.getViewModel
 
 @Composable
 fun HomeLocalScreen(
-    mainViewModel: MobileViewModel = viewModel(),
-    localTimeline: LazyPagingItems<VideoModel>
+    localTimeline: LazyPagingItems<VideoModel>,
+    setVideoModel: (Long) -> Unit
 ){
-
-
     LazyColumn {
         items(localTimeline) { item ->
-            FeedItem(videoModel = item!!, mainViewModel)
+            FeedItem(videoModel = item!!, setVideoModel)
         }
         localTimeline.apply {
             when {

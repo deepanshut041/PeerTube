@@ -47,7 +47,8 @@ fun VideoOverlayPlayer(
     val scaleY = interpolate(stickyDraggingConfig.progress, 0f..1f, 1f..0.3f)
     val scaleX = interpolate(stickyDraggingConfig.progress, 0.7f..1f, 1f..MAX_Y_SCALE)
     val iconButtonsOpacity = interpolate(stickyDraggingConfig.progress, 0.7f..1f, 0f..1f)
-    val iconButtonsModifier = Modifier.fillMaxHeight().width(40.dp).padding(4.dp, 20.dp).alpha(iconButtonsOpacity)
+    val iconButtonsModifier =
+        Modifier.fillMaxHeight().width(40.dp).padding(4.dp, 20.dp).alpha(iconButtonsOpacity)
 
     onCommit(videoId) {
         viewModel.fetchVideoDetails(videoId)
@@ -81,12 +82,15 @@ fun VideoOverlayPlayer(
                     text = videoResult.data?.name ?: "",
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2,
-                    style = MaterialTheme.typography.body2.copy(fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                    style = MaterialTheme.typography.body2.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp
+                    )
                 )
             }
 
             Image(
-                if(isPlaying) CommunityMaterial.Icon3.cmd_pause else CommunityMaterial.Icon3.cmd_play,
+                if (isPlaying) CommunityMaterial.Icon3.cmd_pause else CommunityMaterial.Icon3.cmd_play,
                 colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
                 modifier = iconButtonsModifier.clickable(onClick = { isPlaying = !isPlaying })
                     .size(24.dp)
@@ -102,13 +106,7 @@ fun VideoOverlayPlayer(
             )
         }
 
-        Box(
-            modifier = Modifier.alpha(opacity).offset(y = stickyDraggingConfig.offset)
-                .fillMaxWidth()
-                .weight(1f)
-                .background(MaterialTheme.colors.background)
-
-        ) {
+        if (scaleY > MAX_Y_SCALE)
             BottomSheet(sheetContent = {
                 Box(modifier = Modifier.fillMaxSize()) {
                     videoDescription.description?.let {
@@ -122,7 +120,11 @@ fun VideoOverlayPlayer(
                             if (index == 0)
                                 VideoHeader(
                                     videoResult.data!!,
-                                    descriptionState = { bottomSheet.animateTo(ModalBottomSheetValue.Expanded) }
+                                    descriptionState = {
+                                        bottomSheet.animateTo(
+                                            ModalBottomSheetValue.Expanded
+                                        )
+                                    }
                                 )
 
                             if (comment.isDeleted == false) {
@@ -134,8 +136,11 @@ fun VideoOverlayPlayer(
 
                 } else
                     LoadingView(modifier = Modifier.fillMaxSize())
-            })
+            }, modifier = Modifier.alpha(opacity).offset(y = stickyDraggingConfig.offset)
+                .fillMaxWidth()
+                .weight(1f)
+                .background(MaterialTheme.colors.background)
+            )
 
-        }
     }
 }

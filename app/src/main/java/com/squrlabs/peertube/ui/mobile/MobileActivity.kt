@@ -63,12 +63,12 @@ class MobileActivity : AppCompatActivity() {
         val videoOverlay by viewModel.videoOverlay.collectAsState()
         Box {
             NavHost(navController = navController, startDestination = startDestination) {
-                composable(MainDestinations.INSTANCES_ROUTE) { InstanceScreen(viewModel) }
-                composable(MainDestinations.HOME_ROUTE) { HomeScreen(viewModel) }
+                composable(MainDestinations.INSTANCES_ROUTE) { InstanceScreen(viewModel::setCurrentHost) }
+                composable(MainDestinations.HOME_ROUTE) { HomeScreen(viewModel::setVideoModel, viewModel::navigateTo) }
                 composable("${MainDestinations.CHANNEL_ROUTE}/{$CHANNEL_ROUTE_ID_KEY}",
                     arguments = listOf(navArgument(CHANNEL_ROUTE_ID_KEY) { type = NavType.LongType })
                 ) {
-                    ChannelScreen(viewModel, it.arguments?.getLong(CHANNEL_ROUTE_ID_KEY)?: 0)
+                    ChannelScreen(it.arguments?.getLong(CHANNEL_ROUTE_ID_KEY)?: 0)
                 }
             }
             videoOverlay?.let {

@@ -5,6 +5,6 @@ import androidx.compose.ui.viewinterop.viewModel
 import com.squrlabs.peertube.ui.mobile.MobileViewModel
 
 @Composable
-fun ChannelScreen(mainViewModel: MobileViewModel = viewModel(), videoId: Long) {
+fun ChannelScreen( videoId: Long) {
 
 }

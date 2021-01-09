@@ -80,7 +80,7 @@ fun screenDimensions(): ScreenDimensions {
         return if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             ScreenDimensions(height = height, width = width)
         } else {
-            height -= (statusBarHeight)
+//            height -= (statusBarHeight)
             ScreenDimensions(height = height, width = width)
         }
     }

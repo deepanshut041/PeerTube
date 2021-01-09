@@ -14,3 +14,6 @@ object MainActions {
     fun navigateToChannel(channelId:Long): String = "${MainDestinations.CHANNEL_ROUTE}/$channelId"
     fun navigateBack(): String  = MainDestinations.BACK_ROUTE
 }
+
+
+data class NavigationModel(val path: String, val clearBackStack: Boolean=false, val launchSingleTop: Boolean=false)

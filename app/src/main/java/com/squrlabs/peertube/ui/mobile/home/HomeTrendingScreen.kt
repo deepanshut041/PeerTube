@@ -19,14 +19,14 @@ import com.squrlabs.peertube.util.LoadingView
 
 @Composable
 fun HomeTrendingScreen(
-    mainViewModel: MobileViewModel = viewModel(),
-    trendingTimeline: LazyPagingItems<VideoModel>
+    trendingTimeline: LazyPagingItems<VideoModel>,
+    setVideoModel: (Long) -> Unit
 ){
 
 
     LazyColumn {
         items(trendingTimeline) { item ->
-            FeedItem(videoModel = item!!, mainViewModel)
+            FeedItem(videoModel = item!!, setVideoModel)
         }
         trendingTimeline.apply {
             when {

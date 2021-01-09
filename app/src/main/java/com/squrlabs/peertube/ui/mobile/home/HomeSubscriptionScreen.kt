@@ -7,8 +7,8 @@ import com.squrlabs.peertube.ui.mobile.MobileViewModel
 
 @Composable
 fun HomeSubscriptionScreen(
-    mainViewModel: MobileViewModel = viewModel(),
-    homeViewModel: HomeViewModel = viewModel()
+    homeViewModel: HomeViewModel = viewModel(),
+    setVideoModel: (Long) -> Unit,
 ){
     Text(text = "Subscription")
 }

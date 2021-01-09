@@ -34,7 +34,7 @@ import kotlinx.coroutines.FlowPreview
 @FlowPreview
 @Composable
 fun InstanceScreen(
-    mainViewModel: MobileViewModel = viewModel(),
+    setCurrentHost: (InstanceModel) -> Unit,
     instanceViewModel: InstanceViewModel = getViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -99,7 +99,7 @@ fun InstanceScreen(
         bodyContent = {
             LazyColumn {
                 items(items = instances, itemContent = { instance ->
-                    InstanceListItem(instance, mainViewModel::setCurrentHost)
+                    InstanceListItem(instance, setCurrentHost)
                 })
             }
             if (showFilter) FilterDialog(closeDialog = { showFilter = false }, instanceParams, instanceViewModel::updateParams)

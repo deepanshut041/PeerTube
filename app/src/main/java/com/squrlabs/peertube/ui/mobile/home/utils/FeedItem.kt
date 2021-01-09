@@ -32,7 +32,7 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 
 
 @Composable
-fun FeedItem(videoModel: VideoModel, mainViewModel: MobileViewModel) {
+fun FeedItem(videoModel: VideoModel, setVideoModel: (Long) -> Unit) {
     val name = videoModel.name ?: ""
     val previewUrl = videoModel.currentHost + videoModel.previewPath
     val views = "${(videoModel.views ?: 0).humanReadableBigNumber()} views"
@@ -52,7 +52,7 @@ fun FeedItem(videoModel: VideoModel, mainViewModel: MobileViewModel) {
 
     Column(
         modifier = Modifier.fillMaxWidth().clickable(onClick = {
-            mainViewModel.setVideoModel(videoModel.id)
+            setVideoModel(videoModel.id!!)
         })
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {

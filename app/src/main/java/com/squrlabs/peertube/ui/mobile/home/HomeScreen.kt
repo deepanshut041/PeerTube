@@ -8,6 +8,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.viewModel
@@ -18,7 +21,9 @@ import com.mikepenz.iconics.typeface.IIcon
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.squrlabs.peertube.R
 import com.squrlabs.peertube.common.service.model.VideoModel
+import com.squrlabs.peertube.ui.mobile.MainActions
 import com.squrlabs.peertube.ui.mobile.MobileViewModel
+import com.squrlabs.peertube.ui.mobile.NavigationModel
 import com.squrlabs.peertube.ui.mobile.utils.MainInputText
 import com.squrlabs.peertube.ui.mobile.video.TextIcon
 import com.squrlabs.peertube.util.getViewModel
@@ -30,6 +35,7 @@ data class HomeBottomMenu(
     val icon: IIcon,
     val iconSelected: IIcon
 )
+
 val bottomItems = listOf(
     HomeBottomMenu(
         "global",
@@ -62,21 +68,25 @@ val bottomItems = listOf(
     )
 )
 
+@ExperimentalMaterialApi
 @Composable
 fun HomeScreen(
-    mainViewModel: MobileViewModel = viewModel(),
+    setVideoModel: (Long) -> Unit,
+    navigateTo: (NavigationModel) -> Unit,
     viewModel: HomeViewModel = getViewModel()
 ) {
 
     val selectedTab = remember { mutableStateOf(bottomItems[0]) }
     val inSearchMode by viewModel.inSearchMode.collectAsState()
     val videoParams by viewModel.videoSearchParams.collectAsState()
+    val drawerState = rememberBottomSheetScaffoldState()
 
     var globalTimeline: LazyPagingItems<VideoModel>? = null
     var localTimeline: LazyPagingItems<VideoModel>? = null
     var trendingTimeline: LazyPagingItems<VideoModel>? = null
 
-    Scaffold(
+    BottomSheetScaffold(
+        scaffoldState = drawerState,
         backgroundColor = MaterialTheme.colors.background,
         topBar = {
             TopAppBar(
@@ -85,10 +95,11 @@ fun HomeScreen(
                         Row {
                             CoilImage(
                                 data = R.drawable.logo,
-                                modifier = Modifier.size(32.dp).align(Alignment.CenterVertically)
+                                modifier = Modifier.size(32.dp)
+                                    .align(Alignment.CenterVertically)
                             )
                             Spacer(modifier = Modifier.preferredWidth(10.dp))
-                            Text(text = "PeerTube")
+                            Text(text = "PeerTube", style = MaterialTheme.typography.h6)
                         }
                     } else {
                         MainInputText(
@@ -116,7 +127,7 @@ fun HomeScreen(
                                 modifier = Modifier.size(24.dp)
                             )
                         }
-                        IconButton(onClick = { }) {
+                        IconButton(onClick = { drawerState.bottomSheetState.expand() }) {
                             Image(
                                 CommunityMaterial.Icon.cmd_account_circle,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
@@ -128,33 +139,92 @@ fun HomeScreen(
                 backgroundColor = MaterialTheme.colors.background
             )
         },
-        bodyContent = {
-            Crossfade(current = selectedTab.value.route) {
-                when (it) {
-                    bottomItems[0].route -> {
-                        if (globalTimeline == null){
-                            globalTimeline = viewModel.globalTimeline.collectAsLazyPagingItems()
-                        }
-                        HomeGlobalScreen(mainViewModel, globalTimeline!!)
-                    }
-                    bottomItems[1].route -> {
-                        if (localTimeline == null){
-                            localTimeline = viewModel.localTimeline.collectAsLazyPagingItems()
-                        }
-                        HomeLocalScreen(mainViewModel, localTimeline!!)
-                    }
-                    bottomItems[2].route -> {
-                        if (trendingTimeline == null){
-                            trendingTimeline = viewModel.globalTimeline.collectAsLazyPagingItems()
-                        }
-                        HomeTrendingScreen(mainViewModel, trendingTimeline!!)
-                    }
-                    bottomItems[3].route -> HomeSubscriptionScreen(mainViewModel, viewModel)
-                    bottomItems[3].route -> HomeLibraryScreen(mainViewModel, viewModel)
+        sheetPeekHeight = 0.dp,
+        sheetContent = {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.height(56.dp)) {
+                IconButton(onClick = { drawerState.bottomSheetState.collapse() }) {
+                    Image(
+                        CommunityMaterial.Icon.cmd_close,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.preferredWidth(10.dp))
+                Text(text = "Account", style = MaterialTheme.typography.h6)
+            }
+            Divider()
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(top = 30.dp, bottom = 20.dp).fillMaxWidth()
+            ) {
+                Text(
+                    text = "Do more with PeerTube",
+                    style = MaterialTheme.typography.h6
+                )
+                Spacer(modifier = Modifier.preferredHeight(10.dp))
+                Text(
+                    text = "Sign up now to upload, save, and \n comment on videos",
+                    style = MaterialTheme.typography.body2,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.preferredHeight(20.dp))
+                Button(onClick = { }) {
+                    Text(text = "SIGN IN")
                 }
             }
-        },
-        bottomBar = {
+            Divider()
+            Column(modifier = Modifier.weight(1f)) {
+                Row(modifier = Modifier.padding(horizontal = 20.dp, vertical = 15.dp).fillMaxWidth()
+                    .clickable(onClick = { })) {
+                    Image(
+                        CommunityMaterial.Icon.cmd_cog,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.preferredWidth(10.dp))
+                    Text(text = "Settings", style = MaterialTheme.typography.h6)
+                }
+                Row(modifier = Modifier.padding(horizontal = 20.dp, vertical = 15.dp).fillMaxWidth()
+                    .clickable(onClick = { navigateTo(NavigationModel(path = MainActions.navigateToInstances())) })) {
+                    Image(
+                        CommunityMaterial.Icon.cmd_circle_multiple,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.preferredWidth(10.dp))
+                    Text(text = "Instances", style = MaterialTheme.typography.h6)
+                }
+            }
+        }
+    ) {
+        Column {
+            Crossfade(current = selectedTab.value.route, modifier = Modifier.weight(1f)) {
+                when (it) {
+                    bottomItems[0].route -> {
+                        if (globalTimeline == null) {
+                            globalTimeline =
+                                viewModel.globalTimeline.collectAsLazyPagingItems()
+                        }
+                        HomeGlobalScreen(globalTimeline!!, setVideoModel)
+                    }
+                    bottomItems[1].route -> {
+                        if (localTimeline == null) {
+                            localTimeline =
+                                viewModel.localTimeline.collectAsLazyPagingItems()
+                        }
+                        HomeLocalScreen(localTimeline!!, setVideoModel)
+                    }
+                    bottomItems[2].route -> {
+                        if (trendingTimeline == null) {
+                            trendingTimeline =
+                                viewModel.globalTimeline.collectAsLazyPagingItems()
+                        }
+                        HomeTrendingScreen(trendingTimeline!!, setVideoModel)
+                    }
+                    bottomItems[3].route -> HomeSubscriptionScreen(viewModel, setVideoModel)
+                    bottomItems[3].route -> HomeLibraryScreen(viewModel, setVideoModel)
+                }
+            }
             BottomNavigation(
                 backgroundColor = MaterialTheme.colors.background,
                 contentColor = MaterialTheme.colors.onBackground
@@ -163,11 +233,13 @@ fun HomeScreen(
                     TextIcon(
                         text = item.title,
                         asset = if (selectedTab.value == item) item.iconSelected else item.icon,
-                        modifier = Modifier.padding(vertical = 8.dp).weight(1f).fillMaxHeight(1f)
+                        modifier = Modifier.padding(vertical = 8.dp).weight(1f)
+                            .fillMaxHeight(1f)
                             .clickable(onClick = { selectedTab.value = item })
                     )
                 }
             }
         }
-    )
+
+    }
 }

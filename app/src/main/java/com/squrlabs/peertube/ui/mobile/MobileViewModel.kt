@@ -19,26 +19,23 @@ class MobileViewModel(private val instanceRepository: InstanceRepository): ViewM
     private val _videoOverlay = MutableStateFlow<Long?>(null)
     private val _navigate = SingleLiveEvent<NavigationModel>()
 
-    fun navigateTo(path: String, clearBackStack: Boolean = false, launchSingleTop: Boolean=false){
-        _navigate.value = NavigationModel(path, clearBackStack, launchSingleTop)
+    fun navigateTo(navigationModel: NavigationModel){
+        _navigate.value = navigationModel
     }
 
     fun setCurrentHost(instance: InstanceModel) {
         instance.host?.let{
             instanceRepository.setCurrentHost(it)
-            navigateTo(MainActions.navigateToHome(), true)
+            navigateTo(NavigationModel(MainActions.navigateToHome(), true))
         }
     }
 
     fun getStartDestination(): String {
-        return instanceRepository.getCurrentHost()?.let{ MainActions.navigateToInstances() }?: run{ MainActions.navigateToInstances() }
+        return instanceRepository.getCurrentHost()?.let{ MainActions.navigateToHome() }?: run{ MainActions.navigateToInstances() }
     }
 
     fun setVideoModel(id:Long?) {
         _videoOverlay.value = id
     }
 
-    companion object{
-        data class NavigationModel(val path: String, val clearBackStack: Boolean, val launchSingleTop: Boolean=false)
-    }
 }
