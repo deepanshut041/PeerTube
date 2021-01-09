@@ -13,19 +13,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.viewModel
 import com.mikepenz.iconics.compose.ExperimentalIconics
 import com.mikepenz.iconics.compose.Image
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.squrlabs.peertube.R
 import com.squrlabs.peertube.common.service.model.InstanceModel
 import com.squrlabs.peertube.common.service.params.InstancesFilterParams
-import com.squrlabs.peertube.ui.mobile.MobileViewModel
-import com.squrlabs.peertube.ui.mobile.utils.MainInputText
+import com.squrlabs.peertube.ui.mobile.base.MainInputText
 import com.squrlabs.peertube.util.getViewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlinx.coroutines.FlowPreview
@@ -102,16 +99,18 @@ fun InstanceScreen(
                     InstanceListItem(instance, setCurrentHost)
                 })
             }
-            if (showFilter) FilterDialog(closeDialog = { showFilter = false }, instanceParams, instanceViewModel::updateParams)
+            if (showFilter) FilterDialog(
+                closeDialog = { showFilter = false },
+                instanceParams,
+                instanceViewModel::updateParams
+            )
 
         }
     )
 }
 
 @Composable
-fun InstanceListItem(instance: InstanceModel, onSelected: (InstanceModel) -> Unit = {}) {
-    val context = AmbientContext.current
-
+private fun InstanceListItem(instance: InstanceModel, onSelected: (InstanceModel) -> Unit = {}) {
     Row(
         modifier = Modifier.fillMaxWidth().clickable(onClick = { onSelected(instance) })
             .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 12.dp)
@@ -198,7 +197,7 @@ fun InstanceListItem(instance: InstanceModel, onSelected: (InstanceModel) -> Uni
 }
 
 @Composable
-fun FilterDialog(
+private fun FilterDialog(
     closeDialog: () -> Unit = {},
     params: InstancesFilterParams,
     update: (String?, Int?, Int?, Int?) -> Unit
@@ -288,7 +287,8 @@ fun FilterRow(
                         fontWeight = FontWeight.Normal
                     ),
                     color = MaterialTheme.colors.onBackground,
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp).clickable(onClick = { toggleMenu(true) })
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp)
+                        .clickable(onClick = { toggleMenu(true) })
                 )
             },
             expanded = showMenu,

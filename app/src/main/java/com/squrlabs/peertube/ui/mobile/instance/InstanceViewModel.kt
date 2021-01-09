@@ -34,7 +34,12 @@ class InstanceViewModel(private val instanceRepository: InstanceRepository) : Vi
         }
     }
 
-    fun updateParams(query: String?=null, sort: Int?=null, health: Int?=null, signupAllowed: Int?=null) {
+    fun updateParams(
+        query: String? = null,
+        sort: Int? = null,
+        health: Int? = null,
+        signupAllowed: Int? = null
+    ) {
         _instanceParams.value = _instanceParams.value.let { params ->
             var newParams = params
             query?.let { newParams = params.copy(text = it) }

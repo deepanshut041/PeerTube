@@ -14,7 +14,7 @@ import org.koin.dsl.module
 @ExperimentalCoroutinesApi
 val viewModelModule = module {
     viewModel { MobileViewModel(get()) }
-    viewModel { TvViewModel(get(), get()) }
+    viewModel { TvViewModel(get()) }
     viewModel { InstanceViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { VideoPlayerViewModel(get()) }

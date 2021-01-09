@@ -1,4 +1,4 @@
-package com.squrlabs.peertube.ui.mobile.utils
+package com.squrlabs.peertube.ui.mobile.base
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.text.KeyboardOptions

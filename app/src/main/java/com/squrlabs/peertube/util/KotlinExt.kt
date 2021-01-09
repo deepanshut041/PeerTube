@@ -57,18 +57,19 @@ fun Long.humanReadableBigNumber(): String
     return String.format("%.1f%s", this / unit.pow(exp.toDouble()), pre)
 }
 
-private const val SECOND_MILLIS: Long = 1000
-private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
-private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
-private const val DAY_MILLIS = 24 * HOUR_MILLIS
-private const val MONTH_MILLIS = 30 * DAY_MILLIS
-
 private fun currentDate(): Date {
     val calendar = Calendar.getInstance()
     return calendar.time
 }
 
 fun Instant.getTimeAgo(): String {
+
+    val SECOND_MILLIS: Long = 1000
+    val MINUTE_MILLIS = 60 * SECOND_MILLIS
+    val HOUR_MILLIS = 60 * MINUTE_MILLIS
+    val DAY_MILLIS = 24 * HOUR_MILLIS
+    val MONTH_MILLIS = 30 * DAY_MILLIS
+    
     var time = this.toEpochMilliseconds()
     if (time < 1000000000000L) {
         time *= 1000

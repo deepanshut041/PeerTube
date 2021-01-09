@@ -2,7 +2,6 @@ package com.squrlabs.peertube.ui.mobile.video
 
 
 import androidx.compose.animation.animate
-import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -13,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -26,7 +24,8 @@ fun BottomSheet(
     content: @Composable () -> Unit
 ) {
 
-    val sheetShape = animate(if (sheetState.targetValue == ModalBottomSheetValue.Expanded) 0.dp else 24.dp)
+    val sheetShape =
+        animate(if (sheetState.targetValue == ModalBottomSheetValue.Expanded) 0.dp else 24.dp)
 
     ModalBottomSheetLayout(
         sheetContent = {

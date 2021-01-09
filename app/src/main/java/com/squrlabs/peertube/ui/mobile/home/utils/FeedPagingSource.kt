@@ -13,9 +13,14 @@ class FeedPagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, VideoModel> {
         return try {
-            val response = backend.getVideos(count = count, start = params.key ?: 0, sort = sort, filter = filter)
+            val response = backend.getVideos(
+                count = count,
+                start = params.key ?: 0,
+                sort = sort,
+                filter = filter
+            )
             val data = response.data ?: emptyList()
-            val nextKey = if(data.isNotEmpty()) (params.key ?: 0) + 20 else null
+            val nextKey = if (data.isNotEmpty()) (params.key ?: 0) + 20 else null
             LoadResult.Page(
                 data = data,
                 prevKey = null, // Only paging forward.

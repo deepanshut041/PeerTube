@@ -3,12 +3,10 @@ package com.squrlabs.peertube.ui.mobile.video
 import android.content.Context
 import android.content.res.Configuration
 import android.view.ViewConfiguration
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.*
-import androidx.compose.ui.unit.Dp
 import androidx.compose.animation.animate
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.layout.offset
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,6 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.gesture.scrollorientationlocking.Orientation
+import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlin.math.abs
 
@@ -94,7 +95,7 @@ class StickyDraggingConfig(
     private val initialOffset: Dp = if (initiallyExpanded) maxSize else minSize
 
     private var _offset by mutableStateOf(initialOffset)
-    private var originalOffset: Dp? = null;
+    private var originalOffset: Dp? = null
 
     var isDragging by mutableStateOf(false)
         private set
@@ -103,7 +104,7 @@ class StickyDraggingConfig(
 
     @Composable
     val offset
-        get() = animate(_offset, )
+        get() = animate(_offset)
 
     @Composable
     val progress

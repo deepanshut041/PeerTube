@@ -8,12 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.viewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.mikepenz.iconics.compose.Image
@@ -21,11 +17,10 @@ import com.mikepenz.iconics.typeface.IIcon
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.squrlabs.peertube.R
 import com.squrlabs.peertube.common.service.model.VideoModel
-import com.squrlabs.peertube.ui.mobile.MainActions
-import com.squrlabs.peertube.ui.mobile.MobileViewModel
-import com.squrlabs.peertube.ui.mobile.NavigationModel
-import com.squrlabs.peertube.ui.mobile.utils.MainInputText
-import com.squrlabs.peertube.ui.mobile.video.TextIcon
+import com.squrlabs.peertube.ui.MobileActions
+import com.squrlabs.peertube.ui.NavigationModel
+import com.squrlabs.peertube.ui.mobile.base.MainInputText
+import com.squrlabs.peertube.ui.mobile.base.TextIcon
 import com.squrlabs.peertube.util.getViewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
 
@@ -103,7 +98,7 @@ fun HomeScreen(
                         }
                     } else {
                         MainInputText(
-                            text = videoParams.query ?: "",
+                            text = videoParams.query,
                             onTextChanged = viewModel::performSearch,
                             modifier = Modifier.fillMaxWidth(),
                             placeholder = "Search..."
@@ -174,8 +169,10 @@ fun HomeScreen(
             }
             Divider()
             Column(modifier = Modifier.weight(1f)) {
-                Row(modifier = Modifier.padding(horizontal = 20.dp, vertical = 15.dp).fillMaxWidth()
-                    .clickable(onClick = { })) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 15.dp).fillMaxWidth()
+                        .clickable(onClick = { })
+                ) {
                     Image(
                         CommunityMaterial.Icon.cmd_cog,
                         colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
@@ -184,8 +181,10 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.preferredWidth(10.dp))
                     Text(text = "Settings", style = MaterialTheme.typography.h6)
                 }
-                Row(modifier = Modifier.padding(horizontal = 20.dp, vertical = 15.dp).fillMaxWidth()
-                    .clickable(onClick = { navigateTo(NavigationModel(path = MainActions.navigateToInstances())) })) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 15.dp).fillMaxWidth()
+                        .clickable(onClick = { navigateTo(NavigationModel(path = MobileActions.navigateToInstances())) })
+                ) {
                     Image(
                         CommunityMaterial.Icon.cmd_circle_multiple,
                         colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),

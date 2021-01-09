@@ -13,10 +13,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import com.mikepenz.iconics.Iconics
-import com.squrlabs.peertube.ui.mobile.MainDestinations.CHANNEL_ROUTE_ID_KEY
+import com.squrlabs.peertube.ui.MobileDestinations
+import com.squrlabs.peertube.ui.MobileDestinations.CHANNEL_ROUTE_ID_KEY
 import com.squrlabs.peertube.ui.mobile.channel.ChannelScreen
-import com.squrlabs.peertube.ui.mobile.instance.InstanceScreen
 import com.squrlabs.peertube.ui.mobile.home.HomeScreen
+import com.squrlabs.peertube.ui.mobile.instance.InstanceScreen
 import com.squrlabs.peertube.ui.mobile.video.VideoOverlayPlayer
 import com.squrlabs.peertube.util.theme.PeerTubeTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,7 +43,7 @@ class MobileActivity : AppCompatActivity() {
     private fun observeViewModel() {
         with(viewModel) {
             navigate.observe(this@MobileActivity, {
-                if (it.path == MainDestinations.BACK_ROUTE)
+                if (it.path == MobileDestinations.BACK_ROUTE)
                     onBackPressed()
                 else
                     navController.navigate(it.path) {
@@ -63,12 +64,20 @@ class MobileActivity : AppCompatActivity() {
         val videoOverlay by viewModel.videoOverlay.collectAsState()
         Box {
             NavHost(navController = navController, startDestination = startDestination) {
-                composable(MainDestinations.INSTANCES_ROUTE) { InstanceScreen(viewModel::setCurrentHost) }
-                composable(MainDestinations.HOME_ROUTE) { HomeScreen(viewModel::setVideoModel, viewModel::navigateTo) }
-                composable("${MainDestinations.CHANNEL_ROUTE}/{$CHANNEL_ROUTE_ID_KEY}",
-                    arguments = listOf(navArgument(CHANNEL_ROUTE_ID_KEY) { type = NavType.LongType })
+                composable(MobileDestinations.INSTANCES_ROUTE) { InstanceScreen(viewModel::setCurrentHost) }
+                composable(MobileDestinations.HOME_ROUTE) {
+                    HomeScreen(
+                        viewModel::setVideoModel,
+                        viewModel::navigateTo
+                    )
+                }
+                composable(
+                    "${MobileDestinations.CHANNEL_ROUTE}/{$CHANNEL_ROUTE_ID_KEY}",
+                    arguments = listOf(navArgument(CHANNEL_ROUTE_ID_KEY) {
+                        type = NavType.LongType
+                    })
                 ) {
-                    ChannelScreen(it.arguments?.getLong(CHANNEL_ROUTE_ID_KEY)?: 0)
+                    ChannelScreen(it.arguments?.getLong(CHANNEL_ROUTE_ID_KEY) ?: 0)
                 }
             }
             videoOverlay?.let {

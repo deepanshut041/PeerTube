@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class VideoPlayerViewModel(private val videoRepository: VideoRepository): ViewModel() {
+class VideoPlayerViewModel(private val videoRepository: VideoRepository) : ViewModel() {
 
     private val _video = MutableStateFlow<Resource<VideoModel>>(Resource.empty())
     private val _videoDescription = MutableStateFlow(VideoDescriptionModel(description = ""))

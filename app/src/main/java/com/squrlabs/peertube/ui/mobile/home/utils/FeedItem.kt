@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -24,7 +23,6 @@ import coil.transform.CircleCropTransformation
 import com.mikepenz.iconics.compose.Image
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.squrlabs.peertube.common.service.model.VideoModel
-import com.squrlabs.peertube.ui.mobile.MobileViewModel
 import com.squrlabs.peertube.util.duration
 import com.squrlabs.peertube.util.getTimeAgo
 import com.squrlabs.peertube.util.humanReadableBigNumber
@@ -59,9 +57,17 @@ fun FeedItem(videoModel: VideoModel, setVideoModel: (Long) -> Unit) {
             CoilImage(
                 data = previewUrl,
                 loading = {
-                    Box(Modifier.fillMaxWidth().height(200.dp).background(MaterialTheme.colors.secondary))
+                    Box(
+                        Modifier.fillMaxWidth().height(200.dp)
+                            .background(MaterialTheme.colors.secondary)
+                    )
                 },
-                error = { Box(Modifier.fillMaxWidth().height(200.dp).background(MaterialTheme.colors.secondary)) },
+                error = {
+                    Box(
+                        Modifier.fillMaxWidth().height(200.dp)
+                            .background(MaterialTheme.colors.secondary)
+                    )
+                },
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -74,17 +80,19 @@ fun FeedItem(videoModel: VideoModel, setVideoModel: (Long) -> Unit) {
             )
         }
         Row {
-            Box(modifier = Modifier.padding(10.dp)){
+            Box(modifier = Modifier.padding(10.dp)) {
                 CoilImage(
                     data = avatarUrl,
                     loading = {
                         Box(
-                            modifier = Modifier.size(35.dp).clip(CircleShape).background(MaterialTheme.colors.secondary)
+                            modifier = Modifier.size(35.dp).clip(CircleShape)
+                                .background(MaterialTheme.colors.secondary)
                         )
                     },
                     error = {
                         Box(
-                            modifier = Modifier.size(35.dp).clip(CircleShape).background(MaterialTheme.colors.secondary)
+                            modifier = Modifier.size(35.dp).clip(CircleShape)
+                                .background(MaterialTheme.colors.secondary)
                         )
                     },
                     contentScale = ContentScale.Crop,
