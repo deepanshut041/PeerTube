@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -23,6 +24,7 @@ import com.deepanshut041.peertube.common.service.model.InstanceModel
 import com.deepanshut041.peertube.common.service.params.InstancesFilterParams
 import com.deepanshut041.peertube.ui.mobile.base.MainInputText
 import com.deepanshut041.peertube.util.getViewModel
+import com.mikepenz.iconics.compose.ExperimentalIconics
 import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlinx.coroutines.FlowPreview
 
@@ -38,73 +40,74 @@ fun InstanceScreen(
     val instanceParams by instanceViewModel.instanceParams.collectAsState()
     var showFilter by remember { mutableStateOf(false) }
 
-//    Scaffold(
-//        scaffoldState = scaffoldState,
-//        backgroundColor = MaterialTheme.colors.background,
-//        topBar = {
-//            TopAppBar(
-//                title = {
-//                    if (!inSearchMode) {
-//                        Row {
-//                            CoilImage(
-//                                data = R.drawable.logo,
-//                                modifier = Modifier.size(32.dp).align(Alignment.CenterVertically)
-//                            )
-//                            Spacer(modifier = Modifier.preferredWidth(10.dp))
-//                            Text(text = "Instances")
-//                        }
-//                    } else {
-//                        MainInputText(
-//                            text = instanceParams.text ?: "",
-//                            onTextChanged = instanceViewModel::performSearch,
-//                            modifier = Modifier.fillMaxWidth(),
-//                            placeholder = "Search..."
-//                        )
-//                    }
-//                },
-//                actions = {
-//                    if (inSearchMode) {
-//                        IconButton(onClick = { instanceViewModel.switchToSearchMode(!inSearchMode) }) {
-//                            Image(
-//                                CommunityMaterial.Icon.cmd_close,
-//                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-//                                modifier = Modifier.size(24.dp)
-//                            )
-//                        }
-//                    } else {
-//                        IconButton(onClick = { instanceViewModel.switchToSearchMode(!inSearchMode) }) {
-//                            Image(
-//                                CommunityMaterial.Icon3.cmd_magnify,
-//                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-//                                modifier = Modifier.size(24.dp)
-//                            )
-//                        }
-//                        IconButton(onClick = { showFilter = true }) {
-//                            Image(
-//                                CommunityMaterial.Icon3.cmd_tune,
-//                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-//                                modifier = Modifier.size(24.dp)
-//                            )
-//                        }
-//                    }
-//                },
-//                backgroundColor = MaterialTheme.colors.background,
-//            )
-//        },
-//        bodyContent = {
-//            LazyColumn {
-//                items(items = instances, itemContent = { instance ->
-//                    InstanceListItem(instance, setCurrentHost)
-//                })
-//            }
-//            if (showFilter) FilterDialog(
-//                closeDialog = { showFilter = false },
-//                instanceParams,
-//                instanceViewModel::updateParams
-//            )
-//
-//        }
-//    )
+    Scaffold(
+        scaffoldState = scaffoldState,
+        backgroundColor = MaterialTheme.colors.background,
+        topBar = {
+            TopAppBar(
+                title = {
+                    if (!inSearchMode) {
+                        Row {
+                            CoilImage(
+                                data = R.drawable.logo,
+                                contentDescription = "Logo",
+                                modifier = Modifier.size(32.dp).align(Alignment.CenterVertically)
+                            )
+                            Spacer(modifier = Modifier.preferredWidth(10.dp))
+                            Text(text = "Instances")
+                        }
+                    } else {
+                        MainInputText(
+                            text = instanceParams.text ?: "",
+                            onTextChanged = instanceViewModel::performSearch,
+                            modifier = Modifier.fillMaxWidth(),
+                            placeholder = "Search..."
+                        )
+                    }
+                },
+                actions = {
+                    if (inSearchMode) {
+                        IconButton(onClick = { instanceViewModel.switchToSearchMode(!inSearchMode) }) {
+                            Image(
+                                CommunityMaterial.Icon.cmd_close,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    } else {
+                        IconButton(onClick = { instanceViewModel.switchToSearchMode(!inSearchMode) }) {
+                            Image(
+                                CommunityMaterial.Icon3.cmd_magnify,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                        IconButton(onClick = { showFilter = true }) {
+                            Image(
+                                CommunityMaterial.Icon3.cmd_tune,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    }
+                },
+                backgroundColor = MaterialTheme.colors.background,
+            )
+        },
+        bodyContent = {
+            LazyColumn {
+                this.items(items = instances, itemContent = { instance ->
+                    InstanceListItem(instance, setCurrentHost)
+                })
+            }
+            if (showFilter) FilterDialog(
+                closeDialog = { showFilter = false },
+                instanceParams,
+                instanceViewModel::updateParams
+            )
+
+        }
+    )
 }
 
 @Composable
@@ -113,83 +116,84 @@ private fun InstanceListItem(instance: InstanceModel, onSelected: (InstanceModel
         modifier = Modifier.fillMaxWidth().clickable(onClick = { onSelected(instance) })
             .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 12.dp)
     ) {
-//        Column(modifier = Modifier.width(50.dp)) {
-//            CoilImage(
-//                data = instance.country?.let { "https://www.countryflags.io/${it}/shiny/32.png" }
-//                    ?: "",
-//                loading = {
-//                    Box(
-//                        Modifier.width(32.dp).height(32.dp)
-//                            .background(MaterialTheme.colors.secondary)
-//                    )
-//                },
-//                error = {
-//                    Box(
-//                        Modifier.width(32.dp).height(32.dp)
-//                            .background(MaterialTheme.colors.secondary)
-//                    )
-//                },
-//                contentScale = ContentScale.FillWidth,
-//                modifier = Modifier.width(32.dp).height(32.dp)
-//            )
-//        }
-//        Column(modifier = Modifier.weight(1f)) {
-//            Text(
-//                text = instance.host ?: "",
-//                style = MaterialTheme.typography.overline
-//            )
-//            Text(
-//                text = instance.name ?: "",
-//                style = MaterialTheme.typography.body2.copy(fontWeight = FontWeight.Bold)
-//            )
-//            Text(
-//                text = instance.shortDescription ?: "",
-//                maxLines = 2,
-//                style = MaterialTheme.typography.caption.copy(fontWeight = FontWeight.Light)
-//            )
-//
-//            Row(
-//                modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
-//                horizontalArrangement = Arrangement.spacedBy(5.dp)
-//            ) {
-//                Text(
-//                    text = "${instance.totalVideos} videos",
-//                    style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
-//                    color = MaterialTheme.colors.primary,
-//                    modifier = Modifier.border(
-//                        border = BorderStroke(.5.dp, MaterialTheme.colors.primary),
-//                        shape = RoundedCornerShape(50)
-//                    ).padding(horizontal = 5.dp, vertical = 3.dp)
-//                )
-//                Text(
-//                    text = "${instance.totalInstanceFollowing} Following",
-//                    style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
-//                    color = MaterialTheme.colors.primary,
-//                    modifier = Modifier.border(
-//                        border = BorderStroke(.5.dp, MaterialTheme.colors.primary),
-//                        shape = RoundedCornerShape(50)
-//                    ).padding(horizontal = 5.dp, vertical = 3.dp)
-//                )
-//                Text(
-//                    text = "${instance.totalInstanceFollowers} Followers",
-//                    style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
-//                    color = MaterialTheme.colors.primary,
-//                    modifier = Modifier.border(
-//                        border = BorderStroke(.5.dp, MaterialTheme.colors.primary),
-//                        shape = RoundedCornerShape(50)
-//                    ).padding(horizontal = 5.dp, vertical = 3.dp)
-//                )
-//                Text(
-//                    text = "${instance.totalUsers} Users",
-//                    style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
-//                    color = MaterialTheme.colors.primary,
-//                    modifier = Modifier.border(
-//                        border = BorderStroke(.5.dp, MaterialTheme.colors.primary),
-//                        shape = RoundedCornerShape(50)
-//                    ).padding(horizontal = 5.dp, vertical = 3.dp)
-//                )
-//            }
-//        }
+        Column(modifier = Modifier.width(50.dp)) {
+            CoilImage(
+                data = instance.country?.let { "https://www.countryflags.io/${it}/shiny/32.png" }
+                    ?: "",
+                contentDescription="Flag Icon",
+                loading = {
+                    Box(
+                        Modifier.width(32.dp).height(32.dp)
+                            .background(MaterialTheme.colors.secondary)
+                    )
+                },
+                error = {
+                    Box(
+                        Modifier.width(32.dp).height(32.dp)
+                            .background(MaterialTheme.colors.secondary)
+                    )
+                },
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier.width(32.dp).height(32.dp)
+            )
+        }
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = instance.host ?: "",
+                style = MaterialTheme.typography.overline
+            )
+            Text(
+                text = instance.name ?: "",
+                style = MaterialTheme.typography.body2.copy(fontWeight = FontWeight.Bold)
+            )
+            Text(
+                text = instance.shortDescription ?: "",
+                maxLines = 2,
+                style = MaterialTheme.typography.caption.copy(fontWeight = FontWeight.Light)
+            )
+
+            Row(
+                modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                Text(
+                    text = "${instance.totalVideos} videos",
+                    style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier.border(
+                        border = BorderStroke(.5.dp, MaterialTheme.colors.primary),
+                        shape = RoundedCornerShape(50)
+                    ).padding(horizontal = 5.dp, vertical = 3.dp)
+                )
+                Text(
+                    text = "${instance.totalInstanceFollowing} Following",
+                    style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier.border(
+                        border = BorderStroke(.5.dp, MaterialTheme.colors.primary),
+                        shape = RoundedCornerShape(50)
+                    ).padding(horizontal = 5.dp, vertical = 3.dp)
+                )
+                Text(
+                    text = "${instance.totalInstanceFollowers} Followers",
+                    style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier.border(
+                        border = BorderStroke(.5.dp, MaterialTheme.colors.primary),
+                        shape = RoundedCornerShape(50)
+                    ).padding(horizontal = 5.dp, vertical = 3.dp)
+                )
+                Text(
+                    text = "${instance.totalUsers} Users",
+                    style = MaterialTheme.typography.caption.copy(fontSize = 10.sp),
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier.border(
+                        border = BorderStroke(.5.dp, MaterialTheme.colors.primary),
+                        shape = RoundedCornerShape(50)
+                    ).padding(horizontal = 5.dp, vertical = 3.dp)
+                )
+            }
+        }
     }
     Divider()
 }
@@ -253,6 +257,7 @@ private fun FilterDialog(
     )
 }
 
+@OptIn(ExperimentalIconics::class)
 @Composable
 fun FilterRow(
     title: String,
@@ -267,47 +272,47 @@ fun FilterRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-//        Text(
-//            text = title,
-//            style = MaterialTheme.typography.body1.copy(
-//                fontSize = 11.sp,
-//                fontWeight = FontWeight.Light
-//            ),
-//            color = MaterialTheme.colors.onBackground,
-//            modifier = Modifier.width(100.dp)
-//        )
-//        DropdownMenu(
-//            toggle = {
-//                Text(
-//                    text = value,
-//                    style = MaterialTheme.typography.body1.copy(
-//                        fontSize = 14.sp,
-//                        fontWeight = FontWeight.Normal
-//                    ),
-//                    color = MaterialTheme.colors.onBackground,
-//                    modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp)
-//                        .clickable(onClick = { toggleMenu(true) })
-//                )
-//            },
-//            expanded = showMenu,
-//            onDismissRequest = { toggleMenu(false) },
-//            dropdownModifier = Modifier.weight(1f)
-//        ) {
-//            items.forEachIndexed { index, s ->
-//                DropdownMenuItem(onClick = {
-//                    toggleMenu(false)
-//                    indexSelected(index)
-//                }) {
-//                    Text(text = s)
-//                }
-//            }
-//        }
-//
-//        Image(
-//            CommunityMaterial.Icon.cmd_chevron_down,
-//            colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-//            modifier = Modifier.size(20.dp).clickable(onClick = { toggleMenu(true) })
-//        )
+        Text(
+            text = title,
+            style = MaterialTheme.typography.body1.copy(
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Light
+            ),
+            color = MaterialTheme.colors.onBackground,
+            modifier = Modifier.width(100.dp)
+        )
+        Box{
+            Text(
+                text = value,
+                style = MaterialTheme.typography.body1.copy(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal
+                ),
+                color = MaterialTheme.colors.onBackground,
+                modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp)
+                    .clickable(onClick = { toggleMenu(true) })
+            )
+            DropdownMenu(
+                expanded = showMenu,
+                onDismissRequest = { toggleMenu(false) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items.forEachIndexed { index, s ->
+                    DropdownMenuItem(onClick = {
+                        toggleMenu(false)
+                        indexSelected(index)
+                    }) {
+                        Text(text = s)
+                    }
+                }
+            }
+        }
+
+        Image(
+            CommunityMaterial.Icon.cmd_chevron_down,
+            colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+            modifier = Modifier.size(20.dp).clickable(onClick = { toggleMenu(true) })
+        )
     }
 }
 

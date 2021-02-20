@@ -103,8 +103,8 @@ dependencies {
     implementation(ExternalLibs.firebaseAnalytics)
     implementation(ExternalLibs.firebaseCrashlytics)
 
-    implementation("com.mikepenz:iconics-core:5.2.1")
-    implementation("com.mikepenz:iconics-compose:5.2.1")
+    implementation("com.mikepenz:iconics-core:5.2.7")
+    implementation("com.mikepenz:iconics-compose:5.2.7")
     implementation("com.mikepenz:community-material-typeface:5.8.55.0-kotlin@aar")
 
     // Test
