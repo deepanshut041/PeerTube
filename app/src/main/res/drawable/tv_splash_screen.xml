@@ -19,7 +19,6 @@
     <item android:drawable="@android:color/white" />
     <item>
         <bitmap
-            android:gravity="center"
-            android:src="@drawable/tv_splash_screen_image"/>
+            android:gravity="center"/>
     </item>
 </layer-list>

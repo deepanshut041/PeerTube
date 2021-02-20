@@ -43,10 +43,12 @@ import com.deepanshut041.peertube.util.getViewModel
 import com.deepanshut041.peertube.util.humanReadableBigNumber
 import dev.chrisbanes.accompanist.coil.CoilImage
 import androidx.compose.runtime.DisposableEffect
+import com.mikepenz.iconics.compose.ExperimentalIconics
 
 val PLAYER_HEIGHT = 240.dp
 const val MAX_Y_SCALE = 0.3f
 
+@ExperimentalIconics
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
@@ -87,7 +89,7 @@ fun VideoOverlayPlayer(
         ) {
             if (videoResult.state == Resource.SUCCESS)
                 VideoPlayer(
-                    url = videoResult.data?.files?.get(0)?.fileUrl ?: "",
+                    url = videoResult.data?.files?.firstOrNull()?.fileUrl ?: "",
                     modifier = Modifier.fillMaxWidth(scaleX)
                         .clickable(
                             enabled = !stickyDraggingConfig.isExpanded,
