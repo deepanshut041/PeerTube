@@ -64,9 +64,9 @@ dependencies {
     implementation(JetpackLibs.material)
     implementation(JetpackLibs.ktxViewModel)
     implementation(JetpackLibs.ktxReactiveStreams)
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation('androidx.lifecycle:lifecycle-runtime-ktx:2.2.0')
+    implementation('androidx.lifecycle:lifecycle-runtime-ktx:2.3.0')
     implementation("androidx.preference:preference-ktx:1.1.1")
 
     // Compose
@@ -82,9 +82,9 @@ dependencies {
     implementation(Compose.accompanist)
 
     // Paging
-    implementation("androidx.paging:paging-runtime-ktx:3.0.0-alpha11")
-    implementation("androidx.paging:paging-common-ktx:3.0.0-alpha11")
-    implementation("androidx.paging:paging-compose:1.0.0-alpha04")
+    implementation("androidx.paging:paging-runtime-ktx:3.0.0-beta01")
+    implementation("androidx.paging:paging-common-ktx:3.0.0-beta01")
+    implementation("androidx.paging:paging-compose:1.0.0-alpha07")
 
     // ExoPlayer
     implementation(ExternalLibs.exoPlayer)
