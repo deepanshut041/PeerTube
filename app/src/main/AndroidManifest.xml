@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.squrlabs.peertube">
+    package="com.deepanshut041.peertube">
     <uses-feature
         android:name="android.software.leanback"
         android:required="false" />
@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".App"
+        android:name="com.deepanshut041.peertube.App"
         android:allowBackup="true"
         android:banner="@drawable/banner"
         android:icon="@mipmap/ic_launcher"
@@ -26,7 +26,7 @@
             android:value="${crashlyticsCollectionEnabled}" />
 
         <activity
-            android:name=".ui.mobile.MobileActivity"
+            android:name="com.deepanshut041.peertube.ui.mobile.MobileActivity"
             android:theme="@style/MobileSplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,7 +35,7 @@
         </activity>
 
         <activity
-            android:name=".ui.tv.TvActivity"
+            android:name="com.deepanshut041.peertube.ui.tv.TvActivity"
             android:theme="@style/TvSplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

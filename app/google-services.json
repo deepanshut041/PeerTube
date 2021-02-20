@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "488381404108",
-    "firebase_url": "https://peer-tube.firebaseio.com",
-    "project_id": "peer-tube",
-    "storage_bucket": "peer-tube.appspot.com"
+    "project_number": "289367481388",
+    "project_id": "peertube-6e473",
+    "storage_bucket": "peertube-6e473.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:488381404108:android:ff5144cc5aa87cbc37c369",
+        "mobilesdk_app_id": "1:289367481388:android:95a70e95f6cddde384c589",
         "android_client_info": {
-          "package_name": "com.squrlabs.peertube"
+          "package_name": "com.deepanshut041.peertube"
         }
       },
       "oauth_client": [
         {
-          "client_id": "488381404108-op3pv224uuekse7vf4m9g90rc9k4ft79.apps.googleusercontent.com",
+          "client_id": "289367481388-tanrsmc8dcl9qkqnvsvbiml5c3t3ihc6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAp3rI-X8VyaO-xOhWFkmZHJ7d3sekHJqE"
+          "current_key": "AIzaSyDIR-EWqMup7KqEbtTJSBxCZL2m64mnNgU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "488381404108-op3pv224uuekse7vf4m9g90rc9k4ft79.apps.googleusercontent.com",
+              "client_id": "289367481388-tanrsmc8dcl9qkqnvsvbiml5c3t3ihc6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

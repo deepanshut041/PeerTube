@@ -60,7 +60,7 @@ kotlin {
             implementation(Ktor.slf4j)
 
             // Serialize
-            implementation(Serialization.core)
+            implementation(Serialization.json)
             api("org.jetbrains.kotlinx:kotlinx-datetime:0.1.1")
 
             // koin

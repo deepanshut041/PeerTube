@@ -1,14 +1,14 @@
 object Versions {
-    const val kotlin = "1.4.21"
+    const val kotlin = "1.4.30"
     const val kotlinCoroutines = "1.4.2-native-mt"
     const val ktor = "1.4.0"
-    const val kotlinxSerialization = "1.0.0-RC"
+    const val kotlinxSerialization = "1.1.0"
     const val koin = "3.0.0-alpha-4"
     const val ktx = "1.0.1"
     const val lifecycle = "2.2.0-alpha01"
-    const val compose = "1.0.0-alpha09"
-    const val nav_compose_version = "1.0.0-alpha04"
-    const val coilVersion = "0.4.1"
+    const val compose = "1.0.0-alpha12"
+    const val nav_compose_version = "1.0.0-alpha07"
+    const val coilVersion = "0.5.1"
     const val kermit = "0.1.8"
     const val kodein_db = "0.3.0-beta"
     const val junit = "4.12"
@@ -50,7 +50,7 @@ object Koin {
 }
 
 object Serialization {
-    val core = "org.jetbrains.kotlinx:kotlinx-serialization-core:${Versions.kotlinxSerialization}"
+    val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinxSerialization}"
 }
 
 object JetpackLibs {
