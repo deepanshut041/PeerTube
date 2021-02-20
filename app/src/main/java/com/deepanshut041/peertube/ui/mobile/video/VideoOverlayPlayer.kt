@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -38,9 +38,11 @@ import com.deepanshut041.peertube.common.service.model.VideoModel
 import com.deepanshut041.peertube.ui.mobile.base.BottomSheet
 import com.deepanshut041.peertube.ui.mobile.base.TextIcon
 import com.deepanshut041.peertube.util.LoadingView
+import com.deepanshut041.peertube.util.getTimeAgo
 import com.deepanshut041.peertube.util.getViewModel
 import com.deepanshut041.peertube.util.humanReadableBigNumber
 import dev.chrisbanes.accompanist.coil.CoilImage
+import androidx.compose.runtime.DisposableEffect
 
 val PLAYER_HEIGHT = 240.dp
 const val MAX_Y_SCALE = 0.3f
@@ -68,99 +70,100 @@ fun VideoOverlayPlayer(
     val iconButtonsModifier =
         Modifier.fillMaxHeight().width(40.dp).padding(4.dp, 20.dp).alpha(iconButtonsOpacity)
 
-//    onCommit(videoId) {
-//        viewModel.fetchVideoDetails(videoId)
-//        stickyDraggingConfig.expand()
-//    }
-//
-//    Column {
-//        Row(
-//            Modifier
-//                .stickyDrag(config = stickyDraggingConfig)
-//                .clickable { stickyDraggingConfig.expand() }
-//                .background(MaterialTheme.colors.background)
-//                .height(PLAYER_HEIGHT * scaleY)
-//                .align(Alignment.CenterHorizontally)
-//        ) {
-//            if (videoResult.state == Resource.SUCCESS)
-//                VideoPlayer(
-//                    url = videoResult.data?.files?.get(0)?.fileUrl ?: "",
-//                    modifier = Modifier.fillMaxWidth(scaleX)
-//                        .clickable(
-//                            enabled = !stickyDraggingConfig.isExpanded,
-//                            onClick = { isPlaying = !isPlaying }),
-//                    isPlaying = isPlaying,
-//                    showControls = true
-//                )
-//            else
-//                Box(modifier = Modifier.fillMaxWidth(scaleX).background(Color.Black))
-//
-//            Box(Modifier.padding(8.dp).fillMaxHeight().weight(1f)) {
-//                Text(
-//                    text = videoResult.data?.name ?: "",
-//                    overflow = TextOverflow.Ellipsis,
-//                    maxLines = 2,
-//                    style = MaterialTheme.typography.body2.copy(
-//                        fontWeight = FontWeight.Bold,
-//                        fontSize = 12.sp
-//                    )
-//                )
-//            }
-//
-//            Image(
-//                if (isPlaying) CommunityMaterial.Icon3.cmd_pause else CommunityMaterial.Icon3.cmd_play,
-//                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-//                modifier = iconButtonsModifier.clickable(onClick = { isPlaying = !isPlaying })
-//                    .size(24.dp)
-//            )
-//
-//            Image(
-//                CommunityMaterial.Icon.cmd_close,
-//                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-//                modifier = iconButtonsModifier.clickable(onClick = {
-//                    isPlaying = false
-//                    requestClose()
-//                }).size(24.dp)
-//            )
-//        }
-//
-//        if (scaleY > MAX_Y_SCALE)
-//            BottomSheet(sheetContent = {
-//                Box(modifier = Modifier.fillMaxSize()) {
-//                    videoDescription.description?.let {
-//                        Text(text = it, style = MaterialTheme.typography.body2)
-//                    }
-//                }
-//            }, sheetState = bottomSheet, title = "Bottom Sheet", content = {
-//                if (videoResult.state == Resource.SUCCESS) {
-//                    LazyColumn {
-//                        itemsIndexed(comments) { index: Int, comment: VideoCommentModel ->
-//                            if (index == 0)
-//                                VideoHeader(
-//                                    videoResult.data!!,
-//                                    descriptionState = {
-//                                        bottomSheet.animateTo(
-//                                            ModalBottomSheetValue.Expanded
-//                                        )
-//                                    }
-//                                )
-//
-//                            if (comment.isDeleted == false) {
-//                                VideoComment(comment)
-//                                Divider(modifier = Modifier.fillMaxWidth())
-//                            }
-//                        }
-//                    }
-//
-//                } else
-//                    LoadingView(modifier = Modifier.fillMaxSize())
-//            }, modifier = Modifier.alpha(opacity).offset(y = stickyDraggingConfig.offset)
-//                .fillMaxWidth()
-//                .weight(1f)
-//                .background(MaterialTheme.colors.background)
-//            )
-//
-//    }
+    DisposableEffect(videoId) {
+        viewModel.fetchVideoDetails(videoId)
+        stickyDraggingConfig.expand()
+        onDispose {}
+    }
+
+    Column {
+        Row(
+            Modifier
+                .stickyDrag(config = stickyDraggingConfig)
+                .clickable { stickyDraggingConfig.expand() }
+                .background(MaterialTheme.colors.background)
+                .height(PLAYER_HEIGHT * scaleY)
+                .align(Alignment.CenterHorizontally)
+        ) {
+            if (videoResult.state == Resource.SUCCESS)
+                VideoPlayer(
+                    url = videoResult.data?.files?.get(0)?.fileUrl ?: "",
+                    modifier = Modifier.fillMaxWidth(scaleX)
+                        .clickable(
+                            enabled = !stickyDraggingConfig.isExpanded,
+                            onClick = { isPlaying = !isPlaying }),
+                    isPlaying = isPlaying,
+                    showControls = true
+                )
+            else
+                Box(modifier = Modifier.fillMaxWidth(scaleX).background(Color.Black))
+
+            Box(Modifier.padding(8.dp).fillMaxHeight().weight(1f)) {
+                Text(
+                    text = videoResult.data?.name ?: "",
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2,
+                    style = MaterialTheme.typography.body2.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp
+                    )
+                )
+            }
+
+            Image(
+                if (isPlaying) CommunityMaterial.Icon3.cmd_pause else CommunityMaterial.Icon3.cmd_play,
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                modifier = iconButtonsModifier.clickable(onClick = { isPlaying = !isPlaying })
+                    .size(24.dp)
+            )
+
+            Image(
+                CommunityMaterial.Icon.cmd_close,
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                modifier = iconButtonsModifier.clickable(onClick = {
+                    isPlaying = false
+                    requestClose()
+                }).size(24.dp)
+            )
+        }
+
+        if (scaleY > MAX_Y_SCALE)
+            BottomSheet(sheetContent = {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    videoDescription.description?.let {
+                        Text(text = it, style = MaterialTheme.typography.body2)
+                    }
+                }
+            }, sheetState = bottomSheet, title = "Bottom Sheet", content = {
+                if (videoResult.state == Resource.SUCCESS) {
+                    LazyColumn {
+                        itemsIndexed(comments) { index: Int, comment: VideoCommentModel ->
+                            if (index == 0)
+                                VideoHeader(
+                                    videoResult.data!!,
+                                    descriptionState = {
+                                        bottomSheet.animateTo(
+                                            ModalBottomSheetValue.Expanded
+                                        )
+                                    }
+                                )
+
+                            if (comment.isDeleted == false) {
+                                VideoComment(comment)
+                                Divider(modifier = Modifier.fillMaxWidth())
+                            }
+                        }
+                    }
+
+                } else
+                    LoadingView(modifier = Modifier.fillMaxSize())
+            }, modifier = Modifier.alpha(opacity).offset(y = stickyDraggingConfig.offset)
+                .fillMaxWidth()
+                .weight(1f)
+                .background(MaterialTheme.colors.background)
+            )
+
+    }
 }
 
 @ExperimentalMaterialApi
@@ -184,7 +187,7 @@ private fun VideoHeader(
         Text(
             text = buildAnnotatedString {
                 pushStyle(SpanStyle(fontSize = 12.sp))
-//                append(video.createdAt?.getTimeAgo() ?: "")
+                append(video.createdAt?.getTimeAgo() ?: "")
                 video.views?.also {
                     append(" • ${it.humanReadableBigNumber()} views")
                 }
@@ -231,39 +234,44 @@ private fun VideoPlayer(
     seek: Float = 0f,
     showControls: Boolean = false
 ) {
-    val context = AmbientContext.current
+    val context = LocalContext.current
 
     val exoPlayer = remember {
         SimpleExoPlayer.Builder(context).build()
     }
 
-//    onCommit(url) {
-//        val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(
-//            context,
-//            Util.getUserAgent(context, context.packageName)
-//        )
-//
-//        val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-//            .createMediaSource(
-//                Uri.parse(
-//                    url
-//                )
-//            )
-//
-//        exoPlayer.prepare(source)
-//    }
+    DisposableEffect(url) {
+        val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(
+            context,
+            Util.getUserAgent(context, context.packageName)
+        )
 
-//    onCommit(isPlaying) {
-//        exoPlayer.playWhenReady = isPlaying
-//    }
-//
-//    onCommit(seek) {
-//        exoPlayer.seekTo((exoPlayer.duration * seek.toLong()))
-//    }
-//
-//    onDispose {
-//        exoPlayer.release()
-//    }
+        val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+            .createMediaSource(
+                Uri.parse(
+                    url
+                )
+            )
+
+        exoPlayer.prepare(source)
+        onDispose { }
+    }
+
+    DisposableEffect(seek){
+        exoPlayer.seekTo((exoPlayer.duration * seek.toLong()))
+        onDispose { }
+    }
+
+    DisposableEffect(Unit){
+        onDispose {
+            exoPlayer.release()
+        }
+    }
+
+    DisposableEffect(isPlaying){
+        exoPlayer.playWhenReady = isPlaying
+        onDispose { }
+    }
 
     AndroidView({
         PlayerView(it)
@@ -276,41 +284,42 @@ private fun VideoPlayer(
 
 @Composable
 private fun VideoComment(comment: VideoCommentModel, modifier: Modifier = Modifier) {
-//    Column(
-//        modifier = modifier.background(MaterialTheme.colors.surface).padding(16.dp)
-//    ) {
-//        comment.account?.also { account ->
-//            Row(verticalAlignment = Alignment.CenterVertically) {
-//                Card(
-//                    modifier = Modifier
-//                        .preferredSize(32.dp),
-//                    shape = CircleShape
-//                ) {
-//                    CoilImage(
-//                        data = "https://${account.host}${account.avatar?.path}",
-//                        fadeIn = true,
-//                        error = {
-//                            CoilImage(data = "https://${account.host}/client/assets/images/default-avatar.png")
-//                        }
-//                    )
-//                }
-//                Spacer(modifier = Modifier.width(16.dp))
-//                Text(
-//                    text = annotatedString {
-//                        pushStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = 12.sp))
-//                        append("${account.displayName}")
-//                        pop()
-//                        comment.createdAt?.also {
-//                            pushStyle(SpanStyle(color = Color.DarkGray, fontSize = 12.sp))
-//                            append(" • ${it.getTimeAgo()}")
-//                            pop()
-//                        }
-//                    }
-//                )
-//            }
-//        }
-//        comment.text?.also {
-//            Text(text = it)
-//        }
-//    }
+    Column(
+        modifier = modifier.background(MaterialTheme.colors.surface).padding(16.dp)
+    ) {
+        comment.account?.also { account ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Card(
+                    modifier = Modifier
+                        .preferredSize(32.dp),
+                    shape = CircleShape
+                ) {
+                    CoilImage(
+                        data = "https://${account.host}${account.avatar?.path}",
+                        contentDescription = "Logo",
+                        fadeIn = true,
+                        error = {
+                            CoilImage(data = "https://${account.host}/client/assets/images/default-avatar.png",  contentDescription = "Logo",)
+                        }
+                    )
+                }
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(
+                    buildAnnotatedString  {
+                        pushStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = 12.sp))
+                        append("${account.displayName}")
+                        pop()
+                        comment.createdAt?.also {
+                            pushStyle(SpanStyle(color = Color.DarkGray, fontSize = 12.sp))
+                            append(" • ${it.getTimeAgo()}")
+                            pop()
+                        }
+                    }
+                )
+            }
+        }
+        comment.text?.also {
+            Text(text = it)
+        }
+    }
 }

@@ -26,9 +26,11 @@ import com.deepanshut041.peertube.common.service.model.VideoModel
 import com.deepanshut041.peertube.util.duration
 import com.deepanshut041.peertube.util.getTimeAgo
 import com.deepanshut041.peertube.util.humanReadableBigNumber
+import com.mikepenz.iconics.compose.ExperimentalIconics
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 
+@ExperimentalIconics
 @Composable
 fun FeedItem(videoModel: VideoModel, setVideoModel: (Long) -> Unit) {
     val name = videoModel.name ?: ""
@@ -53,77 +55,79 @@ fun FeedItem(videoModel: VideoModel, setVideoModel: (Long) -> Unit) {
             setVideoModel(videoModel.id!!)
         })
     ) {
-//        Box(modifier = Modifier.fillMaxWidth()) {
-//            CoilImage(
-//                data = previewUrl,
-//                loading = {
-//                    Box(
-//                        Modifier.fillMaxWidth().height(200.dp)
-//                            .background(MaterialTheme.colors.secondary)
-//                    )
-//                },
-//                error = {
-//                    Box(
-//                        Modifier.fillMaxWidth().height(200.dp)
-//                            .background(MaterialTheme.colors.secondary)
-//                    )
-//                },
-//                contentScale = ContentScale.FillWidth,
-//                modifier = Modifier.fillMaxWidth()
-//            )
-//            Text(
-//                style = TextStyle(color = Color.White),
-//                text = duration,
-//                modifier = Modifier.align(Alignment.BottomEnd)
-//                    .background(color = Color.Black)
-//                    .padding(2.dp)
-//            )
-//        }
-//        Row {
-//            Box(modifier = Modifier.padding(10.dp)) {
-//                CoilImage(
-//                    data = avatarUrl,
-//                    loading = {
-//                        Box(
-//                            modifier = Modifier.size(35.dp).clip(CircleShape)
-//                                .background(MaterialTheme.colors.secondary)
-//                        )
-//                    },
-//                    error = {
-//                        Box(
-//                            modifier = Modifier.size(35.dp).clip(CircleShape)
-//                                .background(MaterialTheme.colors.secondary)
-//                        )
-//                    },
-//                    contentScale = ContentScale.Crop,
-//                    modifier = Modifier.size(35.dp).clickable(onClick = { }),
-//                    requestBuilder = { transformations(CircleCropTransformation()) },
-//                )
-//            }
-//            Column(modifier = Modifier.weight(1f).padding(0.dp, 10.dp)) {
-//                Text(
-//                    style = MaterialTheme.typography.caption,
-//                    text = name,
-//                    maxLines = 2,
-//                    fontWeight = FontWeight.Bold,
-//                    overflow = TextOverflow.Ellipsis
-//                )
-//                Spacer(modifier = Modifier.preferredHeight(3.dp))
-//                Text(
-//                    text = "$channelName • $views • $date",
-//                    style = MaterialTheme.typography.caption.copy(fontSize = 10.sp)
-//                )
-//            }
-//            IconButton(onClick = {
-//
-//            }, modifier = Modifier.width(20.dp)) {
-//                Image(
-//                    CommunityMaterial.Icon.cmd_dots_vertical,
-//                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface),
-//                    modifier = Modifier.size(24.dp)
-//                )
-//            }
-//        }
+        Box(modifier = Modifier.fillMaxWidth()) {
+            CoilImage(
+                data = previewUrl,
+                contentDescription = "Logo",
+                loading = {
+                    Box(
+                        Modifier.fillMaxWidth().height(200.dp)
+                            .background(MaterialTheme.colors.secondary)
+                    )
+                },
+                error = {
+                    Box(
+                        Modifier.fillMaxWidth().height(200.dp)
+                            .background(MaterialTheme.colors.secondary)
+                    )
+                },
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Text(
+                style = TextStyle(color = Color.White),
+                text = duration,
+                modifier = Modifier.align(Alignment.BottomEnd)
+                    .background(color = Color.Black)
+                    .padding(2.dp)
+            )
+        }
+        Row {
+            Box(modifier = Modifier.padding(10.dp)) {
+                CoilImage(
+                    data = avatarUrl,
+                    contentDescription = "Logo",
+                    loading = {
+                        Box(
+                            modifier = Modifier.size(35.dp).clip(CircleShape)
+                                .background(MaterialTheme.colors.secondary)
+                        )
+                    },
+                    error = {
+                        Box(
+                            modifier = Modifier.size(35.dp).clip(CircleShape)
+                                .background(MaterialTheme.colors.secondary)
+                        )
+                    },
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(35.dp).clickable(onClick = { }),
+                    requestBuilder = { transformations(CircleCropTransformation()) },
+                )
+            }
+            Column(modifier = Modifier.weight(1f).padding(0.dp, 10.dp)) {
+                Text(
+                    style = MaterialTheme.typography.caption,
+                    text = name,
+                    maxLines = 2,
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.preferredHeight(3.dp))
+                Text(
+                    text = "$channelName • $views • $date",
+                    style = MaterialTheme.typography.caption.copy(fontSize = 10.sp)
+                )
+            }
+            IconButton(onClick = {
+
+            }, modifier = Modifier.width(20.dp)) {
+                Image(
+                    CommunityMaterial.Icon.cmd_dots_vertical,
+                    colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface),
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
         Spacer(Modifier.preferredHeight(20.dp))
     }
 }

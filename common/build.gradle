@@ -27,6 +27,11 @@ android {
             manifest.srcFile 'src/androidMain/AndroidManifest.xml'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 kotlin {
@@ -49,6 +54,12 @@ kotlin {
     }
 
     sourceSets {
+        all {
+            configurations[compileOnlyConfigurationName].withDependencies {
+                addAll(configurations[apiConfigurationName].allDependencies)
+                addAll(configurations[implementationMetadataConfigurationName].allDependencies)
+            }
+        }
         commonMain.dependencies {
             // Coroutines
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}")

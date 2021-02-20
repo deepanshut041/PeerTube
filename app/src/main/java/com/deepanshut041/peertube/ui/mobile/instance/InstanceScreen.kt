@@ -28,6 +28,7 @@ import com.mikepenz.iconics.compose.ExperimentalIconics
 import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlinx.coroutines.FlowPreview
 
+@ExperimentalIconics
 @FlowPreview
 @Composable
 fun InstanceScreen(
@@ -198,6 +199,7 @@ private fun InstanceListItem(instance: InstanceModel, onSelected: (InstanceModel
     Divider()
 }
 
+@ExperimentalIconics
 @Composable
 private fun FilterDialog(
     closeDialog: () -> Unit = {},
@@ -257,7 +259,7 @@ private fun FilterDialog(
     )
 }
 
-@OptIn(ExperimentalIconics::class)
+@ExperimentalIconics
 @Composable
 fun FilterRow(
     title: String,

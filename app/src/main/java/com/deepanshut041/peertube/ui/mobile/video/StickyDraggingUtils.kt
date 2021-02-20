@@ -16,6 +16,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.gesture.scrollorientationlocking.Orientation
 import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlin.math.abs
@@ -69,12 +71,12 @@ data class ScreenDimensions(val height: Dp, val width: Dp)
 
 @Composable
 fun screenDimensions(): ScreenDimensions {
-    val context = AmbientContext.current
+    val context = LocalContext.current
     val displayMetrics = context.resources.displayMetrics
 
-    with(AmbientDensity.current) {
-        var height = displayMetrics.heightPixels.toDp() - 56.dp
-        var width = displayMetrics.widthPixels.toDp()
+    with(LocalDensity.current) {
+        val height = displayMetrics.heightPixels.toDp() - 56.dp
+        val width = displayMetrics.widthPixels.toDp()
         val statusBarHeight = getStatusBarHeight(context).toDp()
         val orientation: Int = context.resources.configuration.orientation
 

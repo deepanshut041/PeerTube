@@ -22,6 +22,7 @@ import com.deepanshut041.peertube.ui.NavigationModel
 import com.deepanshut041.peertube.ui.mobile.base.MainInputText
 import com.deepanshut041.peertube.ui.mobile.base.TextIcon
 import com.deepanshut041.peertube.util.getViewModel
+import com.mikepenz.iconics.compose.ExperimentalIconics
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 data class HomeBottomMenu(
@@ -63,6 +64,7 @@ val bottomItems = listOf(
     )
 )
 
+@ExperimentalIconics
 @ExperimentalMaterialApi
 @Composable
 fun HomeScreen(
@@ -88,11 +90,12 @@ fun HomeScreen(
                 title = {
                     if (!inSearchMode) {
                         Row {
-//                            CoilImage(
-//                                data = R.drawable.logo,
-//                                modifier = Modifier.size(32.dp)
-//                                    .align(Alignment.CenterVertically)
-//                            )
+                            CoilImage(
+                                data = R.drawable.logo,
+                                contentDescription = "Button",
+                                modifier = Modifier.size(32.dp)
+                                    .align(Alignment.CenterVertically)
+                            )
                             Spacer(modifier = Modifier.preferredWidth(10.dp))
                             Text(text = "PeerTube", style = MaterialTheme.typography.h6)
                         }
@@ -108,26 +111,26 @@ fun HomeScreen(
                 actions = {
                     if (inSearchMode) {
                         IconButton(onClick = { viewModel.switchToSearchMode(!inSearchMode) }) {
-//                            Image(
-//                                CommunityMaterial.Icon.cmd_close,
-//                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-//                                modifier = Modifier.size(24.dp)
-//                            )
+                            Image(
+                                CommunityMaterial.Icon.cmd_close,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                                modifier = Modifier.size(24.dp)
+                            )
                         }
                     } else {
                         IconButton(onClick = { viewModel.switchToSearchMode(!inSearchMode) }) {
-//                            Image(
-//                                CommunityMaterial.Icon3.cmd_magnify,
-//                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-//                                modifier = Modifier.size(24.dp)
-//                            )
+                            Image(
+                                CommunityMaterial.Icon3.cmd_magnify,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                                modifier = Modifier.size(24.dp)
+                            )
                         }
                         IconButton(onClick = { drawerState.bottomSheetState.expand() }) {
-//                            Image(
-//                                CommunityMaterial.Icon.cmd_account_circle,
-//                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-//                                modifier = Modifier.size(24.dp)
-//                            )
+                            Image(
+                                CommunityMaterial.Icon.cmd_account_circle,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                                modifier = Modifier.size(24.dp)
+                            )
                         }
                     }
                 },
@@ -138,11 +141,11 @@ fun HomeScreen(
         sheetContent = {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.height(56.dp)) {
                 IconButton(onClick = { drawerState.bottomSheetState.collapse() }) {
-//                    Image(
-//                        CommunityMaterial.Icon.cmd_close,
-//                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-//                        modifier = Modifier.size(24.dp)
-//                    )
+                    Image(
+                        CommunityMaterial.Icon.cmd_close,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                        modifier = Modifier.size(24.dp)
+                    )
                 }
                 Spacer(modifier = Modifier.preferredWidth(10.dp))
                 Text(text = "Account", style = MaterialTheme.typography.h6)
@@ -173,11 +176,11 @@ fun HomeScreen(
                     modifier = Modifier.padding(horizontal = 20.dp, vertical = 15.dp).fillMaxWidth()
                         .clickable(onClick = { })
                 ) {
-//                    Image(
-//                        CommunityMaterial.Icon.cmd_cog,
-//                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-//                        modifier = Modifier.size(24.dp)
-//                    )
+                    Image(
+                        CommunityMaterial.Icon.cmd_cog,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                        modifier = Modifier.size(24.dp)
+                    )
                     Spacer(modifier = Modifier.preferredWidth(10.dp))
                     Text(text = "Settings", style = MaterialTheme.typography.h6)
                 }
@@ -185,11 +188,11 @@ fun HomeScreen(
                     modifier = Modifier.padding(horizontal = 20.dp, vertical = 15.dp).fillMaxWidth()
                         .clickable(onClick = { navigateTo(NavigationModel(path = MobileActions.navigateToInstances())) })
                 ) {
-//                    Image(
-//                        CommunityMaterial.Icon.cmd_circle_multiple,
-//                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
-//                        modifier = Modifier.size(24.dp)
-//                    )
+                    Image(
+                        CommunityMaterial.Icon.cmd_circle_multiple,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+                        modifier = Modifier.size(24.dp)
+                    )
                     Spacer(modifier = Modifier.preferredWidth(10.dp))
                     Text(text = "Instances", style = MaterialTheme.typography.h6)
                 }
@@ -197,33 +200,33 @@ fun HomeScreen(
         }
     ) {
         Column {
-//            Crossfade(current = selectedTab.value.route, modifier = Modifier.weight(1f)) {
-//                when (it) {
-//                    bottomItems[0].route -> {
-//                        if (globalTimeline == null) {
-//                            globalTimeline =
-//                                viewModel.globalTimeline.collectAsLazyPagingItems()
-//                        }
-//                        HomeGlobalScreen(globalTimeline!!, setVideoModel)
-//                    }
-//                    bottomItems[1].route -> {
-//                        if (localTimeline == null) {
-//                            localTimeline =
-//                                viewModel.localTimeline.collectAsLazyPagingItems()
-//                        }
-//                        HomeLocalScreen(localTimeline!!, setVideoModel)
-//                    }
-//                    bottomItems[2].route -> {
-//                        if (trendingTimeline == null) {
-//                            trendingTimeline =
-//                                viewModel.globalTimeline.collectAsLazyPagingItems()
-//                        }
-//                        HomeTrendingScreen(trendingTimeline!!, setVideoModel)
-//                    }
-//                    bottomItems[3].route -> HomeSubscriptionScreen(viewModel, setVideoModel)
-//                    bottomItems[3].route -> HomeLibraryScreen(viewModel, setVideoModel)
-//                }
-//            }
+            Crossfade(targetState = selectedTab, modifier = Modifier.weight(1f)) {
+                when (it.value.route) {
+                    bottomItems[0].route -> {
+                        if (globalTimeline == null) {
+                            globalTimeline =
+                                viewModel.globalTimeline.collectAsLazyPagingItems()
+                        }
+                        HomeGlobalScreen(globalTimeline!!, setVideoModel)
+                    }
+                    bottomItems[1].route -> {
+                        if (localTimeline == null) {
+                            localTimeline =
+                                viewModel.localTimeline.collectAsLazyPagingItems()
+                        }
+                        HomeLocalScreen(localTimeline!!, setVideoModel)
+                    }
+                    bottomItems[2].route -> {
+                        if (trendingTimeline == null) {
+                            trendingTimeline =
+                                viewModel.globalTimeline.collectAsLazyPagingItems()
+                        }
+                        HomeTrendingScreen(trendingTimeline!!, setVideoModel)
+                    }
+                    bottomItems[3].route -> HomeSubscriptionScreen(viewModel, setVideoModel)
+                    bottomItems[3].route -> HomeLibraryScreen(viewModel, setVideoModel)
+                }
+            }
             BottomNavigation(
                 backgroundColor = MaterialTheme.colors.background,
                 contentColor = MaterialTheme.colors.onBackground
