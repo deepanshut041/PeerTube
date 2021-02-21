@@ -4,7 +4,7 @@
 
 PeerTube is a beautiful multiplatform client for [PeerTube](https://github.com/deepanshut041/PeerTube). PeerTube is a free, decentralized and federated video platform developed as an alternative to other platforms that centralize our data and attention, such as YouTube, Dailymotion or Vimeo.
 
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Google Play" height="80" />]()
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Google Play" height="80" />](https://play.google.com/store/apps/details?id=com.deepanshut041.peertube)
 
 ## Features
 
@@ -31,4 +31,6 @@ This app is developed by [Deepanshu Tyagi](https://github.com/deepanshut041).
 ### Development chatroom
 https://riot.im/app/#/room/#Tusky:matrix.org
 
-### 
+### Credits
+ - [https://github.com/sschueller/peertube-android/](https://github.com/sschueller/peertube-android/)
+ - [https://gitlab.com/revely/peertube](https://gitlab.com/revely/peertube)
