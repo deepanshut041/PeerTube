@@ -7,20 +7,24 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import com.deepanshut041.peertube.common.service.model.VideoModel
+import com.deepanshut041.peertube.ui.NavigationModel
 import com.deepanshut041.peertube.ui.mobile.home.utils.FeedItem
 import com.deepanshut041.peertube.util.ErrorItem
 import com.deepanshut041.peertube.util.LoadingItem
 import com.deepanshut041.peertube.util.LoadingView
+import com.mikepenz.iconics.compose.ExperimentalIconics
 
 
+@ExperimentalIconics
 @Composable
 fun HomeLocalScreen(
     localTimeline: LazyPagingItems<VideoModel>,
-    setVideoModel: (Long) -> Unit
+    setVideoModel: (Long) -> Unit,
+    navigateTo: (NavigationModel) -> Unit
 ) {
     LazyColumn {
         items(localTimeline) { item ->
-            FeedItem(videoModel = item!!, setVideoModel)
+            FeedItem(videoModel = item!!, setVideoModel, navigateTo)
         }
         localTimeline.apply {
             when {

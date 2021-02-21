@@ -23,6 +23,7 @@ import coil.transform.CircleCropTransformation
 import com.mikepenz.iconics.compose.Image
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.deepanshut041.peertube.common.service.model.VideoModel
+import com.deepanshut041.peertube.ui.NavigationModel
 import com.deepanshut041.peertube.util.duration
 import com.deepanshut041.peertube.util.getTimeAgo
 import com.deepanshut041.peertube.util.humanReadableBigNumber
@@ -32,7 +33,7 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 
 @ExperimentalIconics
 @Composable
-fun FeedItem(videoModel: VideoModel, setVideoModel: (Long) -> Unit) {
+fun FeedItem(videoModel: VideoModel, setVideoModel: (Long) -> Unit, navigateTo: (NavigationModel) -> Unit) {
     val name = videoModel.name ?: ""
     val previewUrl = videoModel.currentHost + videoModel.previewPath
     val views = "${(videoModel.views ?: 0).humanReadableBigNumber()} views"
@@ -100,7 +101,9 @@ fun FeedItem(videoModel: VideoModel, setVideoModel: (Long) -> Unit) {
                         )
                     },
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(35.dp).clickable(onClick = { }),
+                    modifier = Modifier.size(35.dp).clickable(onClick = {
+
+                    }),
                     requestBuilder = { transformations(CircleCropTransformation()) },
                 )
             }

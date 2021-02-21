@@ -35,17 +35,8 @@ android {
 }
 
 kotlin {
-    targets {
-        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") ? presets.iosArm64 : presets.iosX64
-
-        fromPreset(iOSTarget, 'iOS') {
-            binaries {
-                framework('common')
-            }
-        }
-
-        android()
-    }
+    android()
+    ios()
 
     cocoapods {
         // Configure fields required by CocoaPods.
