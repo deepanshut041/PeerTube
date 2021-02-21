@@ -31,4 +31,6 @@ This app is developed by [Deepanshu Tyagi](https://github.com/deepanshut041).
 ### Development chatroom
 https://riot.im/app/#/room/#Tusky:matrix.org
 
-### 
+### Credits
+ - [https://github.com/sschueller/peertube-android/](https://github.com/sschueller/peertube-android/)
+ - [https://gitlab.com/revely/peertube](https://gitlab.com/revely/peertube)
