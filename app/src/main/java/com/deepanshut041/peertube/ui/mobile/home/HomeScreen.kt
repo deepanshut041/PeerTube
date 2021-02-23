@@ -207,21 +207,21 @@ fun HomeScreen(
                             globalTimeline =
                                 viewModel.globalTimeline.collectAsLazyPagingItems()
                         }
-                        HomeGlobalScreen(globalTimeline!!, setVideoModel)
+                        HomeGlobalScreen(globalTimeline!!, setVideoModel, navigateTo)
                     }
                     bottomItems[1].route -> {
                         if (localTimeline == null) {
                             localTimeline =
                                 viewModel.localTimeline.collectAsLazyPagingItems()
                         }
-                        HomeLocalScreen(localTimeline!!, setVideoModel)
+                        HomeLocalScreen(localTimeline!!, setVideoModel, navigateTo)
                     }
                     bottomItems[2].route -> {
                         if (trendingTimeline == null) {
                             trendingTimeline =
                                 viewModel.globalTimeline.collectAsLazyPagingItems()
                         }
-                        HomeTrendingScreen(trendingTimeline!!, setVideoModel)
+                        HomeTrendingScreen(trendingTimeline!!, setVideoModel, navigateTo)
                     }
                     bottomItems[3].route -> HomeSubscriptionScreen(viewModel, setVideoModel)
                     bottomItems[3].route -> HomeLibraryScreen(viewModel, setVideoModel)
