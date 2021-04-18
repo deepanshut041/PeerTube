@@ -21,9 +21,9 @@ import com.deepanshut041.peertube.ui.MobileActions
 import com.deepanshut041.peertube.ui.NavigationModel
 import com.deepanshut041.peertube.ui.mobile.base.MainInputText
 import com.deepanshut041.peertube.ui.mobile.base.TextIcon
-import com.deepanshut041.peertube.util.getViewModel
 import com.mikepenz.iconics.compose.ExperimentalIconics
 import dev.chrisbanes.accompanist.coil.CoilImage
+import org.koin.androidx.compose.getViewModel
 
 data class HomeBottomMenu(
     val route: String,
@@ -96,7 +96,7 @@ fun HomeScreen(
                                 modifier = Modifier.size(32.dp)
                                     .align(Alignment.CenterVertically)
                             )
-                            Spacer(modifier = Modifier.preferredWidth(10.dp))
+                            Spacer(modifier = Modifier.width(10.dp))
                             Text(text = "PeerTube", style = MaterialTheme.typography.h6)
                         }
                     } else {
@@ -147,7 +147,7 @@ fun HomeScreen(
                         modifier = Modifier.size(24.dp)
                     )
                 }
-                Spacer(modifier = Modifier.preferredWidth(10.dp))
+                Spacer(modifier = Modifier.width(10.dp))
                 Text(text = "Account", style = MaterialTheme.typography.h6)
             }
             Divider()
@@ -159,13 +159,13 @@ fun HomeScreen(
                     text = "Do more with PeerTube",
                     style = MaterialTheme.typography.h6
                 )
-                Spacer(modifier = Modifier.preferredHeight(10.dp))
+                Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = "Sign up now to upload, save, and \n comment on videos",
                     style = MaterialTheme.typography.body2,
                     textAlign = TextAlign.Center
                 )
-                Spacer(modifier = Modifier.preferredHeight(20.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 Button(onClick = { }) {
                     Text(text = "SIGN IN")
                 }
@@ -181,7 +181,7 @@ fun HomeScreen(
                         colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
                         modifier = Modifier.size(24.dp)
                     )
-                    Spacer(modifier = Modifier.preferredWidth(10.dp))
+                    Spacer(modifier = Modifier.width(10.dp))
                     Text(text = "Settings", style = MaterialTheme.typography.h6)
                 }
                 Row(
@@ -193,7 +193,7 @@ fun HomeScreen(
                         colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
                         modifier = Modifier.size(24.dp)
                     )
-                    Spacer(modifier = Modifier.preferredWidth(10.dp))
+                    Spacer(modifier = Modifier.width(10.dp))
                     Text(text = "Instances", style = MaterialTheme.typography.h6)
                 }
             }

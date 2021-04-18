@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.deepanshut041.peertube.common.service.model.InstanceModel
 import com.deepanshut041.peertube.ui.mobile.instance.InstanceViewModel
-import com.deepanshut041.peertube.util.getViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun InstanceScreen(

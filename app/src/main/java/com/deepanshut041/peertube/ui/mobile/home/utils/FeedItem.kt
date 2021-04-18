@@ -115,7 +115,7 @@ fun FeedItem(videoModel: VideoModel, setVideoModel: (Long) -> Unit, navigateTo: 
                     fontWeight = FontWeight.Bold,
                     overflow = TextOverflow.Ellipsis
                 )
-                Spacer(modifier = Modifier.preferredHeight(3.dp))
+                Spacer(modifier = Modifier.height(3.dp))
                 Text(
                     text = "$channelName • $views • $date",
                     style = MaterialTheme.typography.caption.copy(fontSize = 10.sp)
@@ -131,6 +131,6 @@ fun FeedItem(videoModel: VideoModel, setVideoModel: (Long) -> Unit, navigateTo: 
                 )
             }
         }
-        Spacer(Modifier.preferredHeight(20.dp))
+        Spacer(Modifier.height(20.dp))
     }
 }

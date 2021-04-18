@@ -1,7 +1,7 @@
 package com.deepanshut041.peertube.ui.mobile.base
 
 
-import androidx.compose.animation.animate
+import androidx.compose.animation.core.animate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape

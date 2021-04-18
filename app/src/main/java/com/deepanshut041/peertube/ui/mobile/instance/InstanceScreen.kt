@@ -23,10 +23,10 @@ import com.deepanshut041.peertube.R
 import com.deepanshut041.peertube.common.service.model.InstanceModel
 import com.deepanshut041.peertube.common.service.params.InstancesFilterParams
 import com.deepanshut041.peertube.ui.mobile.base.MainInputText
-import com.deepanshut041.peertube.util.getViewModel
 import com.mikepenz.iconics.compose.ExperimentalIconics
 import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlinx.coroutines.FlowPreview
+import org.koin.androidx.compose.getViewModel
 
 @ExperimentalIconics
 @FlowPreview
@@ -54,7 +54,7 @@ fun InstanceScreen(
                                 contentDescription = "Logo",
                                 modifier = Modifier.size(32.dp).align(Alignment.CenterVertically)
                             )
-                            Spacer(modifier = Modifier.preferredWidth(10.dp))
+                            Spacer(modifier = Modifier.width(10.dp))
                             Text(text = "Instances")
                         }
                     } else {
@@ -95,7 +95,7 @@ fun InstanceScreen(
                 backgroundColor = MaterialTheme.colors.background,
             )
         },
-        bodyContent = {
+        content = {
             LazyColumn {
                 this.items(items = instances, itemContent = { instance ->
                     InstanceListItem(instance, setCurrentHost)

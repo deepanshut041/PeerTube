@@ -1,12 +1,12 @@
 object Versions {
-    const val kotlin = "1.4.30"
+    const val kotlin = "1.4.31"
     const val kotlinCoroutines = "1.4.2-native-mt"
     const val ktor = "1.5.1"
     const val kotlinxSerialization = "1.1.0"
-    const val koin = "3.0.0-alpha-4"
+    const val koin = "3.0.1-beta-1"
     const val ktx = "1.0.1"
     const val lifecycle = "2.2.0-alpha01"
-    const val compose = "1.0.0-alpha12"
+    const val compose = "1.0.0-beta02"
     const val nav_compose_version = "1.0.0-alpha07"
     const val coilVersion = "0.5.1"
     const val kermit = "0.1.8"
@@ -21,7 +21,7 @@ object Versions {
     const val firebaseCrashlyticsVersion = "17.2.1"
     const val firebaseAnalyticsVersion = "17.5.0"
     const val glideVersion = "4.11.0"
-    const val exoPlayerVersion = "2.11.3"
+    const val exoPlayerVersion = "2.13.2"
 
     const val slf4j = "1.7.30"
 }
@@ -44,9 +44,10 @@ object Compose {
 }
 
 object Koin {
-    val core = "org.koin:koin-core:${Versions.koin}"
-    val android = "org.koin:koin-android:${Versions.koin}"
-    val androidViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
+    val core = "io.insert-koin:koin-core:${Versions.koin}"
+    val android = "io.insert-koin:koin-android:${Versions.koin}"
+    val androidExt = "io.insert-koin:koin-android-ext:${Versions.koin}"
+    val compose = "io.insert-koin:koin-androidx-compose:${Versions.koin}"
 }
 
 object Serialization {
