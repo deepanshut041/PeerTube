@@ -1,11 +1,13 @@
 pluginManagement {
     repositories {
+        google()
+        jcenter()
         gradlePluginPortal()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        mavenCentral()
     }
 }
 
+
 rootProject.name = "PeerTube"
-enableFeaturePreview("GRADLE_METADATA")
 include(":app")
 include(":common")

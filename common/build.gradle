@@ -1,7 +1,6 @@
 apply plugin: 'kotlin-multiplatform'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'com.android.library'
-apply plugin: 'org.jetbrains.kotlin.native.cocoapods'
 
 // CocoaPods requires the podspec to have a version.
 version = "1.0"
@@ -36,13 +35,6 @@ android {
 
 kotlin {
     android()
-    ios()
-
-    cocoapods {
-        // Configure fields required by CocoaPods.
-        summary = "Peertube common module"
-        homepage = "homepage placeholder"
-    }
 
     sourceSets {
         all {
@@ -81,10 +73,6 @@ kotlin {
 
         androidMain.dependencies {
             implementation(Ktor.clientAndroid)
-        }
-
-        iOSMain.dependencies {
-            implementation(Ktor.clientIos)
         }
     }
 }

@@ -125,7 +125,9 @@ fun HomeScreen(
                                 modifier = Modifier.size(24.dp)
                             )
                         }
-                        IconButton(onClick = { drawerState.bottomSheetState.expand() }) {
+                        IconButton(onClick = {
+//                            drawerState.bottomSheetState.expand()
+                        }) {
                             Image(
                                 CommunityMaterial.Icon.cmd_account_circle,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
@@ -140,7 +142,9 @@ fun HomeScreen(
         sheetPeekHeight = 0.dp,
         sheetContent = {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.height(56.dp)) {
-                IconButton(onClick = { drawerState.bottomSheetState.collapse() }) {
+                IconButton(onClick = {
+//                    drawerState.bottomSheetState.collapse()
+                }) {
                     Image(
                         CommunityMaterial.Icon.cmd_close,
                         colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),

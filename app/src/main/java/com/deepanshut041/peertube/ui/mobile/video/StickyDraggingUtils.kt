@@ -3,7 +3,6 @@ package com.deepanshut041.peertube.ui.mobile.video
 import android.content.Context
 import android.content.res.Configuration
 import android.view.ViewConfiguration
-import androidx.compose.animation.animate
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
@@ -13,9 +12,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.gesture.scrollorientationlocking.Orientation
-import androidx.compose.ui.platform.AmbientContext
-import androidx.compose.ui.platform.AmbientDensity
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
@@ -104,13 +100,13 @@ class StickyDraggingConfig(
 
     val isExpanded get() = _offset == maxSize
 
-    @Composable
-    val offset
-        get() = animate(_offset)
-
-    @Composable
-    val progress
-        get() = offset / maxSize
+//    @Composable
+//    val offset
+//        get() = animate(_offset)
+//
+//    @Composable
+//    val progress
+//        get() = offset / maxSize
 
 
     internal fun onDragStart(startedPosition: Offset) {
@@ -165,11 +161,11 @@ class StickyDraggingConfig(
     }
 }
 
-fun Modifier.stickyDrag(config: StickyDraggingConfig): Modifier = composed {
-    this.offset(y = config.offset)
-        .draggable(
-            orientation = Orientation.Vertical,
-            onDragStarted = config::onDragStart,
-            onDragStopped = config::onDragEnd,
-        ) { config.onDrag(it.toDp()) }
-}
+//fun Modifier.stickyDrag(config: StickyDraggingConfig): Modifier = composed {
+////    this.offset(y = config.offset)
+////        .draggable(
+////            orientation = Orientation.Vertical,
+////            onDragStarted = config::onDragStart,
+////            onDragStopped = config::onDragEnd,
+////        ) { config.onDrag(it.toDp()) }
+//}

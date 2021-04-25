@@ -55,21 +55,21 @@ dependencies {
 
     // Internal
     implementation(project(":common"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
 
-    implementation 'androidx.activity:activity-compose:1.3.0-alpha04'
+    implementation 'androidx.activity:activity-compose:1.3.0-alpha07'
 
     // JetPack
     implementation(JetpackLibs.appCompat)
     implementation(JetpackLibs.material)
     implementation(JetpackLibs.ktxViewModel)
     implementation(JetpackLibs.ktxReactiveStreams)
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation('androidx.lifecycle:lifecycle-runtime-ktx:2.3.0')
+    implementation('androidx.lifecycle:lifecycle-runtime-ktx:2.3.1')
     implementation("androidx.preference:preference-ktx:1.1.1")
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha03"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha04"
 
     // Compose
     implementation(Compose.ui)
@@ -84,8 +84,8 @@ dependencies {
     implementation(Compose.accompanist)
 
     // Paging
-    implementation("androidx.paging:paging-runtime-ktx:3.0.0-beta02")
-    implementation("androidx.paging:paging-common-ktx:3.0.0-beta02")
+    implementation('androidx.paging:paging-runtime-ktx:3.0.0-rc01')
+    implementation("androidx.paging:paging-common-ktx:3.0.0-rc01")
     implementation("androidx.paging:paging-compose:1.0.0-alpha08")
 
     // ExoPlayer
@@ -104,8 +104,8 @@ dependencies {
     implementation(ExternalLibs.firebaseAnalytics)
     implementation(ExternalLibs.firebaseCrashlytics)
 
-    implementation("com.mikepenz:iconics-core:5.2.7")
-    implementation("com.mikepenz:iconics-compose:5.2.7")
+    implementation("com.mikepenz:iconics-core:5.3.0-b01")
+    implementation("com.mikepenz:iconics-compose:5.3.0-b01")
     implementation("com.mikepenz:community-material-typeface:5.8.55.0-kotlin@aar")
 
     // Test

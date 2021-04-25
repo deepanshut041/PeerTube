@@ -23,9 +23,9 @@ fun BottomSheet(
     action: @Composable (RowScope.() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
-
-    val sheetShape =
-        animate(if (sheetState.targetValue == ModalBottomSheetValue.Expanded) 0.dp else 24.dp)
+//
+//    val sheetShape =
+//        animate(if (sheetState.targetValue == ModalBottomSheetValue.Expanded) 0f else 24f)
 
     ModalBottomSheetLayout(
         sheetContent = {
