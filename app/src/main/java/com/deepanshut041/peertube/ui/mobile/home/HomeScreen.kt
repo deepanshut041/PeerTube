@@ -23,6 +23,7 @@ import com.deepanshut041.peertube.ui.mobile.base.MainInputText
 import com.deepanshut041.peertube.ui.mobile.base.TextIcon
 import com.mikepenz.iconics.compose.ExperimentalIconics
 import dev.chrisbanes.accompanist.coil.CoilImage
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 data class HomeBottomMenu(
@@ -72,7 +73,7 @@ fun HomeScreen(
     navigateTo: (NavigationModel) -> Unit,
     viewModel: HomeViewModel = getViewModel()
 ) {
-
+    val scope = rememberCoroutineScope()
     val selectedTab = remember { mutableStateOf(bottomItems[0]) }
     val inSearchMode by viewModel.inSearchMode.collectAsState()
     val videoParams by viewModel.videoSearchParams.collectAsState()
@@ -126,7 +127,9 @@ fun HomeScreen(
                             )
                         }
                         IconButton(onClick = {
-//                            drawerState.bottomSheetState.expand()
+                            scope.launch {
+                                drawerState.bottomSheetState.expand()
+                            }
                         }) {
                             Image(
                                 CommunityMaterial.Icon.cmd_account_circle,
@@ -143,7 +146,9 @@ fun HomeScreen(
         sheetContent = {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.height(56.dp)) {
                 IconButton(onClick = {
-//                    drawerState.bottomSheetState.collapse()
+                    scope.launch {
+                        drawerState.bottomSheetState.collapse()
+                    }
                 }) {
                     Image(
                         CommunityMaterial.Icon.cmd_close,
