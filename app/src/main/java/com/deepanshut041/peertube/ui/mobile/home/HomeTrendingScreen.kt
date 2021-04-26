@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.deepanshut041.peertube.common.service.model.VideoModel
 import com.deepanshut041.peertube.ui.NavigationModel
@@ -18,10 +19,13 @@ import com.mikepenz.iconics.compose.ExperimentalIconics
 @ExperimentalIconics
 @Composable
 fun HomeTrendingScreen(
-    trendingTimeline: LazyPagingItems<VideoModel>,
+    viewModel: HomeViewModel,
     setVideoModel: (Long) -> Unit,
     navigateTo: (NavigationModel) -> Unit
 ) {
+
+    val trendingTimeline: LazyPagingItems<VideoModel> = viewModel.trendingTimeline.collectAsLazyPagingItems()
+
     LazyColumn {
         items(trendingTimeline) { item ->
             FeedItem(videoModel = item!!, setVideoModel, navigateTo)

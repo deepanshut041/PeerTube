@@ -1,20 +1,20 @@
 package com.deepanshut041.peertube.ui.mobile.home
 
-import androidx.compose.animation.Crossfade
+import android.os.Bundle
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
-import com.mikepenz.iconics.compose.Image
-import com.mikepenz.iconics.typeface.IIcon
-import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.deepanshut041.peertube.R
 import com.deepanshut041.peertube.common.service.model.VideoModel
 import com.deepanshut041.peertube.ui.MobileActions
@@ -22,6 +22,9 @@ import com.deepanshut041.peertube.ui.NavigationModel
 import com.deepanshut041.peertube.ui.mobile.base.MainInputText
 import com.deepanshut041.peertube.ui.mobile.base.TextIcon
 import com.mikepenz.iconics.compose.ExperimentalIconics
+import com.mikepenz.iconics.compose.Image
+import com.mikepenz.iconics.typeface.IIcon
+import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -65,6 +68,12 @@ val bottomItems = listOf(
     )
 )
 
+typealias BackToFirstTab = () -> Unit
+
+val localBackToFirstTab = compositionLocalOf<BackToFirstTab> {
+    error("Invalid backstack")
+}
+
 @ExperimentalIconics
 @ExperimentalMaterialApi
 @Composable
@@ -74,12 +83,12 @@ fun HomeScreen(
     viewModel: HomeViewModel = getViewModel()
 ) {
     val scope = rememberCoroutineScope()
-    val selectedTab = remember { mutableStateOf(bottomItems[0]) }
+    var currentTab by rememberSaveable { mutableStateOf(bottomItems[0].route) }
     val inSearchMode by viewModel.inSearchMode.collectAsState()
     val videoParams by viewModel.videoSearchParams.collectAsState()
     val drawerState = rememberBottomSheetScaffoldState()
 
-    var globalTimeline: LazyPagingItems<VideoModel>? = null
+
     var localTimeline: LazyPagingItems<VideoModel>? = null
     var trendingTimeline: LazyPagingItems<VideoModel>? = null
 
@@ -94,7 +103,8 @@ fun HomeScreen(
                             CoilImage(
                                 data = R.drawable.logo,
                                 contentDescription = "Button",
-                                modifier = Modifier.size(32.dp)
+                                modifier = Modifier
+                                    .size(32.dp)
                                     .align(Alignment.CenterVertically)
                             )
                             Spacer(modifier = Modifier.width(10.dp))
@@ -162,7 +172,9 @@ fun HomeScreen(
             Divider()
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(top = 30.dp, bottom = 20.dp).fillMaxWidth()
+                modifier = Modifier
+                    .padding(top = 30.dp, bottom = 20.dp)
+                    .fillMaxWidth()
             ) {
                 Text(
                     text = "Do more with PeerTube",
@@ -182,7 +194,9 @@ fun HomeScreen(
             Divider()
             Column(modifier = Modifier.weight(1f)) {
                 Row(
-                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 15.dp).fillMaxWidth()
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp, vertical = 15.dp)
+                        .fillMaxWidth()
                         .clickable(onClick = { })
                 ) {
                     Image(
@@ -194,7 +208,9 @@ fun HomeScreen(
                     Text(text = "Settings", style = MaterialTheme.typography.h6)
                 }
                 Row(
-                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 15.dp).fillMaxWidth()
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp, vertical = 15.dp)
+                        .fillMaxWidth()
                         .clickable(onClick = { navigateTo(NavigationModel(path = MobileActions.navigateToInstances())) })
                 ) {
                     Image(
@@ -208,49 +224,101 @@ fun HomeScreen(
             }
         }
     ) {
-        Column {
-            Crossfade(targetState = selectedTab, modifier = Modifier.weight(1f)) {
-                when (it.value.route) {
-                    bottomItems[0].route -> {
-                        if (globalTimeline == null) {
-                            globalTimeline =
-                                viewModel.globalTimeline.collectAsLazyPagingItems()
-                        }
-                        HomeGlobalScreen(globalTimeline!!, setVideoModel, navigateTo)
+        Scaffold(
+            bottomBar = {
+                BottomNavigation(
+                    backgroundColor = MaterialTheme.colors.background,
+                    contentColor = MaterialTheme.colors.onBackground
+                ) {
+                    bottomItems.forEach { item ->
+                        TextIcon(
+                            text = item.title,
+                            asset = if (currentTab == item.route) item.iconSelected else item.icon,
+                            modifier = Modifier
+                                .padding(vertical = 8.dp)
+                                .weight(1f)
+                                .fillMaxHeight(1f)
+                                .clickable(onClick = { currentTab = item.route })
+                        )
                     }
-                    bottomItems[1].route -> {
-                        if (localTimeline == null) {
-                            localTimeline =
-                                viewModel.localTimeline.collectAsLazyPagingItems()
-                        }
-                        HomeLocalScreen(localTimeline!!, setVideoModel, navigateTo)
-                    }
-                    bottomItems[2].route -> {
-                        if (trendingTimeline == null) {
-                            trendingTimeline =
-                                viewModel.globalTimeline.collectAsLazyPagingItems()
-                        }
-                        HomeTrendingScreen(trendingTimeline!!, setVideoModel, navigateTo)
-                    }
-                    bottomItems[3].route -> HomeSubscriptionScreen(viewModel, setVideoModel)
-                    bottomItems[3].route -> HomeLibraryScreen(viewModel, setVideoModel)
                 }
             }
-            BottomNavigation(
-                backgroundColor = MaterialTheme.colors.background,
-                contentColor = MaterialTheme.colors.onBackground
-            ) {
-                bottomItems.forEach { item ->
-                    TextIcon(
-                        text = item.title,
-                        asset = if (selectedTab.value == item) item.iconSelected else item.icon,
-                        modifier = Modifier.padding(vertical = 8.dp).weight(1f)
-                            .fillMaxHeight(1f)
-                            .clickable(onClick = { selectedTab.value = item })
-                    )
-                }
+        ) {
+            CompositionLocalProvider(localBackToFirstTab provides {
+                currentTab = bottomItems[0].route
+            }) {
+                TabContent(
+                    route = currentTab,
+                    setVideoModel = setVideoModel,
+                    navigateTo = navigateTo,
+                    viewModel = viewModel
+                )
             }
         }
+    }
+}
 
+@Composable
+fun TabWrapper(
+    navState: MutableState<Bundle>,
+    content: @Composable (NavHostController) -> Unit
+) {
+    val navController = rememberNavController()
+    val callback by rememberUpdatedState(
+        NavController.OnDestinationChangedListener { _, _, _ ->
+            navState.value = navController.saveState() ?: Bundle()
+        }
+    )
+    DisposableEffect(navController) {
+        navController.addOnDestinationChangedListener(callback)
+        navController.restoreState(navState.value)
+        onDispose {
+            navController.removeOnDestinationChangedListener(callback)
+            navController.enableOnBackPressed(false)
+        }
+    }
+    content(navController)
+}
+
+@Composable
+fun TabContent(
+    route: String,
+    setVideoModel: (Long) -> Unit,
+    navigateTo: (NavigationModel) -> Unit,
+    viewModel: HomeViewModel
+) {
+    val globalState = rememberSaveable { mutableStateOf(Bundle()) }
+    val localState = rememberSaveable { mutableStateOf(Bundle()) }
+    val trendingState = rememberSaveable { mutableStateOf(Bundle()) }
+    val subscriptionstate = rememberSaveable { mutableStateOf(Bundle()) }
+    val libraryState = rememberSaveable { mutableStateOf(Bundle()) }
+
+    when (route) {
+        bottomItems[0].route -> {
+            TabWrapper(globalState) { navContoller ->
+                HomeGlobalScreen(viewModel, setVideoModel, navigateTo)
+            }
+        }
+        bottomItems[1].route -> {
+            TabWrapper(localState) { navContoller ->
+                HomeLocalScreen(viewModel, setVideoModel, navigateTo)
+            }
+        }
+        bottomItems[2].route -> {
+            TabWrapper(trendingState) { navContoller ->
+                HomeTrendingScreen(viewModel, setVideoModel, navigateTo)
+            }
+        }
+        bottomItems[3].route -> {
+            TabWrapper(subscriptionstate) { navContoller ->
+                HomeSubscriptionScreen(
+                    viewModel,
+                    setVideoModel
+                )
+            }
+        }
+        bottomItems[3].route -> {
+            TabWrapper(libraryState) { navContoller -> HomeLibraryScreen(viewModel, setVideoModel) }
+        }
     }
 }
