@@ -3,7 +3,7 @@ package com.deepanshut041.peertube.di
 import com.deepanshut041.peertube.ui.mobile.MobileViewModel
 import com.deepanshut041.peertube.ui.mobile.instance.InstanceViewModel
 import com.deepanshut041.peertube.ui.mobile.home.HomeViewModel
-import com.deepanshut041.peertube.ui.mobile.video.VideoPlayerViewModel
+import com.deepanshut041.peertube.ui.mobile.overlay_player.VideoPlayerViewModel
 import com.deepanshut041.peertube.ui.tv.TvViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

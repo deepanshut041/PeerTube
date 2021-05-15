@@ -1,4 +1,4 @@
-package com.deepanshut041.peertube.ui.mobile.video
+package com.deepanshut041.peertube.ui.mobile.overlay_player
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

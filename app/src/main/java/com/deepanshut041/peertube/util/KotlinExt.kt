@@ -1,11 +1,13 @@
 package com.deepanshut041.peertube.util
 
 
+import java.util.*
+import java.util.concurrent.TimeUnit
 import android.text.format.DateUtils
 import kotlinx.datetime.Instant
-import java.util.*
 import kotlin.math.ln
 import kotlin.math.pow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 fun Long.duration(): String
 {
@@ -57,4 +59,26 @@ fun Instant.getTimeAgo(): String {
         diff < 12 * MONTH_MILLIS -> "${diff / MONTH_MILLIS} months ago"
         else -> "${diff / (MONTH_MILLIS * 12)} years ago"
     }
+}
+
+fun getDurationString(durationMs: Long, negativePrefix: Boolean): String {
+    val hours = TimeUnit.MILLISECONDS.toHours(durationMs)
+    val minutes = TimeUnit.MILLISECONDS.toMinutes(durationMs)
+    val seconds = TimeUnit.MILLISECONDS.toSeconds(durationMs)
+
+    return if (hours > 0) {
+        java.lang.String.format(Locale.getDefault(), "%s%02d:%02d:%02d",
+            if (negativePrefix) "-" else "",
+            hours,
+            minutes - TimeUnit.HOURS.toMinutes(hours),
+            seconds - TimeUnit.MINUTES.toSeconds(minutes))
+    } else java.lang.String.format(Locale.getDefault(), "%s%02d:%02d",
+        if (negativePrefix) "-" else "",
+        minutes,
+        seconds - TimeUnit.MINUTES.toSeconds(minutes)
+    )
+}
+
+fun <T> MutableStateFlow<T>.set(block: T.() -> T) {
+    this.value = this.value.block()
 }

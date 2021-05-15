@@ -18,7 +18,6 @@ import com.deepanshut041.peertube.ui.MobileDestinations.CHANNEL_ROUTE_ID_KEY
 import com.deepanshut041.peertube.ui.mobile.channel.ChannelScreen
 import com.deepanshut041.peertube.ui.mobile.home.HomeScreen
 import com.deepanshut041.peertube.ui.mobile.instance.InstanceScreen
-import com.deepanshut041.peertube.ui.mobile.video.VideoOverlayPlayer
 import com.deepanshut041.peertube.util.theme.PeerTubeTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -81,9 +80,9 @@ class MobileActivity : AppCompatActivity() {
                 }
             }
             videoOverlay?.let {
-                VideoOverlayPlayer(videoId = it, requestClose = {
-                    viewModel.setVideoModel(null)
-                })
+//                VideoOverlayPlayer(videoId = it, requestClose = {
+//                    viewModel.setVideoModel(null)
+//                })
             }
         }
     }
